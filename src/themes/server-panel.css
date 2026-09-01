@@ -2,7 +2,7 @@
    Theme: Server Panel
    Industrial, precision zinc dashboard theme with blue accents.
    ========================================================================== */
-:root,
+:root[data-theme="server-panel"],
 [data-theme="server-panel"] {
   --color-bg-canvas: #09090b;
   --color-bg-surface: #18181b;

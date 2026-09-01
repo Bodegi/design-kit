@@ -2,7 +2,7 @@
    Theme: Image Hoard
    Media-focused true dark theme with vibrant emerald/teal accents.
    ========================================================================== */
-:root,
+:root[data-theme="image-hoard"],
 [data-theme="image-hoard"] {
   --color-bg-canvas: #050505;
   --color-bg-surface: #121212;
@@ -26,6 +26,10 @@
   --color-primary-active: #047857;
   --color-primary-contrast: #ffffff;
   --color-primary-subtle: rgba(16, 185, 129, 0.15);
+
+  --color-accent: #14b8a6;
+  --color-accent-hover: #0d9488;
+  --color-accent-contrast: #ffffff;
 
   --radius-base: var(--radius-md);
   --radius-control: var(--radius-md);

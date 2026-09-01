@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     themeSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
       document.documentElement.setAttribute('data-theme', target.value);
+      if (currentTab === 'tokens' && contentRoot) {
+        renderTokenViewer(contentRoot);
+      }
     });
   }
 

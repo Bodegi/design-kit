@@ -2,7 +2,7 @@
    Theme: Codex
    Warm, parchment-infused scholar theme with amber/gold accents and rounded corners.
    ========================================================================== */
-:root,
+:root[data-theme="codex"],
 [data-theme="codex"] {
   --color-bg-canvas: #1c1917;
   --color-bg-surface: #292524;

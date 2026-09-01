@@ -2,6 +2,7 @@
    Theme: Default Dark
    ========================================================================== */
 :root,
+:root[data-theme="default-dark"],
 [data-theme="default-dark"] {
   --color-bg-canvas: #0f172a;
   --color-bg-surface: #1e293b;
@@ -25,6 +26,10 @@
   --color-primary-active: #0284c7;
   --color-primary-contrast: #0f172a;
   --color-primary-subtle: rgba(56, 189, 248, 0.15);
+
+  --color-accent: #818cf8;
+  --color-accent-hover: #6366f1;
+  --color-accent-contrast: #ffffff;
 
   --radius-base: var(--radius-md);
   --radius-control: var(--radius-md);
