@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="default-dark">
 <head>
   <meta charset="UTF-8" />
@@ -19,35 +19,40 @@
     <!-- Header -->
     <header class="ws-header">
       <div class="ws-brand">
-        <span class="ws-logo">?</span>
+        <span class="ws-logo">✦</span>
         <span class="ws-title">Design-Kit</span>
         <span class="ws-badge">v0.1.0</span>
       </div>
+
       <div class="ws-controls">
-        <label for="theme-select" class="ws-theme-label">Active Theme:</label>
-        <select id="theme-select" class="ws-select">
-          <option value="default-dark">Default Dark</option>
-          <option value="default-light">Default Light</option>
-          <option value="server-panel">Server Panel (Industrial)</option>
-          <option value="codex">Codex (Scholar/Warm)</option>
-          <option value="tectonic">Tectonic (Obsidian/Violet)</option>
-          <option value="image-hoard">Image Hoard (True Dark)</option>
-          <option value="image-annotate">Image Annotate (High Contrast)</option>
-        </select>
+        <!-- Navigation Tabs -->
+        <nav class="ws-nav-tabs">
+          <button class="ws-tab-btn" data-tab="tokens" data-active="true">Tokens</button>
+          <button class="ws-tab-btn" data-tab="components">Components</button>
+          <button class="ws-tab-btn" data-tab="icons">Icons</button>
+        </nav>
+
+        <!-- Theme Picker -->
+        <div class="ws-theme-picker">
+          <label for="theme-select" class="ws-theme-label">Theme:</label>
+          <select id="theme-select" class="ws-select">
+            <option value="default-dark">Default Dark</option>
+            <option value="default-light">Default Light</option>
+            <option value="server-panel">Server Panel</option>
+            <option value="codex">Codex</option>
+            <option value="tectonic">Tectonic</option>
+            <option value="image-hoard">Image Hoard</option>
+            <option value="image-annotate">Image Annotate</option>
+          </select>
+        </div>
       </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <main class="ws-main">
       <div class="ws-container">
-        <!-- Hero Intro -->
-        <section class="ws-hero">
-          <h1>Design Tokens & Standards</h1>
-          <p>Live interactive preview of primitive scales, semantic contracts, and theme presets.</p>
-        </section>
-
-        <!-- Token Sections Container -->
-        <div id="token-viewer-root"></div>
+        <!-- Dynamic View Container -->
+        <div id="ws-content-root"></div>
       </div>
     </main>
 

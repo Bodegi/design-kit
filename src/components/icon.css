@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Open UI: Icon Utility (.ui-icon)
+   ========================================================================== */
+
+.ui-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.ui-icon[data-size="xs"] { width: 14px; height: 14px; }
+.ui-icon[data-size="sm"] { width: 16px; height: 16px; }
+.ui-icon[data-size="md"] { width: 20px; height: 20px; }
+.ui-icon[data-size="lg"] { width: 24px; height: 24px; }
+.ui-icon[data-size="xl"] { width: 32px; height: 32px; }

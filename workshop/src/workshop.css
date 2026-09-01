@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    Workshop Shell Styling
    Styles for the workshop chrome, navigation, swatches, and layouts.
    ========================================================================== */
@@ -54,7 +54,46 @@
 .ws-controls {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
+}
+
+/* Nav Tabs */
+.ws-nav-tabs {
+  display: flex;
+  gap: var(--space-1);
+  background-color: var(--color-bg-canvas);
+  padding: 3px;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.ws-tab-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  font-family: inherit;
+  padding: var(--space-2) var(--space-4);
+  border-radius: calc(var(--radius-base) - 2px);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ws-tab-btn:hover {
+  color: var(--color-text-main);
+}
+
+.ws-tab-btn[data-active="true"] {
+  background-color: var(--color-bg-surface);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.ws-theme-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .ws-theme-label {
@@ -133,7 +172,7 @@
 /* Swatch Grid */
 .ws-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--space-4);
 }
 
@@ -243,6 +282,108 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   margin-bottom: var(--space-2);
+}
+
+/* Component Preview Block */
+.ws-preview-block {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+}
+
+.ws-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-muted);
+}
+
+.ws-preview-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+.ws-copy-code-btn {
+  background: none;
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ws-copy-code-btn:hover {
+  background-color: var(--color-bg-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.ws-preview-canvas {
+  padding: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ws-canvas-col {
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 480px;
+}
+
+/* Icon Grid */
+.ws-icon-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.ws-icon-search-wrap {
+  width: 280px;
+}
+
+.ws-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--space-3);
+}
+
+.ws-icon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ws-icon-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.ws-icon-preview {
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+}
+
+.ws-icon-name {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  word-break: break-all;
 }
 
 /* Toast */

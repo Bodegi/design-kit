@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Open UI: Form Controls (.ui-field, .ui-input, .ui-select, .ui-switch)
+   ========================================================================== */
+
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.ui-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-main);
+  user-select: none;
+}
+
+.ui-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ui-input,
+.ui-textarea,
+.ui-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  padding: var(--space-2) var(--space-3);
+  height: 36px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ui-textarea {
+  height: auto;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.ui-select {
+  cursor: pointer;
+  padding-right: var(--space-8);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+}
+
+.ui-input:hover:not(:disabled),
+.ui-textarea:hover:not(:disabled),
+.ui-select:hover:not(:disabled) {
+  border-color: var(--color-border-focus);
+}
+
+.ui-input:focus-visible,
+.ui-textarea:focus-visible,
+.ui-select:focus-visible {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+.ui-input:disabled,
+.ui-textarea:disabled,
+.ui-select:disabled {
+  opacity: 0.5;
+  background-color: var(--color-bg-muted);
+  cursor: not-allowed;
+}
+
+/* Validation States */
+.ui-input[data-state="error"],
+.ui-textarea[data-state="error"],
+.ui-select[data-state="error"] {
+  border-color: var(--color-danger);
+}
+.ui-input[data-state="error"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
+}
+
+.ui-help-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.ui-error-text {
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+/* --- Checkbox & Radio --- */
+.ui-checkbox-label,
+.ui-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-main);
+  cursor: pointer;
+  user-select: none;
+}
+
+.ui-checkbox,
+.ui-radio {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-surface);
+  cursor: pointer;
+  outline: none;
+  display: grid;
+  place-content: center;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  margin: 0;
+}
+
+.ui-radio {
+  border-radius: var(--radius-full);
+}
+
+.ui-checkbox:checked,
+.ui-radio:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.ui-checkbox:checked::before {
+  content: "";
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid var(--color-primary-contrast);
+  border-bottom: 2px solid var(--color-primary-contrast);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.ui-radio:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-contrast);
+}
+
+.ui-checkbox:focus-visible,
+.ui-radio:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Toggle Switch --- */
+.ui-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--text-sm);
+}
+
+.ui-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ui-switch-track {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  background-color: var(--color-border-strong);
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+}
+
+.ui-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: #ffffff;
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-fast);
+}
+
+.ui-switch input:checked + .ui-switch-track {
+  background-color: var(--color-primary);
+}
+
+.ui-switch input:checked + .ui-switch-track .ui-switch-thumb {
+  transform: translateX(18px);
+}
+
+.ui-switch input:focus-visible + .ui-switch-track {
+  box-shadow: var(--focus-ring);
+}

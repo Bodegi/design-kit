@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Open UI: Button Component (.ui-btn)
+   ========================================================================== */
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border-radius: var(--radius-control);
+  border: 1px solid transparent;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+  padding: var(--space-2) var(--space-3);
+  height: 36px;
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-main);
+  border-color: var(--color-border-strong);
+}
+
+.ui-btn:hover:not(:disabled) {
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-border-focus);
+}
+
+.ui-btn:active:not(:disabled) {
+  background-color: var(--color-bg-active);
+  transform: translateY(1px);
+}
+
+.ui-btn:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.ui-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Sizes --- */
+.ui-btn[data-size="sm"] {
+  height: 28px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  gap: var(--space-1);
+}
+
+.ui-btn[data-size="lg"] {
+  height: 44px;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-base);
+  gap: var(--space-3);
+}
+
+.ui-btn[data-size="icon"] {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.ui-btn[data-size="icon"][data-size="sm"] {
+  width: 28px;
+  height: 28px;
+}
+
+/* --- Variants: Solid Intent --- */
+.ui-btn[data-variant="solid"][data-intent="primary"],
+.ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border-color: var(--color-primary);
+}
+.ui-btn[data-variant="solid"][data-intent="primary"]:hover:not(:disabled),
+.ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.ui-btn[data-variant="solid"][data-intent="danger"],
+.ui-btn[data-intent="danger"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  background-color: var(--color-danger);
+  color: var(--color-danger-contrast);
+  border-color: var(--color-danger);
+}
+.ui-btn[data-variant="solid"][data-intent="danger"]:hover:not(:disabled),
+.ui-btn[data-intent="danger"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+  border-color: var(--color-danger-hover);
+}
+
+.ui-btn[data-variant="solid"][data-intent="success"],
+.ui-btn[data-intent="success"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  background-color: var(--color-success);
+  color: var(--color-success-contrast);
+  border-color: var(--color-success);
+}
+.ui-btn[data-variant="solid"][data-intent="success"]:hover:not(:disabled),
+.ui-btn[data-intent="success"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  background-color: var(--color-success-hover);
+  border-color: var(--color-success-hover);
+}
+
+/* --- Variants: Outline Intent --- */
+.ui-btn[data-variant="outline"][data-intent="primary"] {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.ui-btn[data-variant="outline"][data-intent="primary"]:hover:not(:disabled) {
+  background-color: var(--color-primary-subtle);
+}
+
+.ui-btn[data-variant="outline"][data-intent="danger"] {
+  background-color: transparent;
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+.ui-btn[data-variant="outline"][data-intent="danger"]:hover:not(:disabled) {
+  background-color: var(--color-danger-subtle);
+}
+
+/* --- Variants: Ghost --- */
+.ui-btn[data-variant="ghost"] {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-text-main);
+}
+.ui-btn[data-variant="ghost"]:hover:not(:disabled) {
+  background-color: var(--color-bg-hover);
+}
+.ui-btn[data-variant="ghost"][data-intent="primary"] {
+  color: var(--color-primary);
+}
+.ui-btn[data-variant="ghost"][data-intent="primary"]:hover:not(:disabled) {
+  background-color: var(--color-primary-subtle);
+}
+
+/* --- Button Group --- */
+.ui-btn-group {
+  display: inline-flex;
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+.ui-btn-group > .ui-btn {
+  border-radius: 0;
+}
+.ui-btn-group > .ui-btn:not(:last-child) {
+  border-right-width: 0;
+}
+.ui-btn-group > .ui-btn:first-child {
+  border-top-left-radius: var(--radius-control);
+  border-bottom-left-radius: var(--radius-control);
+}
+.ui-btn-group > .ui-btn:last-child {
+  border-top-right-radius: var(--radius-control);
+  border-bottom-right-radius: var(--radius-control);
+}
