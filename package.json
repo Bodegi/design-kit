@@ -1,0 +1,31 @@
+{
+  "name": "design-kit",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Lightweight, framework-agnostic design system and Open UI component library",
+  "main": "dist/index.css",
+  "style": "dist/index.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "dev": "vite workshop",
+    "build:css": "node scripts/build-css.mjs",
+    "build:workshop": "vite build workshop --outDir dist",
+    "build": "npm run build:css && npm run build:workshop",
+    "preview": "vite preview workshop"
+  },
+  "keywords": [
+    "design-system",
+    "open-ui",
+    "design-tokens",
+    "css"
+  ],
+  "author": "Bodegi",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.6.2",
+    "vite": "^6.0.3"
+  }
+}

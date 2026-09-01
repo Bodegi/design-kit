@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Theme: Image Hoard
+   Media-focused true dark theme with vibrant emerald/teal accents.
+   ========================================================================== */
+:root,
+[data-theme="image-hoard"] {
+  --color-bg-canvas: #050505;
+  --color-bg-surface: #121212;
+  --color-bg-elevated: #1e1e1e;
+  --color-bg-overlay: rgba(0, 0, 0, 0.85);
+  --color-bg-muted: rgba(255, 255, 255, 0.04);
+  --color-bg-hover: rgba(255, 255, 255, 0.08);
+  --color-bg-active: rgba(255, 255, 255, 0.12);
+
+  --color-text-main: #f5f5f5;
+  --color-text-muted: #a3a3a3;
+  --color-text-dim: #737373;
+  --color-text-inverse: #050505;
+
+  --color-border-subtle: #262626;
+  --color-border-strong: #404040;
+  --color-border-focus: #10b981;
+
+  --color-primary: #10b981;
+  --color-primary-hover: #059669;
+  --color-primary-active: #047857;
+  --color-primary-contrast: #ffffff;
+  --color-primary-subtle: rgba(16, 185, 129, 0.15);
+
+  --radius-base: var(--radius-md);
+  --radius-control: var(--radius-md);
+}

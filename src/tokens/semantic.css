@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Tier 2: Semantic Contracts
+   Intent-driven tokens mapping abstract design concepts to functional UI slots.
+   ========================================================================== */
+
+:root {
+  /* Default Fallback Surfaces (Dark baseline) */
+  --color-bg-canvas: #0f172a;
+  --color-bg-surface: #1e293b;
+  --color-bg-elevated: #334155;
+  --color-bg-overlay: rgba(0, 0, 0, 0.65);
+  --color-bg-muted: rgba(255, 255, 255, 0.05);
+  --color-bg-hover: rgba(255, 255, 255, 0.08);
+  --color-bg-active: rgba(255, 255, 255, 0.12);
+
+  /* Default Text Levels */
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-text-dim: #64748b;
+  --color-text-inverse: #0f172a;
+
+  /* Default Border Levels */
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.2);
+  --color-border-focus: #38bdf8;
+
+  /* Primary Intent */
+  --color-primary: #38bdf8;
+  --color-primary-hover: #0ea5e9;
+  --color-primary-active: #0284c7;
+  --color-primary-contrast: #0f172a;
+  --color-primary-subtle: rgba(56, 189, 248, 0.15);
+
+  /* Accent Intent */
+  --color-accent: #818cf8;
+  --color-accent-hover: #6366f1;
+  --color-accent-contrast: #ffffff;
+  --color-accent-subtle: rgba(129, 140, 248, 0.15);
+
+  /* Success Intent */
+  --color-success: #34d399;
+  --color-success-hover: #10b981;
+  --color-success-contrast: #064e3b;
+  --color-success-subtle: rgba(52, 211, 153, 0.15);
+
+  /* Warning Intent */
+  --color-warning: #fbbf24;
+  --color-warning-hover: #f59e0b;
+  --color-warning-contrast: #78350f;
+  --color-warning-subtle: rgba(251, 191, 36, 0.15);
+
+  /* Danger Intent */
+  --color-danger: #f87171;
+  --color-danger-hover: #ef4444;
+  --color-danger-contrast: #ffffff;
+  --color-danger-subtle: rgba(248, 113, 113, 0.15);
+
+  /* Info Intent */
+  --color-info: #60a5fa;
+  --color-info-hover: #3b82f6;
+  --color-info-contrast: #ffffff;
+  --color-info-subtle: rgba(96, 165, 250, 0.15);
+
+  /* Semantic Component Mappings */
+  --radius-base: var(--radius-md);
+  --radius-control: var(--radius-md);
+  --focus-ring: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-border-focus);
+}

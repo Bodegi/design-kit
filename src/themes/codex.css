@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Theme: Codex
+   Warm, parchment-infused scholar theme with amber/gold accents and rounded corners.
+   ========================================================================== */
+:root,
+[data-theme="codex"] {
+  --color-bg-canvas: #1c1917;
+  --color-bg-surface: #292524;
+  --color-bg-elevated: #44403c;
+  --color-bg-overlay: rgba(12, 10, 9, 0.8);
+  --color-bg-muted: rgba(254, 243, 199, 0.05);
+  --color-bg-hover: rgba(254, 243, 199, 0.08);
+  --color-bg-active: rgba(254, 243, 199, 0.12);
+
+  --color-text-main: #fef3c7;
+  --color-text-muted: #d6d3d1;
+  --color-text-dim: #a8a29e;
+  --color-text-inverse: #1c1917;
+
+  --color-border-subtle: #44403c;
+  --color-border-strong: #78716c;
+  --color-border-focus: #f59e0b;
+
+  --color-primary: #f59e0b;
+  --color-primary-hover: #d97706;
+  --color-primary-active: #b45309;
+  --color-primary-contrast: #1c1917;
+  --color-primary-subtle: rgba(245, 158, 11, 0.15);
+
+  --color-accent: #e11d48;
+  --color-accent-hover: #be123c;
+  --color-accent-contrast: #ffffff;
+
+  --radius-base: var(--radius-lg);
+  --radius-control: var(--radius-md);
+}

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Theme: Image Annotate
+   High-contrast workspace theme with high-visibility vibrant orange accents.
+   ========================================================================== */
+:root,
+[data-theme="image-annotate"] {
+  --color-bg-canvas: #18181b;
+  --color-bg-surface: #27272a;
+  --color-bg-elevated: #3f3f46;
+  --color-bg-overlay: rgba(0, 0, 0, 0.8);
+  --color-bg-muted: rgba(255, 255, 255, 0.05);
+  --color-bg-hover: rgba(255, 255, 255, 0.09);
+  --color-bg-active: rgba(255, 255, 255, 0.14);
+
+  --color-text-main: #ffffff;
+  --color-text-muted: #d4d4d8;
+  --color-text-dim: #a1a1aa;
+  --color-text-inverse: #18181b;
+
+  --color-border-subtle: #3f3f46;
+  --color-border-strong: #52525b;
+  --color-border-focus: #f97316;
+
+  --color-primary: #f97316;
+  --color-primary-hover: #ea580c;
+  --color-primary-active: #c2410c;
+  --color-primary-contrast: #ffffff;
+  --color-primary-subtle: rgba(249, 115, 22, 0.18);
+
+  --radius-base: var(--radius-md);
+  --radius-control: var(--radius-md);
+}

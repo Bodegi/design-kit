@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Design-Kit: Main Stylesheet Entrypoint
+   ========================================================================== */
+
+/* 1. Design Tokens */
+@import "./tokens/primitives.css";
+@import "./tokens/semantic.css";
+
+/* 2. Base Reset & Defaults */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible Focus States */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
