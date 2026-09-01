@@ -1,4 +1,6 @@
-const iconDefs: Record<string, string> = {
+﻿import fs from 'node:fs';
+
+const icons = {
   'chevron-down': '<path d="m6 9 6 6 6-6"/>',
   'chevron-up': '<path d="m18 15-6-6-6 6"/>',
   'chevron-left': '<path d="m15 18-6-6 6-6"/>',
@@ -39,10 +41,12 @@ const iconDefs: Record<string, string> = {
   'zoom-out': '<circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="8" x2="14" y1="11" y2="11"/>'
 };
 
+const iconGalleryCode = `const iconDefs: Record<string, string> = ${JSON.stringify(icons, null, 2)};
+
 const iconNames = Object.keys(iconDefs);
 
 export function renderIconGallery(container: HTMLElement) {
-  container.innerHTML = `
+  container.innerHTML = \`
     <section class="ws-section">
       <div class="ws-icon-toolbar">
         <div>
@@ -55,11 +59,12 @@ export function renderIconGallery(container: HTMLElement) {
       </div>
 
       <div id="ws-icon-grid" class="ws-icon-grid">
-        ${renderIconCards(iconNames)}
+        \${renderIconCards(iconNames)}
       </div>
     </section>
-  `;
+  \`;
 
+  // Search filter
   const searchInput = document.getElementById('ws-icon-search-input') as HTMLInputElement | null;
   const grid = document.getElementById('ws-icon-grid');
 
@@ -79,21 +84,21 @@ export function renderIconGallery(container: HTMLElement) {
 
 function renderIconCards(list: string[]) {
   if (list.length === 0) {
-    return `<div style="grid-column: 1/-1; padding: var(--space-8); text-align: center; color: var(--color-text-muted);">No icons found matching your search.</div>`;
+    return \`<div style="grid-column: 1/-1; padding: var(--space-8); text-align: center; color: var(--color-text-muted);">No icons found matching your search.</div>\`;
   }
 
   return list.map((name) => {
     const paths = iconDefs[name] || '';
-    return `
-      <div class="ws-card ws-icon-card" data-icon="${name}" title="Click to copy <svg> markup for ${name}">
+    return \`
+      <div class="ws-card ws-icon-card" data-icon="\${name}" title="Click to copy <svg> markup for \${name}">
         <div class="ws-icon-preview">
           <svg class="ui-icon" data-size="lg" viewBox="0 0 24 24">
-            ${paths}
+            \${paths}
           </svg>
         </div>
-        <div class="ws-icon-name">${name}</div>
+        <div class="ws-icon-name">\${name}</div>
       </div>
-    `;
+    \`;
   }).join('');
 }
 
@@ -102,9 +107,9 @@ function attachIconClickListeners(grid: HTMLElement) {
     card.addEventListener('click', () => {
       const iconName = card.dataset.icon;
       if (iconName) {
-        const markup = `<svg class="ui-icon"><use href="design-kit/dist/icons/sprite.svg#${iconName}"></use></svg>`;
+        const markup = \`<svg class="ui-icon"><use href="design-kit/dist/icons/sprite.svg#\${iconName}"></use></svg>\`;
         navigator.clipboard.writeText(markup);
-        showToast(`Copied sprite markup for "${iconName}"!`);
+        showToast(\`Copied sprite markup for "\${iconName}"!\`);
       }
     });
   });
@@ -119,3 +124,7 @@ function showToast(message: string) {
     toast.setAttribute('data-visible', 'false');
   }, 2000);
 }
+\`;
+
+fs.writeFileSync('workshop/src/icon-gallery.ts', iconGalleryCode, 'utf8');
+console.log('✓ Successfully updated workshop/src/icon-gallery.ts with direct SVG rendering.');
