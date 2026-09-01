@@ -1,4 +1,4 @@
-﻿export function renderComponentMatrix(container: HTMLElement) {
+export function renderComponentMatrix(container: HTMLElement) {
   container.innerHTML = `
     <!-- Buttons Section -->
     <section class="ws-section">

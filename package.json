@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "vite workshop",
     "build:css": "node scripts/build-css.mjs",
-    "build:workshop": "vite build workshop --outDir dist",
+    "build:workshop": "vite build workshop",
     "build": "npm run build:css && npm run build:workshop",
     "preview": "vite preview workshop"
   },

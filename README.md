@@ -1,4 +1,4 @@
-﻿# ✦ Design-Kit
+# ✦ Design-Kit
 
 A lightweight, framework-agnostic design system and component styling library built on **W3C Open UI** principles and native web standards.
 

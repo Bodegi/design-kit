@@ -1,4 +1,4 @@
-﻿const iconNames = [
+const iconNames = [
   'chevron-down', 'chevron-up', 'chevron-left', 'chevron-right',
   'arrow-left', 'arrow-right', 'menu', 'close', 'external-link',
   'more-vertical', 'more-horizontal', 'search', 'filter', 'plus',

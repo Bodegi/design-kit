@@ -1,4 +1,4 @@
-﻿import { renderTokenViewer } from './token-viewer';
+import { renderTokenViewer } from './token-viewer';
 import { renderComponentMatrix } from './component-matrix';
 import { renderIconGallery } from './icon-gallery';
 
