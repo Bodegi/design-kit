@@ -4,11 +4,11 @@ export function renderComponentMatrix(container: HTMLElement) {
     <section class="ws-section">
       <h2 class="ws-section-title">Buttons (.ui-btn)</h2>
       <p class="ws-section-desc">Open UI buttons with semantic variants, sizes, intents, and states.</p>
-      
+
       <div class="ws-preview-block">
         <div class="ws-preview-header">
           <span class="ws-preview-title">Intents (Solid)</span>
-          <button class="ws-copy-code-btn" data-snippet='<button class="ui-btn" data-intent="primary">Primary</button>'>Copy HTML</button>
+          ${copyControls('<button class="ui-btn" data-intent="primary">Primary</button>')}
         </div>
         <div class="ws-preview-canvas">
           <button class="ui-btn">Default</button>
@@ -22,7 +22,7 @@ export function renderComponentMatrix(container: HTMLElement) {
       <div class="ws-preview-block">
         <div class="ws-preview-header">
           <span class="ws-preview-title">Variants (Outline & Ghost)</span>
-          <button class="ws-copy-code-btn" data-snippet='<button class="ui-btn" data-variant="outline" data-intent="primary">Outline Primary</button>'>Copy HTML</button>
+          ${copyControls('<button class="ui-btn" data-variant="outline" data-intent="primary">Outline Primary</button>')}
         </div>
         <div class="ws-preview-canvas">
           <button class="ui-btn" data-variant="outline" data-intent="primary">Outline Primary</button>
@@ -35,7 +35,7 @@ export function renderComponentMatrix(container: HTMLElement) {
       <div class="ws-preview-block">
         <div class="ws-preview-header">
           <span class="ws-preview-title">Sizes & Button Groups</span>
-          <button class="ws-copy-code-btn" data-snippet='<div class="ui-btn-group"><button class="ui-btn">Left</button><button class="ui-btn">Right</button></div>'>Copy HTML</button>
+          ${copyControls('<div class="ui-btn-group"><button class="ui-btn">Left</button><button class="ui-btn">Right</button></div>')}
         </div>
         <div class="ws-preview-canvas">
           <button class="ui-btn" data-size="sm" data-intent="primary">Small (sm)</button>
@@ -50,6 +50,34 @@ export function renderComponentMatrix(container: HTMLElement) {
       </div>
     </section>
 
+    <!-- Toolbar Section -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Toolbar (.ui-toolbar)</h2>
+      <p class="ws-section-desc">Flex alignment container grouping controls, with separators and a spacer to push actions apart.</p>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Editor Toolbar</span>
+          ${copyControls(toolbarSnippet)}
+        </div>
+        <div class="ws-preview-canvas ws-canvas-col">
+          <div class="ui-toolbar">
+            <div class="ui-btn-group">
+              <button class="ui-btn" data-size="sm" data-variant="ghost">Bold</button>
+              <button class="ui-btn" data-size="sm" data-variant="ghost">Italic</button>
+              <button class="ui-btn" data-size="sm" data-variant="ghost">Underline</button>
+            </div>
+            <span class="ui-toolbar-separator"></span>
+            <button class="ui-btn" data-size="sm" data-variant="ghost">Link</button>
+            <button class="ui-btn" data-size="sm" data-variant="ghost">Image</button>
+            <span class="ui-toolbar-spacer"></span>
+            <button class="ui-btn" data-size="sm" data-variant="outline">Preview</button>
+            <button class="ui-btn" data-size="sm" data-intent="primary">Publish</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Form Controls Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Form Controls (.ui-field, .ui-input, .ui-switch)</h2>
@@ -58,7 +86,7 @@ export function renderComponentMatrix(container: HTMLElement) {
       <div class="ws-preview-block">
         <div class="ws-preview-header">
           <span class="ws-preview-title">Input Fields & Select</span>
-          <button class="ws-copy-code-btn" data-snippet='<div class="ui-field"><label class="ui-label">Label</label><div class="ui-control"><input class="ui-input" placeholder="Type here..." /></div></div>'>Copy HTML</button>
+          ${copyControls('<div class="ui-field"><label class="ui-label" for="name">Label</label><div class="ui-control"><input class="ui-input" id="name" placeholder="Type here..." /></div></div>')}
         </div>
         <div class="ws-preview-canvas ws-canvas-col">
           <div class="ui-field">
@@ -93,7 +121,7 @@ export function renderComponentMatrix(container: HTMLElement) {
       <div class="ws-preview-block">
         <div class="ws-preview-header">
           <span class="ws-preview-title">Checkboxes, Radios & Switches</span>
-          <button class="ws-copy-code-btn" data-snippet='<label class="ui-switch"><input type="checkbox" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span><span>Label</span></label>'>Copy HTML</button>
+          ${copyControls('<label class="ui-switch"><input type="checkbox" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span><span>Label</span></label>')}
         </div>
         <div class="ws-preview-canvas">
           <label class="ui-checkbox-label">
@@ -180,6 +208,30 @@ export function renderComponentMatrix(container: HTMLElement) {
       </div>
     </section>
 
+    <!-- Popover Section -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Popover & Menu (.ui-popover)</h2>
+      <p class="ws-section-desc">Native <code>[popover]</code> toggled by <code>popovertarget</code> — no JavaScript — holding a <code>.ui-menu</code>.</p>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Account Menu</span>
+          ${copyControls(popoverSnippet)}
+        </div>
+        <div class="ws-preview-canvas">
+          <button class="ui-btn" data-variant="outline" popovertarget="ws-demo-popover">Account ▾</button>
+          <div id="ws-demo-popover" popover class="ui-popover">
+            <ul class="ui-menu">
+              <li><a class="ui-menu-item">View Profile</a></li>
+              <li><a class="ui-menu-item">Workspace Settings</a></li>
+              <li class="ui-menu-divider"></li>
+              <li><a class="ui-menu-item">Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Native Dialog Modal & Accordion -->
     <section class="ws-section">
       <h2 class="ws-section-title">Native HTML Primitives (Modal & Accordion)</h2>
@@ -225,14 +277,14 @@ export function renderComponentMatrix(container: HTMLElement) {
     </section>
   `;
 
-  // Attach code copy listeners
+  // Attach code copy listeners (HTML verbatim, or transformed to JSX)
   container.querySelectorAll<HTMLButtonElement>('.ws-copy-code-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const snippet = btn.dataset.snippet;
-      if (snippet) {
-        navigator.clipboard.writeText(snippet);
-        showToast('Copied HTML markup to clipboard!');
-      }
+      if (!snippet) return;
+      const jsx = btn.dataset.format === 'jsx';
+      navigator.clipboard.writeText(jsx ? htmlToJsx(snippet) : snippet);
+      showToast(jsx ? 'Copied JSX to clipboard!' : 'Copied HTML markup to clipboard!');
     });
   });
 
@@ -255,6 +307,55 @@ export function renderComponentMatrix(container: HTMLElement) {
       if (e.target === dialog) dialog.close();
     });
   }
+}
+
+const toolbarSnippet = `<div class="ui-toolbar">
+  <div class="ui-btn-group">
+    <button class="ui-btn" data-size="sm" data-variant="ghost">Bold</button>
+    <button class="ui-btn" data-size="sm" data-variant="ghost">Italic</button>
+    <button class="ui-btn" data-size="sm" data-variant="ghost">Underline</button>
+  </div>
+  <span class="ui-toolbar-separator"></span>
+  <button class="ui-btn" data-size="sm" data-variant="ghost">Link</button>
+  <button class="ui-btn" data-size="sm" data-variant="ghost">Image</button>
+  <span class="ui-toolbar-spacer"></span>
+  <button class="ui-btn" data-size="sm" data-variant="outline">Preview</button>
+  <button class="ui-btn" data-size="sm" data-intent="primary">Publish</button>
+</div>`;
+
+const popoverSnippet = `<button class="ui-btn" data-variant="outline" popovertarget="account-menu">Account &#9662;</button>
+<div id="account-menu" popover class="ui-popover">
+  <ul class="ui-menu">
+    <li><a class="ui-menu-item">View Profile</a></li>
+    <li><a class="ui-menu-item">Workspace Settings</a></li>
+    <li class="ui-menu-divider"></li>
+    <li><a class="ui-menu-item">Sign Out</a></li>
+  </ul>
+</div>`;
+
+// Renders paired copy buttons; both carry the same HTML snippet and the JSX
+// button transforms it on click, so there is a single source per preview.
+function copyControls(snippet: string): string {
+  const enc = escapeAttr(snippet);
+  return `
+    <div class="ws-copy-controls">
+      <button class="ws-copy-code-btn" data-format="html" data-snippet="${enc}">Copy HTML</button>
+      <button class="ws-copy-code-btn" data-format="jsx" data-snippet="${enc}">Copy JSX</button>
+    </div>`;
+}
+
+function escapeAttr(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Minimal HTML->JSX for the attributes our snippets use. class/for are the only
+// reserved-word renames; void elements are already self-closed in the source.
+function htmlToJsx(html: string): string {
+  return html.replace(/\bclass=/g, 'className=').replace(/\bfor=/g, 'htmlFor=');
 }
 
 function showToast(message: string) {
