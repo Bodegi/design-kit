@@ -30,4 +30,4 @@ if (fs.existsSync(distDir)) {
 fs.mkdirSync(distDir, { recursive: true });
 
 copyDirRecursive(srcDir, distDir);
-console.log('? Successfully generated dist/ package output.');
+console.log('Successfully generated dist/ package output.');

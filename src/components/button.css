@@ -149,7 +149,6 @@
 .ui-btn-group {
   display: inline-flex;
   border-radius: var(--radius-control);
-  overflow: hidden;
 }
 .ui-btn-group > .ui-btn {
   border-radius: 0;

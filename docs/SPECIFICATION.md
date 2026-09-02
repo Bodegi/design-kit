@@ -128,7 +128,7 @@ Component variants utilize HTML data attributes (`data-variant`, `data-size`, `d
 
 ## 5. Curated SVG Icon Suite
 
-`design-kit` bundles a core collection of 35 standard application UI icons packaged as an SVG sprite (`dist/icons/sprite.svg`) and individual standalone SVGs.
+`design-kit` bundles a core collection of 38 standard application UI icons packaged as an SVG sprite (`dist/icons/sprite.svg`) and individual standalone SVGs.
 
 ### 5.1 Icon Inventory
 * **Navigation**: `chevron-down`, `chevron-up`, `chevron-left`, `chevron-right`, `arrow-left`, `arrow-right`, `menu`, `close`, `external-link`, `more-vertical`, `more-horizontal`
@@ -200,7 +200,7 @@ The visual catalog is a lightweight, zero-dependency Vite application deployed d
 * **Live Theme Switcher**: Global toolbar dropdown that dynamically applies any theme preset (`data-theme="..."`), updating all components and tokens in real time.
 * **Token Inspector**: Interactive palette grids displaying rendered color swatches, computed hex values, contrast ratios, and copyable CSS variable names.
 * **Component Matrix**: Side-by-side display of all component variants and states (*Default, Hover, Active, Focused, Disabled, Error*).
-* **Icon Search Gallery**: Searchable grid of the 35 bundled icons with 1-click copy for both `<svg><use>` and inline SVG markup.
+* **Icon Search Gallery**: Searchable grid of the 38 bundled icons with 1-click copy for both `<svg><use>` and inline SVG markup.
 * **1-Click Markup Generator**: Generates and copies clean HTML and JSX code snippets for any rendered component.
 
 ### 7.2 Automated Deployment Workflow (`.github/workflows/deploy-workshop.yml`)
