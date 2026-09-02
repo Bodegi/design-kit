@@ -1,3 +1,15 @@
+// Kit styles first (tokens + components), then theme presets, then workshop UI.
+// Imported through Vite so they load in dev as well as in the production bundle.
+import '../../src/index.css';
+import '../../src/themes/default-dark.css';
+import '../../src/themes/default-light.css';
+import '../../src/themes/server-panel.css';
+import '../../src/themes/codex.css';
+import '../../src/themes/tectonic.css';
+import '../../src/themes/image-hoard.css';
+import '../../src/themes/image-annotate.css';
+import './workshop.css';
+
 import { renderTokenViewer } from './token-viewer';
 import { renderComponentMatrix } from './component-matrix';
 import { renderIconGallery } from './icon-gallery';
