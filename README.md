@@ -62,61 +62,17 @@ To customize tokens locally within your application, add a `:root` block after y
 
 ---
 
-## Component Taxonomy
+## Basic Usage
 
-### Buttons (`.ui-btn`)
+Components are plain HTML with an Open UI `.ui-*` anatomy class; variants are driven by `data-*` attributes:
+
 ```html
-<!-- Variants: solid (default), outline, ghost -->
-<!-- Intents: primary, danger, success -->
-<!-- Sizes: sm, md (default), lg, icon -->
-<button class="ui-btn" data-intent="primary" data-size="md">
+<button class="ui-btn" data-variant="outline" data-intent="primary" data-size="md">
   Save Changes
 </button>
-
-<button class="ui-btn" data-variant="outline" data-intent="danger">
-  Delete Project
-</button>
 ```
 
-### Form Controls (`.ui-field`, `.ui-input`, `.ui-switch`)
-```html
-<div class="ui-field">
-  <label class="ui-label" for="username">Username</label>
-  <div class="ui-control">
-    <input class="ui-input" id="username" type="text" placeholder="Enter username..." />
-  </div>
-  <span class="ui-help-text">Visible to workspace members.</span>
-</div>
-
-<!-- Toggle Switch -->
-<label class="ui-switch">
-  <input type="checkbox" checked />
-  <span class="ui-switch-track"><span class="ui-switch-thumb"></span></span>
-  <span>Enable Feature</span>
-</label>
-```
-
-### Panels & Cards (`.ui-panel`)
-```html
-<div class="ui-panel" data-variant="raised">
-  <div class="ui-panel-header">
-    <h3 class="ui-panel-title">Panel Title</h3>
-  </div>
-  <div class="ui-panel-body">
-    Panel content goes here.
-  </div>
-  <div class="ui-panel-footer">
-    <button class="ui-btn" data-size="sm" data-intent="primary">Action</button>
-  </div>
-</div>
-```
-
-### Icons (`.ui-icon`)
-```html
-<svg class="ui-icon" data-size="md" aria-hidden="true">
-  <use href="design-kit/dist/icons/sprite.svg#search"></use>
-</svg>
-```
+Browse the full component catalog — every variant, state, and copyable HTML/JSX snippet — in the **[live workshop](https://bodegi.github.io/design-kit/)** (or run it locally with `npm run dev`).
 
 ---
 
