@@ -362,21 +362,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
   padding: var(--space-4);
   text-align: center;
-  cursor: pointer;
   user-select: none;
 }
 
 .ws-icon-card:hover {
   border-color: var(--color-primary);
-  transform: translateY(-2px);
 }
 
 .ws-icon-preview {
-  margin-bottom: var(--space-2);
   color: var(--color-primary);
+}
+
+.ws-icon-actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: auto;
+}
+
+.ws-icon-actions .ui-btn {
+  padding: var(--space-1) var(--space-2);
 }
 
 .ws-icon-name {

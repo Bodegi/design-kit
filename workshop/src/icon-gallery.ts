@@ -9,7 +9,7 @@ export function renderIconGallery(container: HTMLElement) {
       <div class="ws-icon-toolbar">
         <div>
           <h2 class="ws-section-title">Curated SVG Icon Suite (${iconNames.length} Icons)</h2>
-          <p class="ws-section-desc">Consistent 24x24 outline vector icons. Click any icon card to copy its markup.</p>
+          <p class="ws-section-desc">Consistent 24x24 outline vector icons. Copy sprite <use> or inline SVG markup for any icon.</p>
         </div>
         <div class="ws-icon-search-wrap">
           <input type="text" id="ws-icon-search-input" class="ui-input" placeholder="Search icons..." />
@@ -47,27 +47,40 @@ function renderIconCards(list: string[]) {
   return list.map((name) => {
     const paths = iconDefs[name] || '';
     return `
-      <div class="ws-card ws-icon-card" data-icon="${name}" title="Click to copy <svg> markup for ${name}">
+      <div class="ws-card ws-icon-card" data-icon="${name}">
         <div class="ws-icon-preview">
           <svg class="ui-icon" data-size="lg" viewBox="0 0 24 24" aria-hidden="true">
             ${paths}
           </svg>
         </div>
         <div class="ws-icon-name">${name}</div>
+        <div class="ws-icon-actions">
+          <button type="button" class="ui-btn" data-size="sm" data-variant="ghost" data-copy="sprite" data-icon="${name}">Sprite</button>
+          <button type="button" class="ui-btn" data-size="sm" data-variant="ghost" data-copy="inline" data-icon="${name}">Inline</button>
+        </div>
       </div>
     `;
   }).join('');
 }
 
+function spriteMarkup(name: string) {
+  return `<svg class="ui-icon" aria-hidden="true"><use href="design-kit/dist/icons/sprite.svg#${name}"></use></svg>`;
+}
+
+function inlineMarkup(name: string) {
+  const paths = iconDefs[name] || '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ui-icon" aria-hidden="true">${paths}</svg>`;
+}
+
 function attachIconClickListeners(grid: HTMLElement) {
-  grid.querySelectorAll<HTMLElement>('.ws-icon-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const iconName = card.dataset.icon;
-      if (iconName) {
-        const markup = `<svg class="ui-icon"><use href="design-kit/dist/icons/sprite.svg#${iconName}"></use></svg>`;
-        navigator.clipboard.writeText(markup);
-        showToast(`Copied sprite markup for "${iconName}"!`);
-      }
+  grid.querySelectorAll<HTMLButtonElement>('.ws-icon-actions button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.icon;
+      const kind = btn.dataset.copy;
+      if (!name || !kind) return;
+      const markup = kind === 'inline' ? inlineMarkup(name) : spriteMarkup(name);
+      navigator.clipboard.writeText(markup);
+      showToast(`Copied ${kind} markup for "${name}"!`);
     });
   });
 }
