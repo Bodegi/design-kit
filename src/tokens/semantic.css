@@ -52,13 +52,13 @@
   /* Danger Intent */
   --color-danger: #f87171;
   --color-danger-hover: #ef4444;
-  --color-danger-contrast: #ffffff;
+  --color-danger-contrast: #450a0a;
   --color-danger-subtle: rgba(248, 113, 113, 0.15);
 
   /* Info Intent */
   --color-info: #60a5fa;
   --color-info-hover: #3b82f6;
-  --color-info-contrast: #ffffff;
+  --color-info-contrast: #082f49;
   --color-info-subtle: rgba(96, 165, 250, 0.15);
 
   /* Semantic Component Mappings */
