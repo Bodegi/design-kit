@@ -1,36 +1,37 @@
 /* ==========================================================================
    Theme: Tectonic
-   High-contrast obsidian desktop utility theme with violet/indigo accents.
+   Obsidian desktop-utility theme with a magma amber primary and terracotta
+   accent. Palette lifted from the Tectonic app (src/styles.css).
    ========================================================================== */
 :root[data-theme="tectonic"],
 [data-theme="tectonic"] {
-  --color-bg-canvas: #0b0f19;
-  --color-bg-surface: #111827;
-  --color-bg-elevated: #1f2937;
+  --color-bg-canvas: #0b0e14;
+  --color-bg-surface: #121620;
+  --color-bg-elevated: #181e2b;
   --color-bg-overlay: rgba(0, 0, 0, 0.75);
-  --color-bg-muted: rgba(129, 140, 248, 0.05);
-  --color-bg-hover: rgba(129, 140, 248, 0.08);
-  --color-bg-active: rgba(129, 140, 248, 0.14);
+  --color-bg-muted: rgba(224, 159, 62, 0.05);
+  --color-bg-hover: rgba(224, 159, 62, 0.09);
+  --color-bg-active: rgba(224, 159, 62, 0.14);
 
-  --color-text-main: #f3f4f6;
-  --color-text-muted: #9ca3af;
-  --color-text-dim: #6b7280;
-  --color-text-inverse: #0b0f19;
+  --color-text-main: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-text-dim: #64748b;
+  --color-text-inverse: #0b0e14;
 
-  --color-border-subtle: #1f2937;
-  --color-border-strong: #374151;
-  --color-border-focus: #818cf8;
+  --color-border-subtle: #2a3245;
+  --color-border-strong: #3a4358;
+  --color-border-focus: #e09f3e;
 
-  --color-primary: #818cf8;
-  --color-primary-hover: #6366f1;
-  --color-primary-active: #4f46e5;
-  --color-primary-contrast: #ffffff;
-  --color-primary-subtle: rgba(129, 140, 248, 0.15);
+  --color-primary: #e09f3e;
+  --color-primary-hover: #f4a261;
+  --color-primary-active: #c8842a;
+  --color-primary-contrast: #0b0e14;
+  --color-primary-subtle: rgba(224, 159, 62, 0.15);
 
-  --color-accent: #ec4899;
-  --color-accent-hover: #db2777;
-  --color-accent-contrast: #ffffff;
+  --color-accent: #e76f51;
+  --color-accent-hover: #d65a3d;
+  --color-accent-contrast: #0b0e14;
 
-  --radius-base: var(--radius-md);
-  --radius-control: var(--radius-md);
+  --radius-base: var(--radius-xl);
+  --radius-control: var(--radius-lg);
 }
