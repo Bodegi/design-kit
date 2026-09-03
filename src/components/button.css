@@ -9,7 +9,7 @@
   gap: var(--space-2);
   font-family: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semibold);
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
@@ -33,7 +33,6 @@
 
 .ui-btn:active:not(:disabled) {
   background-color: var(--color-bg-active);
-  transform: translateY(1px);
 }
 
 .ui-btn:focus-visible {
@@ -42,9 +41,10 @@
 }
 
 .ui-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
+  box-shadow: none;
 }
 
 /* --- Sizes --- */
@@ -77,13 +77,27 @@
 .ui-btn[data-variant="solid"][data-intent="primary"],
 .ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
   background-color: var(--color-primary);
+  background-image: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
   color: var(--color-primary-contrast);
   border-color: var(--color-primary);
+  font-weight: var(--font-bold);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 .ui-btn[data-variant="solid"][data-intent="primary"]:hover:not(:disabled),
 .ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+/* Filled intents lift on hover and settle on press; plain/outline/ghost stay put.
+   Explicit rest transform so the hover lift animates from 0 rather than `none`. */
+.ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  transform: translateY(0);
+}
+.ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .ui-btn[data-variant="solid"][data-intent="danger"],
@@ -117,7 +131,8 @@
   border-color: var(--color-primary);
 }
 .ui-btn[data-variant="outline"][data-intent="primary"]:hover:not(:disabled) {
-  background-color: var(--color-primary-subtle);
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
 }
 
 .ui-btn[data-variant="outline"][data-intent="danger"] {
@@ -126,7 +141,8 @@
   border-color: var(--color-danger);
 }
 .ui-btn[data-variant="outline"][data-intent="danger"]:hover:not(:disabled) {
-  background-color: var(--color-danger-subtle);
+  background-color: var(--color-danger);
+  color: var(--color-danger-contrast);
 }
 
 /* --- Variants: Ghost --- */
