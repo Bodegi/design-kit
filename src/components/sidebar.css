@@ -1,0 +1,53 @@
+/* ==========================================================================
+   App Sidebar (.ui-sidebar)
+   Open UI does not cover the app shell; this extends its conventions (`.ui-*`
+   names, semantic-token styling) to the vertical navigation rail — a
+   translucent "glass" panel that holds the nav. Visuals lifted from codex's
+   shell: blurred surface, hairline trailing edge, soft ambient shadow.
+
+   Anatomy mirrors `.ui-panel` (header / body / footer): the header and footer
+   are pinned; the body scrolls. Consumers set the rail width by overriding
+   `--ui-sidebar-width` on the element.
+   ========================================================================== */
+
+.ui-sidebar {
+  --ui-sidebar-width: 260px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: var(--ui-sidebar-width);
+  height: 100%;
+  background-color: var(--color-bg-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border-right: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-glass);
+}
+
+/* Pinned brand/logo row at the top of the rail. */
+.ui-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Scrolling nav region — takes the remaining height. */
+.ui-sidebar-body {
+  flex: 1;
+  min-height: 0;          /* let the flex child shrink so it can scroll */
+  overflow-y: auto;
+  padding: var(--space-3);
+}
+
+/* Pinned account/status row at the foot of the rail. */
+.ui-sidebar-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}

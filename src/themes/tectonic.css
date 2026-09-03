@@ -12,6 +12,7 @@
   --color-bg-muted: rgba(224, 159, 62, 0.05);
   --color-bg-hover: rgba(224, 159, 62, 0.09);
   --color-bg-active: rgba(224, 159, 62, 0.14);
+  --color-bg-glass: rgba(18, 22, 32, 0.75);
 
   --color-text-main: #e2e8f0;
   --color-text-muted: #94a3b8;

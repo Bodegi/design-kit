@@ -16,6 +16,7 @@
 @import "./components/accordion.css";
 @import "./components/icon.css";
 @import "./components/nav.css";
+@import "./components/sidebar.css";
 
 /* 3. Base Reset & Defaults */
 *, *::before, *::after {
