@@ -112,7 +112,7 @@
   width: 18px;
   height: 18px;
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   background-color: var(--color-bg-surface);
   cursor: pointer;
   outline: none;

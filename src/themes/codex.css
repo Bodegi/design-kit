@@ -31,7 +31,4 @@
   --color-accent: #b91c1c;
   --color-accent-hover: #991b1b;
   --color-accent-contrast: #ffffff;
-
-  --radius-base: var(--radius-2xl);
-  --radius-control: var(--radius-xl);
 }

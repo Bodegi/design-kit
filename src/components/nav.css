@@ -20,7 +20,7 @@
   text-align: left;
   background-color: transparent;
   border: none;
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-nav);
   color: var(--color-text-muted);
   font-family: inherit;
   font-size: var(--text-sm);

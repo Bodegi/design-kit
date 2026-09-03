@@ -52,7 +52,4 @@
   --color-info-hover: #1e40af;
   --color-info-contrast: #ffffff;
   --color-info-subtle: rgba(29, 78, 216, 0.12);
-
-  --radius-base: var(--radius-md);
-  --radius-control: var(--radius-md);
 }

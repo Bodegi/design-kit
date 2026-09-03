@@ -98,11 +98,13 @@ export function renderTokenViewer(container: HTMLElement) {
       <h2 class="ws-section-title">Corner Radii Scale</h2>
       <p class="ws-section-desc">Corner curves across various component sizes and presets.</p>
       <div class="ws-grid">
-        ${renderRadiiCard('--radius-sm', '2px (Small tags / crisp theme)')}
-        ${renderRadiiCard('--radius-md', '4px (Buttons / Inputs)')}
-        ${renderRadiiCard('--radius-lg', '8px (Cards / Panels)')}
-        ${renderRadiiCard('--radius-xl', '12px (Modals / Codex preset)')}
-        ${renderRadiiCard('--radius-2xl', '16px (Large dialogs)')}
+        ${renderRadiiCard('--radius-xs', '2px (Checkboxes / menu items)')}
+        ${renderRadiiCard('--radius-sm', '4px')}
+        ${renderRadiiCard('--radius-md', '6px (Nav rows)')}
+        ${renderRadiiCard('--radius-lg', '8px')}
+        ${renderRadiiCard('--radius-xl', '10px (Buttons / Inputs)')}
+        ${renderRadiiCard('--radius-2xl', '12px (Panels / Cards)')}
+        ${renderRadiiCard('--radius-3xl', '16px')}
         ${renderRadiiCard('--radius-full', '9999px (Pills / Avatars)')}
       </div>
     </section>
