@@ -68,4 +68,15 @@
   --radius-base: var(--radius-2xl);    /* 12px — panels, cards */
   --focus-ring: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-border-focus);
   --blur-glass: blur(16px);            /* backdrop blur of the shell's glass surfaces — a material constant, not a theme knob */
+
+  /* Ambient logo watermark — one shared recipe (see .ui-watermark). Apps set
+     --ui-watermark-image to their emblem to opt in; unset (none) = skip. */
+  --ui-watermark-image: none;
+  --ui-watermark-size: min(55%, 440px);
+  --ui-watermark-opacity: 0.04;
+  --ui-watermark-size-empty: min(70%, 640px);
+  --ui-watermark-position-empty: center 66%;
+  --ui-watermark-opacity-empty: 0.11;
+  --ui-watermark-size-modal: min(80%, 620px);
+  --ui-watermark-opacity-modal: 0.08;
 }

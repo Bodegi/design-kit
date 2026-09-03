@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Ambient Logo Watermark (.ui-watermark)
+   The emblem ghosted into a surface's empty space — a pattern codex and
+   image-hoard landed on independently, so it earns a place in the system.
+   One tokenized recipe (`--ui-watermark-*`): the host is the positioning
+   context and the mark paints on its `::before`, behind content that the rule
+   lifts back above it. Opt-in — with `--ui-watermark-image` unset (`none`),
+   nothing paints, so a surface with no brand asset simply skips the watermark.
+   Clip it with `overflow: hidden` on the host (e.g. inside a `.ui-panel`).
+   ========================================================================== */
+
+.ui-watermark {
+  position: relative;
+}
+
+.ui-watermark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--ui-watermark-image, none) no-repeat center;
+  background-size: var(--ui-watermark-size) auto;
+  opacity: var(--ui-watermark-opacity);
+  pointer-events: none;
+}
+
+/* Empty states free the whole surface — the mark goes larger, lower, bolder. */
+.ui-watermark[data-state="empty"]::before {
+  background-size: var(--ui-watermark-size-empty) auto;
+  background-position: var(--ui-watermark-position-empty);
+  opacity: var(--ui-watermark-opacity-empty);
+}
+
+/* Over a dark modal pane the mark needs more presence to register at all. */
+.ui-watermark[data-state="modal"]::before {
+  background-size: var(--ui-watermark-size-modal) auto;
+  opacity: var(--ui-watermark-opacity-modal);
+}
+
+/* Real content sits above the mark. */
+.ui-watermark > * {
+  position: relative;
+  z-index: 1;
+}

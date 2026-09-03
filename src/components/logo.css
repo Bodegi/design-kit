@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Brand Logo (.ui-logo)
+   Open UI does not cover brand marks; this extends the kit's conventions to a
+   logo lockup with three variants (full / emblem / wordmark) and a graceful
+   text fallback. An app drops its own mark into `.ui-logo-mark` and/or its
+   name into `.ui-logo-text`. With no image the wordmark is simply the styled
+   name, and the emblem slot becomes a primary-tinted monogram tile — so an app
+   that hasn't got a logo yet still renders a coherent brand lockup.
+   ========================================================================== */
+
+.ui-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  line-height: 1;
+  text-decoration: none;
+}
+
+/* Emblem slot — frames an <img>/<svg> mark, or renders a monogram (its own
+   text content) as a primary-tinted tile when no image is present. */
+.ui-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2em;
+  height: 2em;
+  color: var(--color-primary);
+}
+.ui-logo-mark img,
+.ui-logo-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ui-logo-mark:not(:has(img, svg)) {
+  border-radius: var(--radius-control);
+  background-color: var(--color-primary-subtle);
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+}
+
+/* Wordmark slot — the brand name as type (the graceful fallback), or an
+   <img>/<svg> wordmark. */
+.ui-logo-text {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.ui-logo-text img,
+.ui-logo-text svg {
+  display: block;
+  height: 1.5em;
+  width: auto;
+}
+
+/* Variants drop the slot the lockup doesn't use (default = full: both). */
+.ui-logo[data-variant="emblem"] .ui-logo-text { display: none; }
+.ui-logo[data-variant="wordmark"] .ui-logo-mark { display: none; }
