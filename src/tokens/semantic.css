@@ -69,9 +69,9 @@
   --focus-ring: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-border-focus);
   --blur-glass: blur(16px);            /* backdrop blur of the shell's glass surfaces — a material constant, not a theme knob */
 
-  /* Ambient logo watermark — one shared recipe (see .ui-watermark). Apps set
-     --ui-watermark-image to their emblem to opt in; unset (none) = skip. */
-  --ui-watermark-image: none;
+  /* Ambient logo watermark — one shared recipe (see .ui-watermark). The mark is
+     the theme primary masked by --ui-watermark-image; apps set that to their
+     emblem to opt in, and leaving it unset skips the watermark. */
   --ui-watermark-size: min(55%, 440px);
   --ui-watermark-opacity: 0.04;
   --ui-watermark-size-empty: min(70%, 640px);
