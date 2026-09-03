@@ -43,6 +43,8 @@ Installed via Git reference (`"design-kit": "github:Bodegi/design-kit#main"`). C
 
 ## Conventions
 
+- **Open UI owns naming and anatomy.** Class names (`.ui-*`), `data-*` variants, and element structure follow the Open UI component-anatomy model (open-ui.org) — it is the sole authority for *how components are named and structured*. No individual app dictates names; apps contribute visuals (color, spacing, states, feel) only. Open UI publishes living explainers, not numbered releases, so we track its anatomy conventions rather than pinning a version. For components Open UI does not cover (app shell, sidebar nav, logo/watermark slots), extend the same conventions rather than inventing a new naming style.
+- **WCAG AA is a hard gate.** No theme ships if any pairing fails the workshop's contrast check (body text 4.5:1; large text / UI 3.0:1). Derive `-contrast` and accent shades to pass rather than lifting an app color verbatim when it fails.
 - Components reference semantic tokens only; add a new token to Tier 2 before using it in a component.
 - New theme: scope to both `[data-theme="x"]` and `:root[data-theme="x"]`, and define the full intent set (`success`/`warning`/`danger`/`info` and their `-subtle`/`-contrast`) so it reads correctly against its own surfaces rather than falling back to the dark baseline.
 - Keep files UTF-8 without BOM.
