@@ -32,4 +32,27 @@
   --color-accent: #db2777;
   --color-accent-hover: #be185d;
   --color-accent-contrast: #ffffff;
+
+  /* Intents tuned to Image Hoard's cool navy/indigo register: a spring emerald,
+     warm amber pop, a rose-red danger that echoes the pink accent, and a cyan
+     info kept clear of the indigo primary. */
+  --color-success: #3ddc97;
+  --color-success-hover: #22c07d;
+  --color-success-contrast: #06281d;
+  --color-success-subtle: rgba(61, 220, 151, 0.15);
+
+  --color-warning: #f5b93a;
+  --color-warning-hover: #e0a520;
+  --color-warning-contrast: #3a2705;
+  --color-warning-subtle: rgba(245, 185, 58, 0.15);
+
+  --color-danger: #f2555a;
+  --color-danger-hover: #e13b44;
+  --color-danger-contrast: #40080f;
+  --color-danger-subtle: rgba(242, 85, 90, 0.16);
+
+  --color-info: #56b3f0;
+  --color-info-hover: #389de0;
+  --color-info-contrast: #06263a;
+  --color-info-subtle: rgba(86, 179, 240, 0.15);
 }

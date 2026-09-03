@@ -32,4 +32,27 @@
   --color-accent: #b91c1c;
   --color-accent-hover: #991b1b;
   --color-accent-contrast: #ffffff;
+
+  /* Intents tuned to Codex's warm-navy register: jewel emerald, honey gold
+     (yellower than the amber primary so the two stay distinct), a deep oxblood
+     danger, and a steel blue that sits with the navy rather than fighting it. */
+  --color-success: #47b382;
+  --color-success-hover: #3a9d70;
+  --color-success-contrast: #062018;
+  --color-success-subtle: rgba(71, 179, 130, 0.15);
+
+  --color-warning: #e0b429;
+  --color-warning-hover: #c99e1c;
+  --color-warning-contrast: #2e2205;
+  --color-warning-subtle: rgba(224, 180, 41, 0.15);
+
+  --color-danger: #c8443a;
+  --color-danger-hover: #b23a31;
+  --color-danger-contrast: #ffffff;
+  --color-danger-subtle: rgba(200, 68, 58, 0.16);
+
+  --color-info: #6ea8e0;
+  --color-info-hover: #5591d1;
+  --color-info-contrast: #0a2033;
+  --color-info-subtle: rgba(110, 168, 224, 0.15);
 }

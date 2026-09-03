@@ -32,4 +32,28 @@
   --color-accent: #e76f51;
   --color-accent-hover: #d65a3d;
   --color-accent-contrast: #0b0e14;
+
+  /* Intents tuned to Tectonic's obsidian/magma register: an earthy olive-sage
+     success, molten yellow-gold warning (distinct from the amber primary), a
+     rust-red danger next to the terracotta accent, and a muted steel blue for
+     info so the one cool hue doesn't jar against the warm palette. */
+  --color-success: #7fb069;
+  --color-success-hover: #6c9c57;
+  --color-success-contrast: #16240f;
+  --color-success-subtle: rgba(127, 176, 105, 0.15);
+
+  --color-warning: #ecc94b;
+  --color-warning-hover: #d9b436;
+  --color-warning-contrast: #3a2c06;
+  --color-warning-subtle: rgba(236, 201, 75, 0.15);
+
+  --color-danger: #c0392b;
+  --color-danger-hover: #a83125;
+  --color-danger-contrast: #ffffff;
+  --color-danger-subtle: rgba(192, 57, 43, 0.16);
+
+  --color-info: #6b9bd1;
+  --color-info-hover: #5484c0;
+  --color-info-contrast: #0b1f30;
+  --color-info-subtle: rgba(107, 155, 209, 0.15);
 }
