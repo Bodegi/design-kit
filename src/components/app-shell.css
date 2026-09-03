@@ -1,0 +1,30 @@
+/* ==========================================================================
+   App Shell layout (.ui-app-shell)
+   Open UI does not cover the app shell; this extends the kit's conventions to
+   the floating-glass-card layout lifted from codex: a header card above a body
+   row (sidebar card + main content), floating on the canvas with even gutters.
+   The shell only owns layout — the cards it lays out carry their own glass.
+   ========================================================================== */
+
+.ui-app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+}
+
+/* The row beneath the header: sidebar card + main content. */
+.ui-app-body {
+  display: flex;
+  gap: var(--space-4);
+  flex: 1;
+  min-height: 0;   /* let the children own their own scroll region */
+}
+
+/* Primary content column — fills the space beside the sidebar. */
+.ui-app-main {
+  flex: 1;
+  min-width: 0;    /* let content shrink instead of overflowing the row */
+  overflow: auto;
+}

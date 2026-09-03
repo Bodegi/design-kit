@@ -119,6 +119,82 @@ export function renderComponentMatrix(container: HTMLElement) {
       </div>
     </section>
 
+    <!-- Header Section -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Header (.ui-header)</h2>
+      <p class="ws-section-desc">The app-shell top bar: a floating glass card sharing the sidebar's material. Brand at the leading edge (<code>.ui-header-brand</code>), actions at the trailing edge (<code>.ui-header-actions</code>).</p>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Glass Top Bar</span>
+          ${copyControls('<header class="ui-header">\n  <div class="ui-header-brand">…</div>\n  <div class="ui-header-actions">…</div>\n</header>')}
+        </div>
+        <div class="ws-preview-canvas" style="padding: var(--space-6); background-image: radial-gradient(circle at 20% 20%, var(--color-primary-subtle), transparent 45%), radial-gradient(circle at 90% 80%, var(--color-accent-subtle), transparent 40%);">
+          <header class="ui-header" style="width: 100%;">
+            <div class="ui-header-brand">
+              <span class="ui-nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+              <strong style="font-size: var(--text-lg); color: var(--color-text-main);">Design Kit</strong>
+            </div>
+            <div class="ui-header-actions">
+              <button class="ui-btn" data-variant="ghost">Docs</button>
+              <button class="ui-btn" data-intent="primary">New</button>
+            </div>
+          </header>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Shell Section -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">App Shell (.ui-app-shell)</h2>
+      <p class="ws-section-desc">The full assembly: a header card above a body row of sidebar card + main content (<code>.ui-app-body</code> / <code>.ui-app-main</code>), floating on the canvas with even gutters. Layout-only — the cards carry their own glass.</p>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Header + Sidebar + Main</span>
+          ${copyControls('<div class="ui-app-shell">\n  <header class="ui-header">…</header>\n  <div class="ui-app-body">\n    <aside class="ui-sidebar">…</aside>\n    <main class="ui-app-main">…</main>\n  </div>\n</div>')}
+        </div>
+        <div class="ws-preview-canvas" style="padding: 0; height: 520px; background-image: radial-gradient(circle at 15% 15%, var(--color-primary-subtle), transparent 40%), radial-gradient(circle at 85% 85%, var(--color-accent-subtle), transparent 45%);">
+          <div class="ui-app-shell" style="height: 100%;">
+            <header class="ui-header">
+              <div class="ui-header-brand">
+                <span class="ui-nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+                <strong style="font-size: var(--text-base); color: var(--color-text-main);">Design Kit</strong>
+              </div>
+              <div class="ui-header-actions">
+                <button class="ui-btn" data-variant="ghost" data-size="sm">Docs</button>
+                <button class="ui-btn" data-intent="primary" data-size="sm">New</button>
+              </div>
+            </header>
+            <div class="ui-app-body">
+              <aside class="ui-sidebar" style="--ui-sidebar-width: 220px;">
+                <div class="ui-sidebar-body">
+                  <nav class="ui-nav">
+                    <a class="ui-nav-item" href="#" aria-current="page"><span class="ui-nav-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span><span class="ui-nav-label">Overview</span></a>
+                    <a class="ui-nav-item" href="#"><span class="ui-nav-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span><span class="ui-nav-label">Components</span></a>
+                    <a class="ui-nav-item" href="#"><span class="ui-nav-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span><span class="ui-nav-label">Tokens</span></a>
+                    <a class="ui-nav-item" href="#"><span class="ui-nav-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span><span class="ui-nav-label">Themes</span></a>
+                  </nav>
+                </div>
+                <footer class="ui-sidebar-footer">
+                  <span class="ui-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span>
+                  <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Signed in</span>
+                </footer>
+              </aside>
+              <main class="ui-app-main">
+                <div class="ui-panel" style="height: 100%;">
+                  <div class="ui-panel-header"><h3 class="ui-panel-title">Overview</h3></div>
+                  <div class="ui-panel-body">
+                    <p style="margin: 0; color: var(--color-text-muted);">Main content sits in the workspace column beside the sidebar card. The header, sidebar, and this panel float on the glow canvas with matching glass and even gutters.</p>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Toolbar Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Toolbar (.ui-toolbar)</h2>

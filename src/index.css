@@ -17,6 +17,8 @@
 @import "./components/icon.css";
 @import "./components/nav.css";
 @import "./components/sidebar.css";
+@import "./components/header.css";
+@import "./components/app-shell.css";
 
 /* 3. Base Reset & Defaults */
 *, *::before, *::after {

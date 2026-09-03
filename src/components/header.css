@@ -1,0 +1,43 @@
+/* ==========================================================================
+   App Header (.ui-header)
+   Open UI does not cover the app header; this extends the kit's conventions
+   (`.ui-*` names, semantic-token styling) to the top bar. Lifted from codex's
+   shell: a floating glass card with the brand at the leading edge and actions
+   at the trailing edge — the same glass material as the sidebar rail.
+   ========================================================================== */
+
+.ui-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-shrink: 0;
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-bg-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-glass);
+  /* backdrop-filter makes this a stacking context; keep the bar above the
+     body's glass cards (also stacking contexts, later in the DOM) so header
+     menus and user dropdowns paint on top. Mirrors codex's .app-header. */
+  position: relative;
+  z-index: 50;
+}
+
+/* Leading cluster: logo/wordmark, optional app title. */
+.ui-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Trailing cluster: actions, user badge. */
+.ui-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
