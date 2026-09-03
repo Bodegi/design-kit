@@ -33,26 +33,28 @@
   --color-accent-hover: #991b1b;
   --color-accent-contrast: #ffffff;
 
-  /* Intents tuned to Codex's warm-navy register: jewel emerald, honey gold
-     (yellower than the amber primary so the two stay distinct), a deep oxblood
-     danger, and a steel blue that sits with the navy rather than fighting it. */
-  --color-success: #47b382;
-  --color-success-hover: #3a9d70;
-  --color-success-contrast: #062018;
-  --color-success-subtle: rgba(71, 179, 130, 0.15);
+  /* Intents lifted from the Codex app's real status colors (src/styles/main.css):
+     --accent-emerald (healthy/live), --accent-crimson (danger/stale), and
+     --accent-blue (info). Warning has no app source — gold is the primary — so
+     it stays a blessed yellow-gold, pushed yellower than the amber primary so
+     the two read as distinct. */
+  --color-success: #10b981;
+  --color-success-hover: #0d9668;
+  --color-success-contrast: #06251b;
+  --color-success-subtle: rgba(16, 185, 129, 0.15);
 
   --color-warning: #e0b429;
   --color-warning-hover: #c99e1c;
   --color-warning-contrast: #2e2205;
   --color-warning-subtle: rgba(224, 180, 41, 0.15);
 
-  --color-danger: #c8443a;
-  --color-danger-hover: #b23a31;
-  --color-danger-contrast: #ffffff;
-  --color-danger-subtle: rgba(200, 68, 58, 0.16);
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-contrast: #3a0a0a;
+  --color-danger-subtle: rgba(239, 68, 68, 0.16);
 
-  --color-info: #6ea8e0;
-  --color-info-hover: #5591d1;
-  --color-info-contrast: #0a2033;
-  --color-info-subtle: rgba(110, 168, 224, 0.15);
+  --color-info: #3b82f6;
+  --color-info-hover: #2563eb;
+  --color-info-contrast: #04162a;
+  --color-info-subtle: rgba(59, 130, 246, 0.15);
 }

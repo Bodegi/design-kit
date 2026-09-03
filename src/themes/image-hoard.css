@@ -33,26 +33,27 @@
   --color-accent-hover: #be185d;
   --color-accent-contrast: #ffffff;
 
-  /* Intents tuned to Image Hoard's cool navy/indigo register: a spring emerald,
-     warm amber pop, a rose-red danger that echoes the pink accent, and a cyan
-     info kept clear of the indigo primary. */
-  --color-success: #3ddc97;
-  --color-success-hover: #22c07d;
-  --color-success-contrast: #06281d;
-  --color-success-subtle: rgba(61, 220, 151, 0.15);
+  /* Intents lifted wholesale from Image Hoard's own status tokens
+     (src/index.css): --accent-success, --accent-warning, --accent-danger, and
+     --accent-wallpaper (a blue used for the wallpaper tag) as info. The app
+     defined a real, complete status set, so nothing here is invented. */
+  --color-success: #10b981;
+  --color-success-hover: #0d9668;
+  --color-success-contrast: #06251b;
+  --color-success-subtle: rgba(16, 185, 129, 0.15);
 
-  --color-warning: #f5b93a;
-  --color-warning-hover: #e0a520;
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
   --color-warning-contrast: #3a2705;
-  --color-warning-subtle: rgba(245, 185, 58, 0.15);
+  --color-warning-subtle: rgba(245, 158, 11, 0.15);
 
-  --color-danger: #f2555a;
-  --color-danger-hover: #e13b44;
-  --color-danger-contrast: #40080f;
-  --color-danger-subtle: rgba(242, 85, 90, 0.16);
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-contrast: #3a0a0a;
+  --color-danger-subtle: rgba(239, 68, 68, 0.16);
 
-  --color-info: #56b3f0;
-  --color-info-hover: #389de0;
-  --color-info-contrast: #06263a;
-  --color-info-subtle: rgba(86, 179, 240, 0.15);
+  --color-info: #3b82f6;
+  --color-info-hover: #2563eb;
+  --color-info-contrast: #04162a;
+  --color-info-subtle: rgba(59, 130, 246, 0.15);
 }

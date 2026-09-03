@@ -33,10 +33,11 @@
   --color-accent-hover: #0d4e9e;
   --color-accent-contrast: #ffffff;
 
-  /* Intents tuned to Server Panel's Material-on-black register: Material-family
-     green/amber/red/blue at the 400-500 register. Success is a lighter green
-     than the grass primary, and info a lighter blue than the deep-blue accent,
-     so each stays distinct from the brand hue it neighbors. */
+  /* Server Panel is a Material UI app (client/src/theme.ts), so its real status
+     source is MUI's dark-mode palette: success #66bb6a, warning #ffa726, error
+     #f44336, info #29b6f6. Success stays a lighter green than the grass primary
+     and info a lighter blue than the deep-blue accent, so each reads apart from
+     the brand hue it neighbors. */
   --color-success: #66bb6a;
   --color-success-hover: #52a856;
   --color-success-contrast: #0d260f;
@@ -47,13 +48,13 @@
   --color-warning-contrast: #3a2405;
   --color-warning-subtle: rgba(255, 167, 38, 0.15);
 
-  --color-danger: #ef5350;
-  --color-danger-hover: #e23b38;
-  --color-danger-contrast: #400a0a;
-  --color-danger-subtle: rgba(239, 83, 80, 0.16);
+  --color-danger: #f44336;
+  --color-danger-hover: #d32f2f;
+  --color-danger-contrast: #3a0a0a;
+  --color-danger-subtle: rgba(244, 67, 54, 0.16);
 
-  --color-info: #42a5f5;
-  --color-info-hover: #2b8fe0;
-  --color-info-contrast: #06263a;
-  --color-info-subtle: rgba(66, 165, 245, 0.15);
+  --color-info: #29b6f6;
+  --color-info-hover: #0d9ae0;
+  --color-info-contrast: #052033;
+  --color-info-subtle: rgba(41, 182, 246, 0.15);
 }
