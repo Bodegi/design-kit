@@ -29,9 +29,14 @@
   --color-primary-contrast: #1c1917;
   --color-primary-subtle: rgba(245, 158, 11, 0.15);
 
-  --color-accent: #b91c1c;
-  --color-accent-hover: #991b1b;
+  /* Accent is Codex's --accent-purple (an AA-darkened #8b5cf6), a real but
+     never-wired app token. The app's most-used non-gold color was its crimson,
+     but that is the danger color (see --color-danger) — using it here duplicated
+     danger, so accent moves to the one distinct secondary the app already had. */
+  --color-accent: #8257d9;
+  --color-accent-hover: #6f45c4;
   --color-accent-contrast: #ffffff;
+  --color-accent-subtle: rgba(130, 87, 217, 0.15);
 
   /* Intents lifted from the Codex app's real status colors (src/styles/main.css):
      --accent-emerald (healthy/live), --accent-crimson (danger/stale), and

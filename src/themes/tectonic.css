@@ -29,9 +29,15 @@
   --color-primary-contrast: #0b0e14;
   --color-primary-subtle: rgba(224, 159, 62, 0.15);
 
-  --color-accent: #e76f51;
-  --color-accent-hover: #d65a3d;
-  --color-accent-contrast: #0b0e14;
+  /* The app's terracotta (--accent-amber, #e76f51) was its fail/negative signal,
+     not a brand secondary — as accent it duplicated danger. Tectonic has no
+     unused real secondary to promote, so accent is a derived orchid: a cool
+     counterpoint to the magma palette, deliberately clear of the brick danger,
+     amber primary, and every status hue. */
+  --color-accent: #b06ab3;
+  --color-accent-hover: #9a569d;
+  --color-accent-contrast: #240a25;
+  --color-accent-subtle: rgba(176, 106, 179, 0.15);
 
   /* Success and info lifted from Tectonic's own palette (src/styles.css):
      --accent-green and --accent-cyan. Danger diverges on purpose: the app's
