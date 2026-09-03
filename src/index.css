@@ -15,6 +15,7 @@
 @import "./components/popover.css";
 @import "./components/accordion.css";
 @import "./components/icon.css";
+@import "./components/nav.css";
 
 /* 3. Base Reset & Defaults */
 *, *::before, *::after {
