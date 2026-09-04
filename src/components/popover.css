@@ -3,7 +3,6 @@
    ========================================================================== */
 
 [popover].ui-popover {
-  margin: 0;
   padding: var(--space-2);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-base);
@@ -11,6 +10,23 @@
   color: var(--color-text-main);
   box-shadow: var(--shadow-lg);
   outline: none;
+  /* No margin reset here on purpose: with no anchor support the UA centers the
+     popover in the viewport (inset:0; margin:auto), a sane fallback. Overriding
+     margin to 0 would defeat that centering and pin it to the top-left corner. */
+}
+
+/* Anchor the popover to its invoker where CSS anchor positioning is supported
+   (Chromium today). A button with popovertarget is the popover's implicit
+   anchor, so no anchor-name wiring is needed — it drops just below the
+   trigger's leading edge. Other engines keep the centered fallback above. */
+@supports (anchor-name: --a) {
+  [popover].ui-popover {
+    margin: 0;
+    inset: auto;
+    top: anchor(bottom);
+    left: anchor(left);
+    margin-top: var(--space-1);
+  }
 }
 
 .ui-menu {
