@@ -10,7 +10,7 @@ Three tiers of design tokens, each layer consuming the one above:
 2. **Semantic contracts** (`src/tokens/semantic.css`) — intent tokens (`--color-primary`, `--color-bg-surface`, …) with a dark baseline on `:root` that acts as the fallback when a theme leaves a token unset.
 3. **Theme presets** (`src/themes/*.css`) — concrete palettes scoped to `[data-theme="…"]` (and `:root[data-theme="…"]` for specificity over the baseline). A theme overrides only the tokens it changes; everything else cascades from the semantic baseline.
 
-Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.ui-field`, `.ui-panel`, native `<dialog>`, `[popover]`, `<details>`) and read only Tier 2 tokens — never raw primitives or hex. Variants are driven by `data-*` attributes (`data-variant`, `data-size`, `data-intent`, `data-state`).
+Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.ui-field`, `.ui-panel`) and native elements (`<dialog>`, `[popover]`, `<details>`, `<progress>`, `<meter>`) and read only Tier 2 tokens — never raw primitives or hex. Variants are driven by `data-*` attributes (`data-variant`, `data-size`, `data-intent`, `data-state`). Native form/status elements are restyled through their vendor pseudo-elements (`::-webkit-progress-value`, `::-moz-meter-bar`, …), so those rules are duplicated per engine.
 
 `src/index.css` is the entry point: it `@import`s tokens then components, and adds the reset, base `body`, and focus-ring rule.
 
@@ -31,7 +31,7 @@ Icon path data currently lives in three hand-maintained places that must stay in
 - `workshop/src/icon-gallery.ts` — its own `iconDefs` copy, used to render the gallery inline.
 - The committed `src/icons/svg/*.svg` and `src/icons/sprite.svg` outputs.
 
-Editing an icon means updating the generator, re-running it, and updating the gallery copy. Consolidating to a single source is a known improvement (see the audit / tracker).
+Editing an icon means updating the generator, re-running it, and updating the gallery copy. Consolidating to a single source is a known improvement, not yet tracked.
 
 ## Workshop
 
@@ -46,6 +46,8 @@ Installed via Git reference (`"design-kit": "github:Bodegi/design-kit#main"`). C
 - **Open UI owns naming and anatomy.** Class names (`.ui-*`), `data-*` variants, and element structure follow the Open UI component-anatomy model (open-ui.org) — it is the sole authority for *how components are named and structured*. No individual app dictates names; apps contribute visuals (color, spacing, states, feel) only. Open UI publishes living explainers, not numbered releases, so we track its anatomy conventions rather than pinning a version. For components Open UI does not cover (app shell, sidebar nav, logo/watermark slots), extend the same conventions rather than inventing a new naming style.
 - **WCAG AA is a hard gate.** No theme ships if any pairing fails the workshop's contrast check (body text 4.5:1; large text / UI 3.0:1). Derive `-contrast` and accent shades to pass rather than lifting an app color verbatim when it fails.
 - Components reference semantic tokens only; add a new token to Tier 2 before using it in a component.
+- **No runtime — state keys off native/ARIA state.** The kit ships zero JS. Interactive components style their states from native or accessibility state (`aria-selected`, `aria-current`, `[open]`, `:indeterminate`, `[data-state]`) so the consuming app drives behavior by toggling that state — the visual and a11y state can never drift apart. Demos in the workshop supply their own wiring; the shipped CSS never does.
+- **Motion respects `prefers-reduced-motion`.** Any component with an entrance/loop/transition (toast, tooltip, progress, meter, …) neutralizes or stills it under `@media (prefers-reduced-motion: reduce)`.
 - **Shape (corner radius) is a system constant, not a theme knob.** It lives in the Tier-1 `--radius-*` scale and the Tier-2 roles `--radius-nav` (6px) / `--radius-control` (10px, buttons & inputs) / `--radius-base` (12px, panels & cards). Themes set **color tokens only** and must not override radius, so every app shares one shape and differs by color alone.
 - New theme: scope to both `[data-theme="x"]` and `:root[data-theme="x"]`, and define the full intent set (`success`/`warning`/`danger`/`info` and their `-subtle`/`-contrast`) so it reads correctly against its own surfaces rather than falling back to the dark baseline.
 - Keep files UTF-8 without BOM.

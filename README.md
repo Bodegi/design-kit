@@ -72,6 +72,8 @@ Components are plain HTML with an Open UI `.ui-*` anatomy class; variants are dr
 </button>
 ```
 
+Because the kit ships **no JavaScript**, interactive components provide the styling and state hooks — your app supplies the behavior by toggling the relevant state. Style keys off native or ARIA state, so wiring it correctly also keeps it accessible: set `aria-selected` on a `.ui-tab`, add or remove a `.ui-toast`, toggle `[data-state]`. Native elements (`<dialog>`, `[popover]`, `<progress>`, `<meter>`) work through their own built-in APIs.
+
 Browse the full component catalog — every variant, state, and copyable HTML/JSX snippet — in the **[live workshop](https://bodegi.github.io/design-kit/)** (or run it locally with `npm run dev`).
 
 ---
