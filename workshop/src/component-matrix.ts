@@ -552,6 +552,51 @@ export function renderComponentMatrix(container: HTMLElement) {
       </div>
     </section>
 
+    <!-- Tooltip Section -->
+    <section class="ws-section">
+      <h2 class="ws-section-title">Tooltip (.ui-tooltip)</h2>
+      <p class="ws-section-desc">Pure-CSS supplementary label revealed on hover <em>and</em> keyboard focus. Wire the trigger to the content with <code>aria-describedby</code>. Four placements via <code>data-placement</code>. It can't be dismissed with Escape (WCAG 1.4.13) in pure CSS — when that's required, use the click-triggered toggletip on a native <code>[popover]</code> (see Popover below), which dismisses on Escape natively.</p>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Placements — hover or tab to a button</span>
+          ${copyControls(tooltipSnippet)}
+        </div>
+        <div class="ws-preview-canvas" style="gap: var(--space-8); padding-block: var(--space-12);">
+          <span class="ui-tooltip" data-placement="top">
+            <button class="ui-btn" data-variant="outline" aria-describedby="ws-tt-top">Top</button>
+            <span class="ui-tooltip-content" role="tooltip" id="ws-tt-top">Tooltip above the trigger</span>
+          </span>
+          <span class="ui-tooltip" data-placement="bottom">
+            <button class="ui-btn" data-variant="outline" aria-describedby="ws-tt-bottom">Bottom</button>
+            <span class="ui-tooltip-content" role="tooltip" id="ws-tt-bottom">Tooltip below the trigger</span>
+          </span>
+          <span class="ui-tooltip" data-placement="left">
+            <button class="ui-btn" data-variant="outline" aria-describedby="ws-tt-left">Left</button>
+            <span class="ui-tooltip-content" role="tooltip" id="ws-tt-left">Tooltip to the left</span>
+          </span>
+          <span class="ui-tooltip" data-placement="right">
+            <button class="ui-btn" data-variant="outline" aria-describedby="ws-tt-right">Right</button>
+            <span class="ui-tooltip-content" role="tooltip" id="ws-tt-right">Tooltip to the right</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">On an icon-only control (with a longer hint)</span>
+        </div>
+        <div class="ws-preview-canvas" style="padding-block: var(--space-10);">
+          <span class="ui-tooltip" data-placement="top">
+            <button class="ui-btn" data-variant="ghost" aria-describedby="ws-tt-icon" aria-label="Copy link">
+              ${copyIcon}
+            </button>
+            <span class="ui-tooltip-content" role="tooltip" id="ws-tt-icon">Copies a shareable link to this workspace to your clipboard.</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
     <!-- Popover Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Popover & Menu (.ui-popover)</h2>
@@ -758,6 +803,13 @@ const alertActionsSnippet = `<div class="ui-alert" data-intent="warning">
   </div>
   <button class="ui-alert-close" aria-label="Dismiss">✕</button>
 </div>`;
+
+const copyIcon = svg('<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>');
+
+const tooltipSnippet = `<span class="ui-tooltip" data-placement="top">
+  <button class="ui-btn" data-variant="outline" aria-describedby="tt-1">Hover or focus me</button>
+  <span class="ui-tooltip-content" role="tooltip" id="tt-1">Supplementary help text</span>
+</span>`;
 
 const popoverSnippet = `<button class="ui-btn" data-variant="outline" popovertarget="account-menu">Account &#9662;</button>
 <div id="account-menu" popover class="ui-popover">
