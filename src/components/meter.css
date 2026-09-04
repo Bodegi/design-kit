@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Native Meter / Gauge (meter.ui-meter)
+   Styling the native <meter> — a scalar measurement within a known range
+   (disk usage, an HP bar, a score). Unlike <progress>, the browser picks the
+   fill color from where value sits among the low / high / optimum thresholds,
+   so the SAME markup reads green/amber/red by meaning: set optimum low and a
+   high value is "bad" (a usage meter); set optimum high and a low value is
+   "bad" (a health bar). We map those three states to success / warning / danger.
+
+   Cross-engine: Chromium & Safari expose a value pseudo per range
+   (::-webkit-meter-optimum-value / -suboptimum-value / -even-less-good-value);
+   Firefox exposes one ::-moz-meter-bar recolored via the :-moz-meter-* state
+   pseudo-classes. Both are wired below. Not an Open UI component — <meter> is a
+   native element — but styling it belongs in the coverage push.
+   ========================================================================== */
+
+meter.ui-meter {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  width: 100%;
+  height: 8px;
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-muted);
+  overflow: hidden;
+}
+
+/* Sizes */
+meter.ui-meter[data-size="sm"] { height: 5px; }
+meter.ui-meter[data-size="lg"] { height: 12px; }
+
+/* --- Track (WebKit) --- */
+meter.ui-meter::-webkit-meter-bar {
+  background-color: var(--color-bg-muted);
+  border: none;
+  border-radius: var(--radius-full);
+}
+
+/* --- Value by range (WebKit) --- */
+meter.ui-meter::-webkit-meter-optimum-value {
+  background-color: var(--color-success);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+meter.ui-meter::-webkit-meter-suboptimum-value {
+  background-color: var(--color-warning);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+meter.ui-meter::-webkit-meter-even-less-good-value {
+  background-color: var(--color-danger);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+/* --- Value by range (Firefox) --- */
+meter.ui-meter::-moz-meter-bar {
+  border-radius: var(--radius-full);
+}
+meter.ui-meter:-moz-meter-optimum::-moz-meter-bar {
+  background-color: var(--color-success);
+}
+meter.ui-meter:-moz-meter-sub-optimum::-moz-meter-bar {
+  background-color: var(--color-warning);
+}
+meter.ui-meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+  background-color: var(--color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  meter.ui-meter::-webkit-meter-optimum-value,
+  meter.ui-meter::-webkit-meter-suboptimum-value,
+  meter.ui-meter::-webkit-meter-even-less-good-value {
+    transition: none;
+  }
+}
