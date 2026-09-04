@@ -17,25 +17,25 @@ Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.
 ## Build & run
 
 - `npm run dev` — Vite dev server for the workshop (`workshop/`).
+- `npm run build:icons` — `scripts/generate-icons.mjs` regenerates `src/icons/svg/*.svg` and `sprite.svg` from `src/icons/icon-data.js` (see Icons).
 - `npm run build:css` — `scripts/build-css.mjs` copies `src/` → `dist/` verbatim (relative `@import`s resolve inside `dist/`). No bundling or minification.
 - `npm run build:workshop` — `vite build workshop` → `dist/workshop/`.
-- `npm run build` — both, in that order. CI (`.github/workflows/deploy-workshop.yml`) runs this on push to `main` and publishes `dist/workshop/` to Pages.
+- `npm run build` — icons, then css, then workshop, in that order. CI (`.github/workflows/deploy-workshop.yml`) runs this on push to `main` and publishes `dist/workshop/` to Pages.
 
 `dist/` and `workshop/dist/` are gitignored; the workshop dev/build reads `src/` directly, not `dist/`.
 
 ## Icons
 
-Icon path data currently lives in three hand-maintained places that must stay in sync:
+`src/icons/icon-data.js` is the single source of icon path data (`name → SVG inner markup`). Both consumers read it directly, so the copies can't drift:
 
-- `scripts/generate-icons.mjs` — writes `src/icons/svg/*.svg` and `src/icons/sprite.svg`. Run it manually (`node scripts/generate-icons.mjs`); it is not wired into `npm run build`.
-- `workshop/src/icon-gallery.ts` — its own `iconDefs` copy, used to render the gallery inline.
-- The committed `src/icons/svg/*.svg` and `src/icons/sprite.svg` outputs.
+- `scripts/generate-icons.mjs` (the `build:icons` script) imports it and writes `src/icons/svg/*.svg` and `src/icons/sprite.svg`.
+- `workshop/src/icon-gallery.ts` imports it to render the gallery inline.
 
-Editing an icon means updating the generator, re-running it, and updating the gallery copy. Consolidating to a single source is a known improvement, not yet tracked.
+`build:icons` runs as the first step of `npm run build`, so the committed `svg/` and `sprite.svg` outputs regenerate from the source and can't silently drift. To add or edit an icon, change `icon-data.js` alone — the standalone SVGs, the sprite, and the workshop gallery all follow from that one edit.
 
 ## Workshop
 
-`workshop/index.html` links each theme stylesheet and boots `src/main.ts`, which renders three tabs from separate modules: `token-viewer.ts`, `component-matrix.ts`, `icon-gallery.ts`. Theme switching sets `data-theme` on `<html>` and re-renders the token view.
+`workshop/index.html` boots `src/main.ts`, which imports the kit CSS and every theme stylesheet through Vite (not `<link>` tags — cross-root `<link>` CSS parsed to zero rules in dev) and renders three tabs from separate modules: `token-viewer.ts`, `component-matrix.ts`, `icon-gallery.ts`. Theme switching sets `data-theme` on `<html>` and re-renders the token view.
 
 ## Consuming projects
 
