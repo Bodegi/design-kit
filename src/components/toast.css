@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Open UI: Toast (.ui-toast)
+   A transient notification card. Toasts stack inside a fixed .ui-toast-region
+   anchored to a viewport corner. The kit ships no runtime — apps add and
+   remove toasts themselves; CSS provides the entrance animation and a
+   [data-state="closing"] hook to play the exit before removal.
+   ========================================================================== */
+
+/* The fixed layer that stacks toasts in a corner. pointer-events pass through
+   the empty area so it never blocks the page — only the toasts are clickable. */
+.ui-toast-region {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin: 0;
+  max-width: min(420px, calc(100vw - var(--space-8)));
+  pointer-events: none;
+  /* Default anchor: bottom-end. */
+  inset: auto 0 0 auto;
+}
+
+.ui-toast-region[data-position="top-end"]    { inset: 0 0 auto auto; }
+.ui-toast-region[data-position="top-start"]  { inset: 0 auto auto 0; }
+.ui-toast-region[data-position="bottom-start"] { inset: auto auto 0 0; }
+.ui-toast-region[data-position="bottom-end"]  { inset: auto 0 0 auto; }
+
+.ui-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  /* Intent accent rides the leading edge; neutral by default. */
+  border-inline-start: 3px solid var(--color-border-strong);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-main);
+  animation: ui-toast-in var(--transition-base) both;
+}
+
+/* Leading status icon — app-supplied SVG, tinted by intent. */
+.ui-toast-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--color-text-muted);
+}
+
+.ui-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-toast-title {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+.ui-toast-message {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
+/* Dismiss affordance at the trailing edge. */
+.ui-toast-close {
+  flex-shrink: 0;
+  background-color: transparent;
+  border: none;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  padding: var(--space-1);
+  margin: calc(var(--space-1) * -1);
+  margin-inline-start: var(--space-1);
+  border-radius: var(--radius-nav);
+  line-height: 0;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-toast-close:hover {
+  color: var(--color-text-main);
+  background-color: var(--color-bg-hover);
+}
+
+.ui-toast-close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Intent accents: colored leading edge + icon over the neutral surface. */
+.ui-toast[data-intent="success"] { border-inline-start-color: var(--color-success); }
+.ui-toast[data-intent="success"] .ui-toast-icon { color: var(--color-success); }
+
+.ui-toast[data-intent="warning"] { border-inline-start-color: var(--color-warning); }
+.ui-toast[data-intent="warning"] .ui-toast-icon { color: var(--color-warning); }
+
+.ui-toast[data-intent="danger"] { border-inline-start-color: var(--color-danger); }
+.ui-toast[data-intent="danger"] .ui-toast-icon { color: var(--color-danger); }
+
+.ui-toast[data-intent="info"] { border-inline-start-color: var(--color-info); }
+.ui-toast[data-intent="info"] .ui-toast-icon { color: var(--color-info); }
+
+/* Exit: apps set data-state="closing" to play the fade-out, then remove. */
+.ui-toast[data-state="closing"] {
+  animation: ui-toast-out var(--transition-base) both;
+}
+
+@keyframes ui-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ui-toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-toast,
+  .ui-toast[data-state="closing"] {
+    animation: none;
+  }
+}
