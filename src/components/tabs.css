@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Open UI: Tabs (.ui-tabs)
+   Anatomy: a .ui-tablist (role="tablist") of .ui-tab buttons (role="tab")
+   over .ui-tabpanel regions (role="tabpanel"). The selected tab is keyed off
+   aria-selected — the accessibility state — so the visual and a11y state can
+   never drift apart (mirrors .ui-nav's aria-current approach). Panels are
+   shown/hidden with the native `hidden` attribute; the kit ships no runtime.
+   ========================================================================== */
+
+.ui-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-tablist {
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.ui-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: transparent;
+  border: none;
+  /* Straddle the tablist's baseline so the active underline sits on it. */
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-tab:hover {
+  color: var(--color-text-main);
+}
+
+.ui-tab:focus-visible {
+  outline: none;
+  border-radius: var(--radius-nav);
+  box-shadow: var(--focus-ring);
+}
+
+.ui-tab[aria-selected="true"] {
+  color: var(--color-text-main);
+  border-bottom-color: var(--color-primary);
+}
+
+.ui-tab:disabled {
+  color: var(--color-text-dim);
+  cursor: not-allowed;
+}
+
+/* Leading marker/icon — primary-tinted on the selected tab, dimmed otherwise. */
+.ui-tab-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+/* Trailing count/badge slot. */
+.ui-tab-trail {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-text-dim);
+}
+
+.ui-tabpanel {
+  padding-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.ui-tabpanel:focus-visible {
+  outline: none;
+  border-radius: var(--radius-base);
+  box-shadow: var(--focus-ring);
+}
+
+/* Vertical orientation: rail runs down the leading edge, indicator on the
+   trailing side of each tab. Set role/aria-orientation="vertical" on the
+   tablist and wrap tablist + panels in a row on .ui-tabs[data-orientation]. */
+.ui-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+  gap: var(--space-5);
+}
+
+.ui-tabs[data-orientation="vertical"] .ui-tablist {
+  flex-direction: column;
+  gap: var(--space-1);
+  border-bottom: none;
+  border-inline-end: 1px solid var(--color-border-subtle);
+}
+
+.ui-tabs[data-orientation="vertical"] .ui-tab {
+  margin-bottom: 0;
+  margin-inline-end: -1px;
+  border-bottom: none;
+  border-inline-end: 2px solid transparent;
+  justify-content: flex-start;
+}
+
+.ui-tabs[data-orientation="vertical"] .ui-tab[aria-selected="true"] {
+  border-inline-end-color: var(--color-primary);
+}
+
+.ui-tabs[data-orientation="vertical"] .ui-tabpanel {
+  padding-top: 0;
+  flex: 1;
+}
