@@ -8,9 +8,13 @@
    assistive tech announces it. data-placement positions it (top default).
 
    The content stays pointer-hoverable and persists while hovered/focused, but
-   pure CSS cannot dismiss it with Escape (WCAG 1.4.13). When full 1.4.13
-   compliance is required, use the click-triggered toggletip pattern on a native
-   [popover] (.ui-popover) instead — it dismisses on Escape natively.
+   pure CSS cannot dismiss it with Escape (WCAG 1.4.13). Being an ordinary
+   absolutely-positioned element, it is also clipped by any ancestor with
+   overflow:hidden/auto/scroll and does not flip at viewport edges — pick the
+   data-placement that suits the trigger's position. When you need either
+   Escape-dismissal or escape from a clipping ancestor, use the click-triggered
+   toggletip on a native [popover] (.ui-popover) — it renders in the top layer,
+   clear of overflow, and dismisses on Escape natively.
    ========================================================================== */
 
 .ui-tooltip {

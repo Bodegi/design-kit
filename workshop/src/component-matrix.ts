@@ -562,7 +562,7 @@ export function renderComponentMatrix(container: HTMLElement) {
           <span class="ws-preview-title">Placements — hover or tab to a button</span>
           ${copyControls(tooltipSnippet)}
         </div>
-        <div class="ws-preview-canvas" style="gap: var(--space-8); padding-block: var(--space-12);">
+        <div class="ws-preview-canvas" style="gap: var(--space-8); padding-block: var(--space-12); justify-content: center;">
           <span class="ui-tooltip" data-placement="top">
             <button class="ui-btn" data-variant="outline" aria-describedby="ws-tt-top">Top</button>
             <span class="ui-tooltip-content" role="tooltip" id="ws-tt-top">Tooltip above the trigger</span>
@@ -586,7 +586,7 @@ export function renderComponentMatrix(container: HTMLElement) {
         <div class="ws-preview-header">
           <span class="ws-preview-title">On an icon-only control (with a longer hint)</span>
         </div>
-        <div class="ws-preview-canvas" style="padding-block: var(--space-10);">
+        <div class="ws-preview-canvas" style="padding-block: var(--space-10); justify-content: center;">
           <span class="ui-tooltip" data-placement="top">
             <button class="ui-btn" data-variant="ghost" aria-describedby="ws-tt-icon" aria-label="Copy link">
               ${copyIcon}
