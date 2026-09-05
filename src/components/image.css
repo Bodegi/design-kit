@@ -40,9 +40,13 @@
 
    State hooks
      aria-busy="true" on the frame runs the shimmer on the picture's own box
-     while the bytes are still arriving — the same track and sheen tokens
-     .ui-skeleton uses, animated locally so the two components stay
-     independent, and stopping short of the caption.
+     while the bytes are still arriving, stopping short of the caption.
+     .ui-skeleton in skeleton.css is that shimmer's canonical definition —
+     --color-bg-active track, --color-bg-hover sheen, a 60%-wide band swept
+     from -60% to 160% over 1.6s linear. The recipe is repeated here rather
+     than shared, because a keyframes name is global and reusing
+     ui-skeleton-shimmer would make this file depend on that one being loaded;
+     both copies have to change together.
      The error state is either an <img> the app has not given a src yet
      (img:not([src])) or data-state="error" set after the load fails; both
      ground the frame in --color-bg-muted and reveal .ui-image-fallback.
@@ -282,6 +286,7 @@ button.ui-image:focus-visible {
   gap: var(--space-4);
 }
 
+/* The same sweep as ui-skeleton-shimmer, under a local name — see the header. */
 @keyframes ui-image-shimmer {
   from { background-position: -60% 0; }
   to   { background-position: 160% 0; }
