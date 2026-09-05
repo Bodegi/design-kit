@@ -35,7 +35,7 @@ Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.
 
 ## Workshop
 
-`workshop/index.html` boots `src/main.ts`, which imports the kit CSS and every theme stylesheet through Vite (not `<link>` tags — cross-root `<link>` CSS parsed to zero rules in dev) and renders three tabs from separate modules: `token-viewer.ts`, `component-matrix.ts`, `icon-gallery.ts`. Theme switching sets `data-theme` on `<html>` and re-renders the token view.
+`workshop/index.html` boots `src/main.ts`, which imports the kit CSS and every theme stylesheet through Vite (not `<link>` tags — cross-root `<link>` CSS parsed to zero rules in dev) and renders three tabs from separate modules: `token-viewer.ts`, `component-matrix.ts`, `icon-gallery.ts`. Each component section is its own module under `workshop/src/sections/` exporting a `Section` (`id`, `title`, `html`, optional `wire`) with its own snippets and demo wiring — `sections/index.ts` lists them in display order, `sections/shared.ts` holds the helpers more than one uses, and `component-matrix.ts` composes them: it concatenates every `html`, attaches the copy buttons and the shared press-button pass, then runs each `wire`. Theme switching sets `data-theme` on `<html>` and re-renders the token view.
 
 ## Consuming projects
 
