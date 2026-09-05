@@ -208,6 +208,61 @@
   background-color: var(--_tint);
 }
 
+/* --- Press Buttons (aria-pressed) ----------------------------------------
+   Open UI's Press Buttons explainer proposes a native <button type="press">
+   with a :pressed pseudo-class, and no engine ships it; until one does, the
+   pressed state is read off the WAI-ARIA toggle-button state the app already
+   has to set, so the visual and the accessible state cannot drift.
+
+   A pressed button reads as held down: the intent's tint under the intent's
+   ink, an inset ring where an unpressed solid button has its ambient glow, and
+   no lift. Solid keeps its --_ink fill and takes an inset shadow instead — its
+   -active shade is darker than --_on-ink clears AA against in three themes, so
+   it drives the border and the momentary :active press but never the ground a
+   label sits on while the reader is reading it. Every shadow here rides in
+   through --_glow like the rest of the component, so :focus-visible still wins
+   and the focus ring is never swallowed.
+
+   aria-pressed="mixed" — partially pressed — keeps the variant's own ground
+   and marks it with a bar down the leading edge, so it reads as between the
+   two states without changing what the label sits on.
+   ------------------------------------------------------------------------ */
+.ui-btn[aria-pressed="true"],
+.ui-btn[aria-pressed="true"]:hover:not(:disabled) {
+  background-color: var(--color-bg-active);
+  --_glow: inset 0 0 0 1px var(--color-border-strong);
+  transform: translateY(0);
+}
+
+.ui-btn[data-intent][aria-pressed="true"]:not([data-variant="outline"]):not([data-variant="ghost"]),
+.ui-btn[data-intent][aria-pressed="true"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  background-color: var(--_ink);
+  border-color: var(--_ink-active);
+  color: var(--_on-ink);
+  --_glow: inset 0 2px 5px color-mix(in srgb, var(--color-bg-overlay) 70%, transparent);
+  transform: translateY(0);
+}
+
+.ui-btn[data-variant="outline"][data-intent][aria-pressed="true"],
+.ui-btn[data-variant="outline"][data-intent][aria-pressed="true"]:hover:not(:disabled),
+.ui-btn[data-variant="ghost"][data-intent][aria-pressed="true"],
+.ui-btn[data-variant="ghost"][data-intent][aria-pressed="true"]:hover:not(:disabled) {
+  background-color: var(--_tint);
+  color: var(--_ink);
+  --_glow: inset 0 0 0 1px var(--_ink);
+}
+
+.ui-btn[aria-pressed="mixed"] {
+  --_glow: inset 3px 0 0 var(--color-border-strong);
+}
+.ui-btn[data-intent][aria-pressed="mixed"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  --_glow: inset 3px 0 0 var(--_on-ink);
+}
+.ui-btn[data-variant="outline"][data-intent][aria-pressed="mixed"],
+.ui-btn[data-variant="ghost"][data-intent][aria-pressed="mixed"] {
+  --_glow: inset 3px 0 0 var(--_ink);
+}
+
 /* --- Button Group --- */
 .ui-btn-group {
   display: inline-flex;
