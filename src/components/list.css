@@ -114,7 +114,7 @@ button.ui-list-item:active,
 .ui-list-item-leading img,
 .ui-list-item-leading > svg {
   display: block;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-nav);
 }
 
 .ui-list-item-content {
