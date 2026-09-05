@@ -221,10 +221,30 @@
 }
 
 /* An appearance: none control gets no dimming from the UA, so a disabled
-   switch has to say so itself — in both renderings, which is why this sits
-   outside the feature query below. */
+   checkbox, radio or switch has to say so itself — the switch in both of its
+   renderings, which is why this sits outside the feature query below. */
+.ui-checkbox:disabled,
+.ui-radio:disabled,
 .ui-switch-native:disabled {
   opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* An unchecked box recedes to the muted ground, the same one a disabled
+   .ui-input takes. A checked one keeps the primary fill so the value it
+   carries is still legible through the dimming. */
+.ui-checkbox:disabled:not(:checked),
+.ui-radio:disabled:not(:checked) {
+  background-color: var(--color-bg-muted);
+}
+
+/* The kit's checkbox/radio pattern wraps the control in its label, so the text
+   beside it has to read disabled too. Dimmed with a token rather than a second
+   opacity, which would compound with the control's own. */
+.ui-checkbox-label:has(.ui-checkbox:disabled),
+.ui-radio-label:has(.ui-radio:disabled),
+.ui-checkbox-label:has(.ui-switch-native:disabled) {
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
