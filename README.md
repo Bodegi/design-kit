@@ -87,14 +87,14 @@ The kit ships no JavaScript, and where the platform provides a declarative drive
 | Component | What the app toggles | What the kit styles | Native driver |
 | --- | --- | --- | --- |
 | Dialog | nothing — `showModal()` / `close()` set `[open]` | the open `dialog.ui-dialog` and its `::backdrop` | `<dialog>` |
-| Popover and Menu | nothing when a `popovertarget` button opens it | the open `[popover].ui-popover` and the `.ui-menu` inside it | `popovertarget` |
+| Popover and Menu | nothing when a `popovertarget` or `commandfor` button opens it | the open `[popover].ui-popover` and the `.ui-menu` inside it | `popovertarget`, or `commandfor` + `command="show-popover" / "toggle-popover" / "hide-popover"` |
 | Accordion and Exclusive Accordion | nothing — `<summary>` toggles `[open]` | `details.ui-accordion[open]`, plus shared radii and dividers in `.ui-accordion-group` | `<details>`, and `<details name>` for one-at-a-time |
 | Tabs | `aria-selected` on the `.ui-tab`, `hidden` on the panel | the selected tab's fill, ink, and indicator | — |
 | Press buttons and Tag filters | `aria-pressed` (a tag also accepts `aria-selected`) | the pressed ground per variant and intent, including `aria-pressed="mixed"` | — |
 | Nav, List and Breadcrumb current item | `aria-current` | the current row or crumb's tint and ink | — |
 | Table sort and selection | `aria-sort` on the `th`, `aria-selected` on the `tr` | the sort indicator direction and the selected row's tint | — |
 | Combobox | `aria-expanded` on the input, `data-active` and `aria-selected` on options | the chevron flip, the active-descendant highlight, the chosen option's check | `[popover]` on the listbox — Escape and light-dismiss are the UA's |
-| Datepicker | `aria-selected`, `aria-current="date"`, `data-range` on days | today's ring, the selection fill, and the range span | — |
+| Datepicker | `aria-selected`, `aria-current="date"`, `data-range` on days | today's ring, the selection fill, and the range span | `[popover]` on the panel — Escape, light-dismiss and anchoring are the UA's |
 | Progress and Meter | the `value` attribute | the fill, and the sweep when `<progress>` has no value; `<meter>` recolors by threshold | `<progress>`, `<meter>` |
 | Slider | nothing; optionally `--ui-slider-value` as a percent | the track, the filled portion, and the thumb | `<input type="range">` |
 | Number | nothing — the stepper buttons call `stepUp()` / `stepDown()` | the field shell, adornments, and stepper buttons | `<input type="number">` |
@@ -105,6 +105,7 @@ The kit ships no JavaScript, and where the platform provides a declarative drive
 | Toast | add and remove `.ui-toast`; `data-state="closing"` before removal | the corner stack, the entrance, and the exit | — |
 | Alert dismiss | remove the element | the standing message block and its `.ui-alert-close` | — |
 | Richer Text | `aria-pressed` on toolbar buttons; `aria-invalid` or `data-state="error"` on the field | the field chrome, the toolbar rail, and the error ring | — |
+| Tooltip | nothing on the hint path; `aria-describedby` once on the CSS-tooltip path | the shared tooltip surface, arrow, and `data-placement` | `interestfor` on the trigger + `popover="hint"` on the target (Chromium); the CSS `:hover` / `:focus-within` tooltip everywhere else |
 
 ---
 
