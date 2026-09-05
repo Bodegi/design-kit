@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Open UI: Carousel (.ui-carousel)
+
+   Anatomy   .ui-carousel (root)
+               > .ui-carousel-track   the scroll container (scroll-snap)
+                   > .ui-carousel-item  one slide
+               > .ui-carousel-prev / .ui-carousel-next   optional, app-rendered
+               > .ui-carousel-markers > .ui-carousel-marker  optional, app-rendered
+   Variants  data-variant = strip (default) | peek | full
+   Sizes     data-size    = sm | md (default) | lg  — the strip's item width
+   Layout    data-orientation = horizontal (default) | vertical
+   Controls  data-controls = native (default) | app
+
+   The baseline is the scroller itself: overflow + scroll-snap, so dragging,
+   flicking, keyboard scrolling and the scrollbar are the browser's. Nothing
+   here needs JavaScript to *scroll* — buttons and dots only jump the scroller
+   to a slide.
+
+   Two ways to get those buttons and dots:
+
+   1. Native (Chromium 135+). Inside @supports selector(::scroll-marker) the
+      track grows its own ::scroll-button(inline-start) / (inline-end) and each
+      item its own ::scroll-marker, collected into ::scroll-marker-group below
+      the track. The current dot is :target-current. With this support the app
+      renders NO buttons and NO dots — the markup is the track and its items,
+      and the browser supplies the controls, their disabled state at the ends,
+      and their keyboard/AT semantics.
+   2. Class-based, for engines without those pseudos. The app renders
+      .ui-carousel-prev / -next (compose them with .ui-btn data-variant="ghost"
+      data-size="icon" in the markup — the kit positions them over the track's
+      edges and gives them the shell's glass ground so they stay legible over a
+      photo; everything else is the button's) and a
+      .ui-carousel-markers list of button[aria-current], then wires click ->
+      scrollIntoView and keeps aria-current in step with the scroll position.
+      The kit ships no runtime for either.
+
+   Render one or the other, never both: they would draw two sets of the same
+   control over the same scroller. An app that wants its own controls even on a
+   supporting engine — to put them somewhere the pseudos cannot go, say — sets
+   data-controls="app" on the root, which suppresses the generated ones.
+
+   The dot's ring is a --color-bg-surface border rather than a box-shadow, so a
+   dot sitting over a dark image keeps a 3:1 edge and :focus-visible in
+   index.css still owns box-shadow on the marker.
+   ========================================================================== */
+
+.ui-carousel {
+  --ui-carousel-item-width: 260px;
+  --ui-carousel-gap: var(--space-4);
+  /* Room for an item's shadow and for a focus ring on anything inside it —
+     the track clips its own overflow, so the slack has to be inside it. */
+  --ui-carousel-bleed: var(--space-2);
+  position: relative;
+}
+
+.ui-carousel[data-size="sm"] { --ui-carousel-item-width: 180px; }
+.ui-carousel[data-size="lg"] { --ui-carousel-item-width: 360px; }
+
+.ui-carousel-track {
+  display: flex;
+  gap: var(--ui-carousel-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: var(--ui-carousel-bleed);
+  /* Snap lands the item, not the padding. */
+  scroll-padding-inline: var(--ui-carousel-bleed);
+  /* The strip is driven by the buttons, the dots and touch — the scrollbar
+     itself is chrome the app doesn't want under the images. */
+  scrollbar-width: none;
+}
+
+.ui-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.ui-carousel-track:focus-visible {
+  border-radius: var(--radius-base);
+}
+
+.ui-carousel-item {
+  flex: 0 0 var(--ui-carousel-item-width);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-width: 0;
+  border-radius: var(--radius-base);
+}
+
+/* Item content is the app's; anything it drops in inherits the item's corners
+   and fills the slide. */
+.ui-carousel-item > img,
+.ui-carousel-item > picture > img,
+.ui-carousel-item > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Peek: a wide centred slide with its neighbours showing at both edges, so the
+   strip reads as continuable without an arrow to say so. */
+.ui-carousel[data-variant="peek"] {
+  --ui-carousel-item-width: min(78%, 460px);
+}
+
+/* Inline slack of half the leftover width so the first and last slides can
+   reach the centre too. */
+.ui-carousel[data-variant="peek"] .ui-carousel-track {
+  padding-inline: calc((100% - var(--ui-carousel-item-width)) / 2);
+}
+
+.ui-carousel[data-variant="peek"] .ui-carousel-item {
+  scroll-snap-align: center;
+}
+
+/* Full: one slide at a time, the width of the carousel. */
+.ui-carousel[data-variant="full"] {
+  --ui-carousel-item-width: 100%;
+  --ui-carousel-gap: var(--space-2);
+}
+
+/* --- Class-based controls (engines without the scroll pseudos) ----------- */
+
+/* Overlaid on the track's edges so they never eat slide width, on the shell's
+   glass so they read over a photo. The app puts .ui-btn data-variant="ghost"
+   data-size="icon" on the same element, so the hover, the focus ring and the
+   disabled look are the button's. */
+/* Two classes deep so the glass ground outranks .ui-btn[data-variant="ghost"],
+   which is transparent by design. */
+.ui-carousel .ui-carousel-prev,
+.ui-carousel .ui-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+}
+
+.ui-carousel .ui-carousel-prev { inset-inline-start: var(--space-2); }
+.ui-carousel .ui-carousel-next { inset-inline-end: var(--space-2); }
+
+.ui-carousel-markers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-block-start: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.ui-carousel-marker {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg-surface);
+  background-color: var(--color-text-dim);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), width var(--transition-fast);
+}
+
+.ui-carousel-marker:hover {
+  background-color: var(--color-text-main);
+}
+
+/* The dot for the slide you are on. aria-current is the accessibility state,
+   so the visual and the announced state cannot drift. */
+.ui-carousel-marker[aria-current="true"] {
+  background-color: var(--color-primary);
+  width: 24px;
+}
+
+.ui-carousel-marker:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* --- Vertical ------------------------------------------------------------ */
+
+.ui-carousel[data-orientation="vertical"] .ui-carousel-track {
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  max-block-size: var(--ui-carousel-viewport, 320px);
+  scroll-padding-block: var(--ui-carousel-bleed);
+}
+
+.ui-carousel[data-orientation="vertical"] .ui-carousel-item {
+  flex-basis: auto;
+}
+
+.ui-carousel[data-orientation="vertical"] .ui-carousel-markers {
+  flex-direction: column;
+  margin-block-start: 0;
+}
+
+/* --- Native scroll buttons & markers (Chromium 135+) ---------------------
+   Generated from the track and its items, so an app on a supporting engine
+   renders neither .ui-carousel-prev/-next nor .ui-carousel-markers. The
+   chevron is the button's own content glyph: a pseudo-element cannot carry a
+   ::before, so the kit's rotated-border chevron has nowhere to live here. */
+@supports selector(::scroll-marker) {
+  .ui-carousel-track {
+    scroll-marker-group: after;
+  }
+
+  /* Opt out of the generated controls: the app renders .ui-carousel-prev /
+     -next and .ui-carousel-markers instead. */
+  .ui-carousel[data-controls="app"] .ui-carousel-track {
+    scroll-marker-group: none;
+  }
+
+  .ui-carousel[data-controls="app"] .ui-carousel-track::scroll-button(*),
+  .ui-carousel[data-controls="app"] .ui-carousel-item::scroll-marker {
+    content: none;
+  }
+
+  .ui-carousel-track::scroll-button(*) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-glass);
+    backdrop-filter: var(--blur-glass);
+    color: var(--color-text-main);
+    font-size: var(--text-xl);
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .ui-carousel-track::scroll-button(*):hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-border-focus);
+  }
+
+  /* The browser disables a button once the scroller is at that end. */
+  .ui-carousel-track::scroll-button(*):disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .ui-carousel-track::scroll-button(inline-start) {
+    content: "\2039";
+    inset-inline-start: var(--space-2);
+  }
+
+  .ui-carousel-track::scroll-button(inline-end) {
+    content: "\203A";
+    inset-inline-end: var(--space-2);
+  }
+
+  .ui-carousel-track::scroll-marker-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-block-start: var(--space-4);
+  }
+
+  .ui-carousel-item::scroll-marker {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-bg-surface);
+    background-color: var(--color-text-dim);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), width var(--transition-fast);
+  }
+
+  .ui-carousel-item::scroll-marker:hover {
+    background-color: var(--color-text-main);
+  }
+
+  /* The slide the scroller is currently on. */
+  .ui-carousel-item::scroll-marker:target-current {
+    background-color: var(--color-primary);
+    width: 24px;
+  }
+
+  .ui-carousel[data-orientation="vertical"] .ui-carousel-track::scroll-marker-group {
+    flex-direction: column;
+  }
+}
+
+/* Snapping still happens — the scroller just arrives instead of gliding, and
+   the dots change width without the tween. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-carousel-track {
+    scroll-behavior: auto;
+  }
+
+  .ui-carousel .ui-carousel-prev,
+  .ui-carousel .ui-carousel-next,
+  .ui-carousel-marker {
+    transition: none;
+  }
+
+  @supports selector(::scroll-marker) {
+    .ui-carousel-track::scroll-button(*),
+    .ui-carousel-item::scroll-marker {
+      transition: none;
+    }
+  }
+}

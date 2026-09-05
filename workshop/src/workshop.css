@@ -547,3 +547,35 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Carousel demo stand-ins for the app's own slide content. Both draw from the
+   theme's intent colors and label themselves in that intent's -contrast token,
+   so the demo art can't be the thing that fails the contrast gate. */
+.ws-carousel-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border-radius: var(--radius-base);
+  background-image: linear-gradient(135deg, var(--ws-carousel-hue), var(--color-bg-elevated));
+  color: var(--color-primary-contrast);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+}
+
+.ws-carousel-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  border-radius: var(--radius-base);
+  background-image: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: var(--color-primary-contrast);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.02em;
+}
+
+.ws-carousel-photo[data-tone="b"] {
+  background-image: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+}
