@@ -58,7 +58,8 @@
   cursor: not-allowed;
 }
 
-/* Leading marker/icon — primary-tinted on the selected tab, dimmed otherwise. */
+/* Leading marker/icon — takes the tab's own ink, so it follows the selected,
+   hover and disabled states without a rule of its own. */
 .ui-tab-icon {
   display: inline-flex;
   flex-shrink: 0;
@@ -117,8 +118,6 @@
   flex: 1;
 }
 
-/* Tabs still the color and underline fade; the active tab still changes, it
-   just arrives without the crossfade. */
 @media (prefers-reduced-motion: reduce) {
   .ui-tab {
     transition: none;

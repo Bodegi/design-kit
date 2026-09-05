@@ -298,7 +298,6 @@ button.ui-image:focus-visible {
     transition: none;
   }
 
-  /* A flat track, no sweep — and no zoom. */
   .ui-image[aria-busy="true"] > img,
   .ui-image[aria-busy="true"] > picture > img {
     animation: none;

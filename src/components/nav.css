@@ -84,7 +84,6 @@
   color: var(--color-text-dim);
 }
 
-/* Rows still their hover/active color and ground fades. */
 @media (prefers-reduced-motion: reduce) {
   .ui-nav-item {
     transition: none;

@@ -51,7 +51,8 @@
   gap: var(--space-3);
 }
 
-/* The panel's hover edge and shadow settle instantly. */
+/* The transition above is for a border or shadow an app animates on the panel;
+   under reduce it settles instantly. */
 @media (prefers-reduced-motion: reduce) {
   .ui-panel {
     transition: none;

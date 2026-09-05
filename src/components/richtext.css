@@ -19,12 +19,10 @@
 
    The toolbar composes: write `class="ui-toolbar ui-richtext-toolbar"` and put
    .ui-btn press-buttons (data-variant="ghost", data-size="icon-sm",
-   aria-pressed) inside it. .ui-toolbar already supplies the flex row, gap,
-   .ui-toolbar-separator and .ui-toolbar-spacer; this file only drops the
-   toolbar's own border/ground so it reads as part of the field, adds the rule
-   under it, and pins it while the editor scrolls — the idiom lifted from
-   Codex's sticky .se-toolbar, which keeps every action reachable on a long
-   document.
+   aria-pressed) inside it. .ui-toolbar supplies the row, the gap, the separator
+   and the spacer; this file only drops its border and ground so it reads as
+   part of the field, rules it off, and pins it sticky so every action stays
+   reachable down a long document.
 
    Variants: data-size="sm" | "md" (default), data-autoresize.
    Width and height are set per field through --ui-richtext-min-height and

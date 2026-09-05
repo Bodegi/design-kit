@@ -4,21 +4,20 @@
    renderings that share one surface and one arrow:
 
    1. The CSS tooltip — a .ui-tooltip wrapper around the trigger and a
-      .ui-tooltip-content (role="tooltip") revealed by :hover / :focus-within,
-      with no runtime. Wire the trigger to the content with aria-describedby so
-      assistive tech announces it. The content stays pointer-hoverable and
-      persists while hovered or focused, but pure CSS cannot dismiss it with
-      Escape (WCAG 1.4.13). Being an ordinary absolutely-positioned element, it
-      is also clipped by any ancestor with overflow:hidden/auto/scroll and does
-      not flip at viewport edges — pick the data-placement that suits the
-      trigger's position. Works everywhere.
+      .ui-tooltip-content (role="tooltip") revealed by :hover / :focus-within.
+      Wire the trigger to the content with aria-describedby so assistive tech
+      announces it. Works in every engine. Limits, all inherent to an ordinary
+      absolutely-positioned element with no script: no Escape dismissal
+      (WCAG 1.4.13), clipped by any ancestor with overflow hidden/auto/scroll,
+      and no flip at a viewport edge — pick the data-placement that suits the
+      trigger's position.
    2. The hint popover — .ui-tooltip[popover="hint"] opened by an interest
       invoker. The browser owns showing and hiding, the hover-intent delay, the
       pointer bridge, the tooltip role and the description relationship, so this
-      path needs no aria-describedby, no wrapper and no runtime. It dismisses on
-      Escape and on an outside click, and renders in the top layer clear of any
-      clipping ancestor — both gaps the CSS tooltip has. Chromium and Edge only
-      (popover="hint" since 133, interestfor since 142).
+      path needs no aria-describedby and no wrapper. It dismisses on Escape and
+      on an outside click and renders in the top layer, clear of any clipping
+      ancestor. Chromium and Edge only (popover="hint" since 133, interestfor
+      since 142).
 
    data-placement (top default | bottom | left | right) positions either one.
    Engines without hint popovers show nothing for the second rendering — they

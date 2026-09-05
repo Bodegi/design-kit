@@ -49,13 +49,10 @@
 }
 
 /* Chevron. A classic <select> generates no pseudo-elements of its own, so the
-   chevron hangs off the .ui-control wrapper and is drawn with the kit's shared
-   chevron recipe — a square showing only its right and bottom borders, swung
-   by --_form-chevron-rotate — painted with --color-text-muted, which follows the
-   active theme. Medium size (8px / 2px), the field-control size also used by
-   .ui-accordion and .ui-combobox-trigger. The native arrow is only suppressed
-   where that wrapper is present, so a .ui-select used bare keeps its platform
-   arrow rather than losing the affordance entirely. */
+   chevron hangs off the .ui-control wrapper, drawn with the kit's shared chevron
+   recipe at the medium size (8px / 2px) — the field-control size .ui-accordion
+   and .ui-combobox-trigger also use. Suppressing the native arrow is scoped to
+   that wrapper, so a bare .ui-select keeps the platform arrow. */
 .ui-control:has(> .ui-select) > .ui-select {
   appearance: none;
   padding-right: var(--space-8);
@@ -184,15 +181,13 @@
   border-color: var(--color-primary);
 }
 
-/* Check: the kit's shared recipe at the medium size — a box showing only its
-   bottom-left corner, swung anticlockwise so the short leg falls and the long
-   leg rises. The short leg is 0.6 of the long one, the ratio that reads as a
-   tick rather than a v; the weight matches the medium chevron. The swing is
-   written with the individual `rotate` and `translate` properties rather than
-   one `transform`, because Blink drops `transform` on the ::checkmark pseudo of
-   a customizable select but honors those two — so all three check sites can say
-   it the same way. `translate` applies before `rotate`, which is why the
-   optical nudge reads as 0 -1.5px rather than 1px -1px. */
+/* Check: the kit's shared recipe at the medium size. The short leg is 0.6 of
+   the long one, the ratio that reads as a tick rather than a v; the weight
+   matches the medium chevron. The swing uses the individual `rotate` and
+   `translate` properties rather than one `transform`, because Blink drops
+   `transform` on a customizable select's ::checkmark but honors those two — so
+   all three check sites say it the same way. `translate` applies before
+   `rotate`, which is why the optical nudge reads as 0 -1.5px. */
 .ui-checkbox:checked::before,
 .ui-switch-native:checked::before {
   content: "";
@@ -299,22 +294,18 @@
 }
 
 /* --- Native Switch (the `switch` attribute) ------------------------------
-   `<input type="checkbox" switch>` is a switch in the accessibility tree with
-   no wrapper markup at all — one element instead of .ui-switch's label +
-   track + thumb — so state, keyboard and screen-reader behavior are the
-   platform's. Open UI's Switch Attribute explainer defers its internals to the
-   CSSWG's cross-control form-control work: the parts arrive as ::track and
-   ::thumb (::checkmark and ::picker belong to the customizable select and have
-   no meaning here), and `appearance` is left alone, because `appearance: none`
+   One element carrying the switch role, state, keyboard and screen-reader
+   behavior — no wrapper markup. Open UI's Switch Attribute explainer defers the
+   internals to the CSSWG's cross-control form-control work, where the parts are
+   ::track and ::thumb. `appearance` is left alone here: `appearance: none`
    discards the switch and hands back a bare checkbox.
 
    @supports selector(::thumb) is the gate the explainer points at — an engine
-   that knows those pseudo-elements is one that draws the switch. Everything
-   outside the query is the fallback, and it takes the .ui-checkbox look
-   deliberately: an engine that ignores the attribute renders a working
-   checkbox, and so does an engine that draws the switch but keeps the parts
-   behind a flag (Safari 17.4 through 18.x, Chromium today). The control reads
-   correctly either way; only its shape differs.
+   that knows those pseudo-elements is one that draws the switch. Outside the
+   query the control takes the .ui-checkbox look, which is what both an engine
+   that ignores the attribute and one that keeps the parts behind a flag
+   (Safari 17.4-18.x, Chromium today) render. Either way the control reads
+   correctly; only its shape differs.
    ------------------------------------------------------------------------ */
 @supports selector(::thumb) {
   input[type="checkbox"][switch].ui-switch-native {
@@ -392,11 +383,8 @@
 
    Blink (Chromium 135+) is the only engine that ships it today; Gecko and
    WebKit skip this whole @supports block and keep the classic control above,
-   so the two renderings have to stay visually interchangeable. Opt-in is
-   automatic for every select.ui-select: consumers already asked the kit to own
-   this control's look, the picker only reaches engines that can render it
-   in-theme, and gating it behind a data-variant would leave the styled path
-   unused by default.
+   so the two renderings have to stay visually interchangeable. Every
+   select.ui-select opts in — there is no data-variant gate.
    ------------------------------------------------------------------------ */
 
 @supports (appearance: base-select) {

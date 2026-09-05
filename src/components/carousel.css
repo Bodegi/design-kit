@@ -344,8 +344,7 @@
   }
 }
 
-/* Snapping still happens — the scroller just arrives instead of gliding, and
-   the dots change width without the tween. */
+/* Snapping still happens; the scroller arrives instead of gliding. */
 @media (prefers-reduced-motion: reduce) {
   .ui-carousel-track {
     scroll-behavior: auto;

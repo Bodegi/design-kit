@@ -11,9 +11,9 @@
    so the stack reads as one card).
 
    `<details name>` shipped in Chrome/Edge 120 and Safari 17.2 (Dec 2023) and
-   Firefox 130 (Sept 2024). An older engine ignores the attribute and the
-   items behave as independent panels — every one can be open at once. That
-   degradation is deliberate: the kit ships no JS shim for it.
+   Firefox 130 (Sept 2024). An older engine ignores the attribute and the items
+   behave as independent panels, every one openable at once; the kit ships no JS
+   shim for that.
    ========================================================================== */
 
 details.ui-accordion {

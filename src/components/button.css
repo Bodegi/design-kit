@@ -221,18 +221,17 @@
    pressed state is read off the WAI-ARIA toggle-button state the app already
    has to set, so the visual and the accessible state cannot drift.
 
-   A pressed button reads as held down: the intent's tint under the intent's
-   ink, an inset ring where an unpressed solid button has its ambient glow, and
-   no lift. Solid keeps its --_btn-ink fill and takes an inset shadow instead — its
-   -active shade is darker than --_btn-on-ink clears AA against in three themes, so
-   it drives the border and the momentary :active press but never the ground a
-   label sits on while the reader is reading it. Every shadow here rides in
-   through --_btn-glow like the rest of the component, so :focus-visible still wins
-   and the focus ring is never swallowed.
+   A solid button keeps its --_btn-ink fill while pressed and takes an inset
+   shadow for depth: its -active shade is darker than --_btn-on-ink clears AA
+   against in three themes, so that shade drives the border and the momentary
+   :active press but never the ground a label sits on while the reader is
+   reading it. Every shadow here rides in through --_btn-glow like the rest of
+   the component, so :focus-visible still wins and the focus ring is never
+   swallowed.
 
-   aria-pressed="mixed" — partially pressed — keeps the variant's own ground
-   and marks it with a bar down the leading edge, so it reads as between the
-   two states without changing what the label sits on.
+   aria-pressed="mixed" keeps the variant's own ground and marks it with a bar
+   down the leading edge, so a partially-pressed button reads as between the two
+   states without changing what the label sits on.
    ------------------------------------------------------------------------ */
 .ui-btn[aria-pressed="true"],
 .ui-btn[aria-pressed="true"]:hover:not(:disabled) {

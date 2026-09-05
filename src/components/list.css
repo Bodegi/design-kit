@@ -14,9 +14,9 @@
    role="listbox" of role="option" without extra styling. The kit ships no
    runtime; the app moves aria-selected.
 
-   The inset variant deliberately shares .ui-nav's row feel (elevated ground,
-   inset primary bar, muted-to-main text) without reusing its rules: nav is a
-   navigation landmark, a list is content.
+   The inset variant repeats .ui-nav's row feel (elevated ground, inset primary
+   bar, muted-to-main text) in rules of its own, because nav is a navigation
+   landmark and a list is content — the two are free to diverge.
    ========================================================================== */
 
 .ui-list {

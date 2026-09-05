@@ -36,16 +36,14 @@
      data-size="sm|md" on the root       field height and listbox type scale
 
    The field is a shell, the same technique .ui-number uses: .ui-combobox draws
-   the border, the radius, the ground and the ring, the input inside it is
-   borderless and ringless, and the clear and trigger buttons are flex children
-   rather than absolutely positioned overlays — so nothing has to reserve
-   padding for them and the assembly reads as one control. Every field state is
-   read off the wrapped input with :has(), so the shell reacts to the control it
-   holds: :focus-visible (the ring moves to the shell, and the input's own ring
-   is cleared so there is exactly one), :user-invalid / [aria-invalid="true"],
-   :read-only and :disabled. data-state="error" is the third way into the error
-   ring and is read from the shell or the input. The two buttons keep their own
-   :focus-visible ring.
+   the border, the radius, the ground and the ring, and the buttons are flex
+   children rather than absolute overlays, so nothing has to reserve padding for
+   them and the assembly reads as one control. Every field state is read off the
+   wrapped input with :has(): :focus-visible (the ring moves to the shell and
+   the input's own is cleared, so there is exactly one), :user-invalid /
+   [aria-invalid="true"], :read-only and :disabled. data-state="error" is the
+   third way into the error ring and is read from the shell or the input. The
+   two buttons keep their own :focus-visible ring.
 
    The listbox is a native [popover], so Escape and light-dismiss are the UA's.
    Where CSS anchor positioning is supported it is anchored under the field;

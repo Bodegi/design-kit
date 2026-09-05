@@ -10,9 +10,9 @@
   color: var(--color-text-main);
   box-shadow: var(--shadow-lg);
   outline: none;
-  /* No margin reset here on purpose: with no anchor support the UA centers the
-     popover in the viewport (inset:0; margin:auto), a sane fallback. Overriding
-     margin to 0 would defeat that centering and pin it to the top-left corner. */
+  /* Margin is left to the UA here: with no anchor support the UA centers a
+     popover in the viewport through `inset: 0; margin: auto`, which is the
+     fallback this component wants. The anchored branch below resets it. */
 }
 
 /* Anchor the popover to its invoker where CSS anchor positioning is supported
@@ -63,7 +63,6 @@
   margin: var(--space-1) 0;
 }
 
-/* Menu rows still their hover fade. */
 @media (prefers-reduced-motion: reduce) {
   .ui-menu-item {
     transition: none;

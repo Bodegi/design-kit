@@ -116,7 +116,6 @@
   .ui-skeleton,
   .ui-skeleton[data-animation],
   [aria-busy="true"] .ui-skeleton {
-    /* Hold a flat track — no sweep, no fade. */
     animation: none;
     background-image: none;
     opacity: 1;

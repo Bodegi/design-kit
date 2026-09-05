@@ -105,7 +105,7 @@
   font-weight: var(--font-semibold);
 }
 
-/* Numeric column: right-aligned with tabular figures so digits line up. */
+/* Numeric column: tabular figures so digits hold their column down the page. */
 .ui-table td[data-type="number"],
 .ui-table th[data-type="number"],
 .ui-table .ui-table-numeric {

@@ -1,10 +1,8 @@
 /* ==========================================================================
    Ambient Logo Watermark (.ui-watermark)
-   The emblem ghosted into a surface's empty space — a pattern codex and
-   image-hoard landed on independently, so it earns a place in the system.
-   One tokenized recipe (`--ui-watermark-*`): the host is the positioning
-   context and the mark paints on its `::before`, behind content that the rule
-   lifts back above it.
+   The emblem ghosted into a surface's empty space, as one tokenized recipe
+   (`--ui-watermark-*`): the host is the positioning context and the mark paints
+   on its `::before`, behind content that the rule lifts back above it.
 
    The mark is drawn by masking --color-primary with the emblem, so the
    watermark takes the theme's primary (matching the logo) and adapts per
