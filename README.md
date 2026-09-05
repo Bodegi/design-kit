@@ -22,6 +22,8 @@ Install directly in your project via Git reference in `package.json`:
 }
 ```
 
+`dist/` is not committed. npm builds it during install by running the kit's `prepare` script, which copies `src/` to `dist/`, so the `design-kit/dist/...` import paths below resolve in the installed package.
+
 ---
 
 ## Quick Start

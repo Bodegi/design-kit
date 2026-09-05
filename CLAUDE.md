@@ -21,10 +21,11 @@ Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.
 - `npm run check:contrast` — `scripts/check-contrast.mjs` runs the WCAG AA gate over every `src/themes/*.css` and exits 1 on a failure (see WCAG below).
 - `npm run build:icons` — `scripts/generate-icons.mjs` regenerates `src/icons/svg/*.svg` and `sprite.svg` from `src/icons/icon-data.js` (see Icons).
 - `npm run build:css` — `scripts/build-css.mjs` copies `src/` → `dist/` verbatim (relative `@import`s resolve inside `dist/`). No bundling or minification.
+- `prepare` — runs `build:css`. npm runs it after `npm install` here and when a consumer installs the kit from its Git URL, so `dist/` exists in the installed copy without being committed. It uses Node built-ins only, so it needs none of the devDependencies.
 - `npm run build:workshop` — `vite build workshop` → `dist/workshop/`.
 - `npm run build` — typecheck, contrast gate, icons, css, workshop, in that order, so a type error or a failing pairing stops the build before anything is emitted. CI (`.github/workflows/deploy-workshop.yml`) runs this on push to `main` under Node 24 (`.nvmrc`, `engines.node`) and publishes `dist/workshop/` to Pages.
 
-`dist/` and `workshop/dist/` are gitignored; the workshop dev/build reads `src/` directly, not `dist/`.
+`dist/` and `workshop/dist/` are gitignored; the workshop dev/build reads `src/` directly, not `dist/`. Consumers get `dist/` from the `prepare` script at install time.
 
 ## Icons
 

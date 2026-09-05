@@ -17,6 +17,7 @@
     "build:css": "node scripts/build-css.mjs",
     "build:workshop": "vite build workshop",
     "build": "npm run typecheck && npm run check:contrast && npm run build:icons && npm run build:css && npm run build:workshop",
+    "prepare": "npm run build:css",
     "preview": "vite preview workshop"
   },
   "keywords": [
