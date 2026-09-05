@@ -131,10 +131,6 @@ button.ui-datepicker-title:hover {
   background-color: var(--color-bg-hover);
 }
 
-button.ui-datepicker-title:focus-visible {
-  outline: none;
-}
-
 /* --- Grid --------------------------------------------------------------- */
 
 /* Sized from the cell scale rather than from its container: the panel is
@@ -201,11 +197,6 @@ button.ui-datepicker-title:focus-visible {
 
 .ui-datepicker-day:hover:not(:disabled) {
   background-color: var(--color-bg-hover);
-}
-
-/* Focus ring comes from the global :focus-visible rule — no box-shadow here. */
-.ui-datepicker-day:focus-visible {
-  outline: none;
 }
 
 /* Today: a ring in the primary tone, never a fill, so it survives being
@@ -298,10 +289,6 @@ button.ui-datepicker-title:focus-visible {
 
 .ui-datepicker-preset:hover {
   background-color: var(--color-bg-hover);
-}
-
-.ui-datepicker-preset:focus-visible {
-  outline: none;
 }
 
 /* The quick range currently in effect. */
