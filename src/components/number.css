@@ -93,11 +93,15 @@
   margin: 0;
 }
 
-/* form.css rings the input itself; the shell carries the ring here instead. */
-.ui-number .ui-input:focus-visible {
-  border-color: transparent;
-  box-shadow: none;
-  outline: none;
+/* form.css rings the input itself; the shell carries the ring here instead.
+   Guarded on :has(), because that is what puts the ring on the shell — an
+   engine without it keeps the input's own ring rather than none at all. */
+@supports selector(:has(*)) {
+  .ui-number .ui-input:focus-visible {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 .ui-number[data-size="sm"] .ui-input {

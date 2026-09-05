@@ -114,10 +114,14 @@
 }
 
 /* form.css and index.css both ring a focused control; the field carries the
-   ring here instead, so there is exactly one. */
-.ui-richtext .ui-richtext-editor:focus-visible {
-  box-shadow: none;
-  outline: none;
+   ring here instead, so there is exactly one. Guarded on :has(), because that
+   is what puts the ring on the field — an engine without it keeps the editor's
+   own ring rather than none at all. */
+@supports selector(:has(*)) {
+  .ui-richtext .ui-richtext-editor:focus-visible {
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 /* A <textarea> editor is plain text — it keeps the sans face and the measure,

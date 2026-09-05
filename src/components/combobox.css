@@ -411,10 +411,14 @@
   box-shadow: var(--focus-ring);
 }
 
-.ui-combobox > .ui-input:focus-visible {
-  border-color: transparent;
-  box-shadow: none;
-  outline: none;
+/* Guarded on :has(), because that is what puts the ring on the shell — an
+   engine without it keeps the input's own ring rather than none at all. */
+@supports selector(:has(*)) {
+  .ui-combobox > .ui-input:focus-visible {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 /* The same trio form.css and number.css honor: the app's own
