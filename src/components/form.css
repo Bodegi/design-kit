@@ -229,6 +229,20 @@
   box-shadow: var(--focus-ring);
 }
 
+/* The classic controls still their hover/focus fades and the switch's thumb
+   travel. The picker below carries its own reduce block inside @supports. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-input,
+  .ui-textarea,
+  .ui-select,
+  .ui-checkbox,
+  .ui-radio,
+  .ui-switch-track,
+  .ui-switch-thumb {
+    transition: none;
+  }
+}
+
 /* --- Customizable Select -------------------------------------------------
    Open UI's Customizable Select anatomy (open-ui.org/components/customizableselect).
    `appearance: base-select` on both the <select> and its ::picker(select) swaps
