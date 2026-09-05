@@ -8,7 +8,8 @@
 
    Separators are drawn by CSS on `li + li`, never marked up, so screen readers
    read the trail as a plain ordered list. `data-separator` on the nav picks the
-   glyph: chevron (default, borders rotated 45°), slash or dot (::before text).
+   glyph: chevron (default, the kit's shared rotated-border recipe at the small
+   size), slash or dot (::before text).
 
    Slots: .ui-breadcrumb-icon (leading mark inside a link) and
    .ui-breadcrumb-ellipsis (the collapsed middle — a button or span reading "…"
@@ -47,15 +48,19 @@
   display: none;
 }
 
-/* Separator: chevron built from two borders on a rotated box (default). */
+/* Separator: the kit's shared chevron recipe at the small size — a box showing
+   only its bottom-right corner, swung to point along the trail. */
 .ui-breadcrumb-item + .ui-breadcrumb-item::before {
   content: "";
   flex-shrink: 0;
-  width: 0.4em;
-  height: 0.4em;
-  border-top: 1.5px solid var(--color-text-muted);
-  border-right: 1.5px solid var(--color-text-muted);
-  transform: rotate(45deg);
+  --_chevron-size: 6px;
+  --_chevron-weight: 1.5px;
+  --_chevron-rotate: -45deg; /* right */
+  width: var(--_chevron-size);
+  height: var(--_chevron-size);
+  border-right: var(--_chevron-weight) solid var(--color-text-muted);
+  border-bottom: var(--_chevron-weight) solid var(--color-text-muted);
+  transform: rotate(var(--_chevron-rotate));
 }
 
 .ui-breadcrumb[data-separator="slash"] .ui-breadcrumb-item + .ui-breadcrumb-item::before,

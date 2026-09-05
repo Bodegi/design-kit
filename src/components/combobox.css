@@ -117,14 +117,20 @@
 }
 
 /* Chevron and × are drawn in CSS from currentColor, so the classes alone carry
-   the glyph and it recolors with the button rather than with a baked-in fill. */
+   the glyph and it recolors with the button rather than with a baked-in fill.
+   Both use the kit's shared recipes: the chevron at the medium size (matching
+   the .ui-select chevron this trigger stands in for) and the × at the medium
+   size (matching .ui-tag-remove). */
 .ui-combobox-trigger::before {
   content: "";
-  width: 7px;
-  height: 7px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
+  --_chevron-size: 8px;
+  --_chevron-weight: 2px;
+  --_chevron-rotate: 45deg; /* down */
+  width: var(--_chevron-size);
+  height: var(--_chevron-size);
+  border-right: var(--_chevron-weight) solid currentColor;
+  border-bottom: var(--_chevron-weight) solid currentColor;
+  transform: translateY(-25%) rotate(var(--_chevron-rotate));
   transition: transform var(--transition-fast);
 }
 
@@ -132,8 +138,10 @@
 .ui-combobox-clear::after {
   content: "";
   position: absolute;
-  width: 11px;
-  height: 1.5px;
+  --_x-size: 9px;
+  --_x-weight: 1.5px;
+  width: var(--_x-size);
+  height: var(--_x-weight);
   border-radius: var(--radius-full);
   background-color: currentColor;
 }
@@ -149,7 +157,10 @@
 /* Open state: the chevron flips. aria-expanded lives on the input, and the
    buttons follow it in the markup, so a sibling combinator reads it. */
 .ui-combobox > .ui-input[aria-expanded="true"] ~ .ui-combobox-trigger::before {
-  transform: translateY(2px) rotate(225deg);
+  /* up — written as 225deg rather than -135deg so the flip sweeps clockwise
+     out of the closed 45deg, matching .ui-accordion's chevron. */
+  --_chevron-rotate: 225deg;
+  transform: translateY(25%) rotate(var(--_chevron-rotate));
 }
 
 /* --- Listbox ------------------------------------------------------------ */

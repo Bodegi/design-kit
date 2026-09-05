@@ -211,21 +211,28 @@
   grid-area: 1 / 1;
 }
 
-/* A square with two adjacent borders, rotated into a chevron. */
+/* The kit's shared chevron recipe at the small size: a box showing only its
+   right and bottom borders, swung by --_chevron-rotate. Up- and down-pointing
+   chevrons carry a quarter-height nudge back toward the box centre, which here
+   also draws the stacked pair together. */
 .ui-number:not([data-layout="split"]) .ui-number-increment::before,
 .ui-number:not([data-layout="split"]) .ui-number-decrement::before {
-  width: 6px;
-  height: 6px;
-  border-top: 1.5px solid currentColor;
-  border-right: 1.5px solid currentColor;
+  --_chevron-size: 6px;
+  --_chevron-weight: 1.5px;
+  width: var(--_chevron-size);
+  height: var(--_chevron-size);
+  border-right: var(--_chevron-weight) solid currentColor;
+  border-bottom: var(--_chevron-weight) solid currentColor;
 }
 
 .ui-number:not([data-layout="split"]) .ui-number-increment::before {
-  transform: rotate(-45deg) translate(-1px, 1px);
+  --_chevron-rotate: -135deg; /* up */
+  transform: translateY(25%) rotate(var(--_chevron-rotate));
 }
 
 .ui-number:not([data-layout="split"]) .ui-number-decrement::before {
-  transform: rotate(135deg) translate(-1px, 1px);
+  --_chevron-rotate: 45deg; /* down */
+  transform: translateY(-25%) rotate(var(--_chevron-rotate));
 }
 
 /* --- Split: − on the leading edge, + on the trailing edge ---------------- */

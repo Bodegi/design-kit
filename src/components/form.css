@@ -49,11 +49,13 @@
 }
 
 /* Chevron. A classic <select> generates no pseudo-elements of its own, so the
-   chevron hangs off the .ui-control wrapper and is drawn from two rotated
-   borders painted with --color-text-muted, which follows the active theme. The
-   native arrow is only suppressed where that wrapper is present, so a
-   .ui-select used bare keeps its platform arrow rather than losing the
-   affordance entirely. */
+   chevron hangs off the .ui-control wrapper and is drawn with the kit's shared
+   chevron recipe — a square showing only its right and bottom borders, swung
+   by --_chevron-rotate — painted with --color-text-muted, which follows the
+   active theme. Medium size (8px / 2px), the field-control size also used by
+   .ui-accordion and .ui-combobox-trigger. The native arrow is only suppressed
+   where that wrapper is present, so a .ui-select used bare keeps its platform
+   arrow rather than losing the affordance entirely. */
 .ui-control:has(> .ui-select) > .ui-select {
   appearance: none;
   padding-right: var(--space-8);
@@ -63,12 +65,15 @@
   content: "";
   position: absolute;
   right: calc(var(--space-3) + 2px);
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
+  --_chevron-size: 8px;
+  --_chevron-weight: 2px;
+  --_chevron-rotate: 45deg; /* down */
+  width: var(--_chevron-size);
+  height: var(--_chevron-size);
+  border-right: var(--_chevron-weight) solid var(--color-text-muted);
+  border-bottom: var(--_chevron-weight) solid var(--color-text-muted);
   border-end-end-radius: var(--radius-xs);
-  transform: translateY(-2px) rotate(45deg);
+  transform: translateY(-25%) rotate(var(--_chevron-rotate));
   pointer-events: none;
 }
 

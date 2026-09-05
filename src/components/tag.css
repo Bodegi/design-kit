@@ -208,14 +208,19 @@ button.ui-tag:hover:not(:disabled) {
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
+/* The kit's shared × recipe: two bars of --_x-size by --_x-weight crossed at
+   ±45°. Two sizes — md 9px (a 16px hit area, also .ui-combobox-clear's) and
+   sm 7px (a 13px hit area) — at one weight. */
 .ui-tag-remove::before,
 .ui-tag-remove::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 9px;
-  height: 1.5px;
+  --_x-size: 9px;
+  --_x-weight: 1.5px;
+  width: var(--_x-size);
+  height: var(--_x-weight);
   background-color: currentColor;
   border-radius: var(--radius-full);
 }
@@ -245,7 +250,8 @@ button.ui-tag:hover:not(:disabled) {
 
 .ui-tag[data-size="sm"] .ui-tag-remove::before,
 .ui-tag[data-size="sm"] .ui-tag-remove::after {
-  width: 7px;
+  --_x-size: 7px;
+  width: var(--_x-size);
 }
 
 /* --- Group --- */
