@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Open UI: Avatar (.ui-avatar)
+   The square-ish portrait of a person, account, or entity: a photo when there
+   is one, initials or a glyph when there is not. Open UI's avatar research
+   catalogues the features (image, letter/initials, icon, shape, status badge,
+   group) but defines no anatomy, so the parts below extend the kit's own
+   .ui-<component>-<part> convention.
+
+   Anatomy: .ui-avatar is the box — a <span> when decorative, an <a> or
+   <button> when it navigates or opens a menu. It holds exactly one of
+   img.ui-avatar-image, .ui-avatar-fallback (initials text), or .ui-avatar-icon
+   (an app-supplied SVG), plus an optional .ui-avatar-status dot.
+   .ui-avatar-group stacks a set with overlap and may end in an
+   .ui-avatar-more overflow count ("+3"), which is itself a .ui-avatar.
+
+   Variants:
+     data-size="xs|sm|md|lg|xl"   24 / 32 / 40 / 56 / 72px; md is the default
+     data-shape="square"          --radius-control instead of --radius-full
+     data-intent="…"              tints the initials/icon ground
+     .ui-avatar-status[data-intent="success|warning|danger"]
+
+   No overflow: hidden anywhere. The rounding is carried by the image itself
+   (border-radius: inherit), so clipping never eats the focus ring on a
+   button/link avatar, and the status dot can sit proud of the box edge.
+
+   Contrast: initials and glyphs are always --color-text-main over an elevated
+   or lightly tinted ground — never an intent color on its own tint — so they
+   clear 4.5:1 in every theme. The intent shows in the ground only.
+
+   The --_ring local carries the separation ring (the surface-colored halo that
+   lifts an avatar off the one behind it in a group) and the hover ring, so
+   box-shadow is written once here and once on :focus-visible and the focus
+   ring can never be outranked.
+   ========================================================================== */
+
+.ui-avatar {
+  /* Public knob: the color an avatar is being lifted off. Defaults to the
+     surface; set it on a group sitting directly on the canvas. */
+  --ui-avatar-ring-color: var(--color-bg-surface);
+
+  --_avatar-size: 40px;
+  --_avatar-ground: var(--color-bg-elevated);
+  --_ring: 0 0 transparent;
+
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  padding: 0;
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: var(--_avatar-ground);
+  color: var(--color-text-main);
+  /* A hairline edge on every avatar, image or not: in the light themes
+     --color-bg-elevated equals --color-bg-surface, so an initials avatar would
+     otherwise have no visible boundary on a panel. */
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
+  box-shadow: var(--_ring);
+  transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-avatar[data-shape="square"] {
+  border-radius: var(--radius-control);
+}
+
+/* --- Content slots --- */
+
+/* The image rounds itself rather than being clipped by the box, so the box
+   keeps no overflow: hidden and the focus ring stays whole. */
+.ui-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.ui-avatar-fallback {
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.ui-avatar-icon {
+  display: inline-flex;
+  line-height: 0;
+  color: currentColor;
+}
+
+.ui-avatar-icon > svg {
+  width: calc(var(--_avatar-size) * 0.5);
+  height: calc(var(--_avatar-size) * 0.5);
+}
+
+/* --- Sizes --- */
+.ui-avatar[data-size="xs"] {
+  --_avatar-size: 24px;
+  font-size: var(--text-xs);
+}
+
+.ui-avatar[data-size="sm"] {
+  --_avatar-size: 32px;
+  font-size: var(--text-sm);
+}
+
+.ui-avatar[data-size="md"] {
+  --_avatar-size: 40px;
+  font-size: var(--text-base);
+}
+
+.ui-avatar[data-size="lg"] {
+  --_avatar-size: 56px;
+  font-size: var(--text-xl);
+}
+
+.ui-avatar[data-size="xl"] {
+  --_avatar-size: 72px;
+  font-size: var(--text-2xl);
+}
+
+/* --- Intent grounds (initials / icon only; an image covers them) ---
+   A subtle tint under main-color text, so the reading stays AA while the
+   ground still carries the hue. */
+.ui-avatar[data-intent="primary"] { --_avatar-ground: var(--color-primary-subtle); }
+.ui-avatar[data-intent="accent"]  { --_avatar-ground: var(--color-accent-subtle); }
+.ui-avatar[data-intent="success"] { --_avatar-ground: var(--color-success-subtle); }
+.ui-avatar[data-intent="warning"] { --_avatar-ground: var(--color-warning-subtle); }
+.ui-avatar[data-intent="danger"]  { --_avatar-ground: var(--color-danger-subtle); }
+.ui-avatar[data-intent="info"]    { --_avatar-ground: var(--color-info-subtle); }
+
+/* --- Interactive avatar (link or button only) --- */
+a.ui-avatar,
+button.ui-avatar {
+  cursor: pointer;
+}
+
+a.ui-avatar:hover,
+button.ui-avatar:hover:not(:disabled) {
+  --_ring: 0 0 0 2px var(--color-primary);
+}
+
+.ui-avatar:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), var(--_ring);
+}
+
+.ui-avatar:disabled,
+.ui-avatar[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* --- Status dot ---
+   Bottom-right, ringed in the surface color so it reads as a separate mark
+   rather than a blob of the photo. Sized off the box so it scales with it. */
+.ui-avatar-status {
+  --_status-color: var(--color-text-muted);
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(var(--_avatar-size) * 0.28);
+  height: calc(var(--_avatar-size) * 0.28);
+  background-color: var(--_status-color);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0 2px var(--ui-avatar-ring-color);
+}
+
+/* A round avatar's corner is inset; a square one's is not. */
+.ui-avatar[data-shape="square"] .ui-avatar-status {
+  right: calc(var(--_avatar-size) * -0.06);
+  bottom: calc(var(--_avatar-size) * -0.06);
+}
+
+.ui-avatar-status[data-intent="success"] { --_status-color: var(--color-success); }
+.ui-avatar-status[data-intent="warning"] { --_status-color: var(--color-warning); }
+.ui-avatar-status[data-intent="danger"]  { --_status-color: var(--color-danger); }
+
+/* --- Group ---
+   Overlapping stack. Each avatar wears a surface-colored ring so the edges
+   stay legible where they cross; hover/focus lifts one clear of its neighbour. */
+.ui-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ui-avatar-group > .ui-avatar {
+  --_ring: 0 0 0 2px var(--ui-avatar-ring-color);
+}
+
+.ui-avatar-group > .ui-avatar + .ui-avatar {
+  margin-inline-start: calc(var(--_avatar-size) * -0.3);
+}
+
+.ui-avatar-group > .ui-avatar:hover,
+.ui-avatar-group > .ui-avatar:focus-visible {
+  z-index: 1;
+}
+
+/* Overflow count closing a group ("+3"). A muted ground so it reads as chrome
+   next to the faces, not as another person. */
+.ui-avatar-more {
+  --_avatar-ground: var(--color-bg-muted);
+
+  font-weight: var(--font-medium);
+  color: var(--color-text-main);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-avatar {
+    transition: none;
+  }
+}
