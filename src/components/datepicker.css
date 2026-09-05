@@ -10,10 +10,21 @@
    mapped onto a native <table>, and the day states ride ARIA state so the
    visual and the accessible state cannot drift.
 
+   The host provides the surface. This file owns calendar anatomy only — it
+   draws no ground, border, radius, elevation or positioning of its own — so the
+   markup composes it onto a surface class the kit already ships:
+
+     floating   class="ui-popover ui-datepicker" popover
+                .ui-popover supplies the elevated ground and the anchor
+                positioning under the invoker.
+     inline     class="ui-panel ui-datepicker"
+                .ui-panel supplies the surface ground and the card border.
+
+   The calendar keeps its own inner padding rather than taking the host's, so it
+   reads the same either way — see the padding rule below for how it is scoped.
+
    Anatomy:
-     .ui-datepicker                     the panel. Carries the .ui-popover
-                                        surface conventions, so the same markup
-                                        works inline or on a native [popover].
+     .ui-datepicker                     the calendar
        .ui-datepicker-header            month bar
          .ui-datepicker-prev            compose .ui-btn (ghost, icon) in the
          .ui-datepicker-next            markup — the kit only places them
@@ -52,18 +63,19 @@
 .ui-datepicker {
   --ui-datepicker-cell: 36px;
 
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
   width: max-content;
+}
+
+/* Inner padding is the calendar's own, not the host's: .ui-popover pads for
+   menu rows and .ui-panel pads nothing (its own parts do), so the calendar
+   restates it. Named against both hosts because .ui-popover's padding is set at
+   `[popover].ui-popover`, which a lone `.ui-datepicker` cannot outrank. */
+.ui-panel.ui-datepicker,
+.ui-popover.ui-datepicker {
   padding: var(--space-3);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-base);
-  background-color: var(--color-bg-elevated);
-  color: var(--color-text-main);
-  box-shadow: var(--shadow-lg);
-  outline: none;
 }
 
 /* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
@@ -73,19 +85,6 @@
 .ui-datepicker-presets[hidden],
 .ui-datepicker-footer[hidden] {
   display: none;
-}
-
-/* On a native [popover] the panel anchors under its invoker where anchor
-   positioning is supported, and keeps the UA's viewport centering elsewhere —
-   the same bargain .ui-popover makes. */
-@supports (anchor-name: --a) {
-  [popover].ui-datepicker {
-    margin: 0;
-    inset: auto;
-    top: anchor(bottom);
-    left: anchor(left);
-    margin-top: var(--space-1);
-  }
 }
 
 /* --- Header ------------------------------------------------------------- */
@@ -328,6 +327,10 @@ button.ui-datepicker-title:focus-visible {
 .ui-datepicker[data-size="sm"] {
   --ui-datepicker-cell: 28px;
   gap: var(--space-2);
+}
+
+.ui-panel.ui-datepicker[data-size="sm"],
+.ui-popover.ui-datepicker[data-size="sm"] {
   padding: var(--space-2);
 }
 

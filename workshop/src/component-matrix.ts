@@ -1969,7 +1969,7 @@ export function renderComponentMatrix(container: HTMLElement) {
     <!-- Datepicker Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Datepicker (.ui-datepicker)</h2>
-      <p class="ws-section-desc">No browser ships a stylable native date picker — the calendar behind <code>input[type="date"]</code> is a UA popup closed to CSS in every engine — so the kit styles the calendar anatomy <em>the app renders</em> and the app owns all the behavior: month math, keyboard navigation, selection, range logic. Open UI has only a research page for the datepicker, so the parts follow its vocabulary (header, title, previous/next, grid, day, footer) over a native <code>&lt;table role="grid"&gt;</code>. Every day state rides ARIA state on the <code>button.ui-datepicker-day</code>: <code>aria-selected="true"</code> fills, <code>aria-current="date"</code> rings today without filling it, <code>:disabled</code> is out of range, <code>[data-outside]</code> is an adjacent month, and <code>[data-range="start|middle|end"]</code> spans a range. The panel carries the <code>.ui-popover</code> surface, so the same markup works inline or on a native <code>[popover]</code>. Ships no runtime — the workshop moves <code>aria-selected</code> for these demos.</p>
+      <p class="ws-section-desc">No browser ships a stylable native date picker — the calendar behind <code>input[type="date"]</code> is a UA popup closed to CSS in every engine — so the kit styles the calendar anatomy <em>the app renders</em> and the app owns all the behavior: month math, keyboard navigation, selection, range logic. Open UI has only a research page for the datepicker, so the parts follow its vocabulary (header, title, previous/next, grid, day, footer) over a native <code>&lt;table role="grid"&gt;</code>. Every day state rides ARIA state on the <code>button.ui-datepicker-day</code>: <code>aria-selected="true"</code> fills, <code>aria-current="date"</code> rings today without filling it, <code>:disabled</code> is out of range, <code>[data-outside]</code> is an adjacent month, and <code>[data-range="start|middle|end"]</code> spans a range. The kit styles calendar anatomy only and the host markup supplies the surface by composition: <code>class="ui-panel ui-datepicker"</code> inline, <code>class="ui-popover ui-datepicker" popover</code> floating (which also brings the anchor positioning under the invoker). Ships no runtime — the workshop moves <code>aria-selected</code> for these demos.</p>
 
       <div class="ws-preview-block">
         <div class="ws-preview-header">
@@ -1977,7 +1977,7 @@ export function renderComponentMatrix(container: HTMLElement) {
           ${copyControls(datepickerSnippet)}
         </div>
         <div class="ws-preview-canvas" style="align-items: flex-start;">
-          <div class="ui-datepicker" id="ws-datepicker">
+          <div class="ui-panel ui-datepicker" id="ws-datepicker">
             ${datepickerHeader('September 2026', true)}
             ${datepickerGrid({
               label: 'September 2026',
@@ -1993,7 +1993,7 @@ export function renderComponentMatrix(container: HTMLElement) {
               <button class="ui-btn" data-variant="outline" data-size="sm" type="button">Today</button>
             </div>
           </div>
-          <div class="ui-datepicker" data-size="sm">
+          <div class="ui-panel ui-datepicker" data-size="sm">
             ${datepickerHeader('September 2026', false)}
             ${datepickerGrid({
               label: 'September 2026, compact',
@@ -2013,7 +2013,7 @@ export function renderComponentMatrix(container: HTMLElement) {
           ${copyControls(datepickerRangeSnippet)}
         </div>
         <div class="ws-preview-canvas" style="align-items: flex-start;">
-          <div class="ui-datepicker">
+          <div class="ui-panel ui-datepicker">
             <ul class="ui-datepicker-presets">
               <li><button class="ui-datepicker-preset" type="button" aria-pressed="false">Last 7 days</button></li>
               <li><button class="ui-datepicker-preset" type="button" aria-pressed="true">This month</button></li>
@@ -2048,7 +2048,7 @@ export function renderComponentMatrix(container: HTMLElement) {
           </label>
           <div>
             <button class="ui-btn" data-variant="outline" popovertarget="ws-datepicker-popover" type="button">Pick a date</button>
-            <div id="ws-datepicker-popover" popover class="ui-datepicker">
+            <div id="ws-datepicker-popover" popover class="ui-popover ui-datepicker">
               ${datepickerHeader('September 2026', true)}
               ${datepickerGrid({
                 label: 'September 2026 popover',
@@ -3870,7 +3870,7 @@ function wireDatepicker(root: HTMLElement) {
   });
 }
 
-const datepickerSnippet = `<div class="ui-datepicker">
+const datepickerSnippet = `<div class="ui-panel ui-datepicker">
   <div class="ui-datepicker-header">
     <button class="ui-btn ui-datepicker-prev" data-variant="ghost" data-size="sm" aria-label="Previous month">‹</button>
     <button class="ui-datepicker-title">September 2026</button>
@@ -3893,7 +3893,7 @@ const datepickerSnippet = `<div class="ui-datepicker">
   </div>
 </div>`;
 
-const datepickerRangeSnippet = `<div class="ui-datepicker">
+const datepickerRangeSnippet = `<div class="ui-panel ui-datepicker">
   <ul class="ui-datepicker-presets">
     <li><button class="ui-datepicker-preset" aria-pressed="true">This month</button></li>
   </ul>
