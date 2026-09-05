@@ -10,7 +10,7 @@ export function renderIconGallery(container: HTMLElement) {
       <div class="ws-icon-toolbar">
         <div>
           <h2 class="ws-section-title">Curated SVG Icon Suite (${iconNames.length} Icons)</h2>
-          <p class="ws-section-desc">Consistent 24x24 outline vector icons. Copy sprite <use> or inline SVG markup for any icon.</p>
+          <p class="ws-section-desc">Consistent 24x24 outline vector icons. Copy sprite &lt;use&gt; or inline SVG markup for any icon. The sprite snippet points at <code>/icons/sprite.svg</code> — copy <code>dist/icons/sprite.svg</code> into your app's public directory, or change the path to wherever you serve it from.</p>
         </div>
         <div class="ws-icon-search-wrap">
           <input type="text" id="ws-icon-search-input" class="ui-input" placeholder="Search icons..." />
@@ -65,7 +65,7 @@ function renderIconCards(list: string[]) {
 }
 
 function spriteMarkup(name: string) {
-  return `<svg class="ui-icon" aria-hidden="true"><use href="design-kit/dist/icons/sprite.svg#${name}"></use></svg>`;
+  return `<svg class="ui-icon" aria-hidden="true"><use href="/icons/sprite.svg#${name}"></use></svg>`;
 }
 
 function inlineMarkup(name: string) {
