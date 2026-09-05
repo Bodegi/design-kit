@@ -1,0 +1,258 @@
+/* ==========================================================================
+   Open UI: List (.ui-list)
+   A native <ul>/<ol> of .ui-list-item rows. Open UI's list research names the
+   presentation variants rather than parts, so the variants follow it
+   (data-variant="divided" | "inset", data-density="compact") and the parts
+   extend the kit's own naming: .ui-list-item-leading (icon/avatar),
+   .ui-list-item-content wrapping .ui-list-item-title + .ui-list-item-description,
+   and .ui-list-item-trailing (meta text, badge, action).
+
+   An item is inert markup by default; make it an <a> or <button> and it picks
+   up hover/active/focus. State keys off accessibility state only —
+   aria-selected / aria-current for the chosen row, :disabled or
+   aria-disabled="true" for an unavailable one — so the same classes serve a
+   role="listbox" of role="option" without extra styling. The kit ships no
+   runtime; the app moves aria-selected.
+
+   The inset variant deliberately shares .ui-nav's row feel (elevated ground,
+   inset primary bar, muted-to-main text) without reusing its rules: nav is a
+   navigation landmark, a list is content.
+   ========================================================================== */
+
+.ui-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ordered lists number their rows from a counter rather than ::marker: a row is
+   a flex container, and a flex item is not a `display: list-item`, so the
+   native marker box never generates. The counter puts the number inside the
+   row where it aligns with the other parts. */
+ol.ui-list {
+  counter-reset: ui-list-index;
+}
+
+ol.ui-list > .ui-list-item,
+ol.ui-list > li > .ui-list-item {
+  counter-increment: ui-list-index;
+}
+
+ol.ui-list > .ui-list-item::before,
+ol.ui-list > li > .ui-list-item::before {
+  content: counter(ui-list-index) ".";
+  flex-shrink: 0;
+  min-width: 1.5em;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A nested list indents under its parent row. */
+.ui-list .ui-list {
+  padding-left: var(--space-6);
+}
+
+/* --- Row ---------------------------------------------------------------- */
+
+.ui-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-3) var(--space-1);
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  text-align: left;
+}
+
+/* Interactive rows only: the element decides, not a modifier class. */
+a.ui-list-item,
+button.ui-list-item {
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-nav);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+a.ui-list-item:hover,
+button.ui-list-item:hover,
+.ui-list-item[role="option"]:hover {
+  background-color: var(--color-bg-hover);
+}
+
+a.ui-list-item:active,
+button.ui-list-item:active,
+.ui-list-item[role="option"]:active {
+  background-color: var(--color-bg-active);
+}
+
+/* Focus ring comes from the global :focus-visible rule; only make sure the row
+   never sets box-shadow at higher specificity and nothing clips it. */
+.ui-list-item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Parts -------------------------------------------------------------- */
+
+/* Leading slot: icon or avatar (server-panel's 28px rounded player avatar). */
+.ui-list-item-leading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.ui-list-item-leading img,
+.ui-list-item-leading > svg {
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+.ui-list-item-content {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-list-item-title {
+  display: block;
+  margin: 0;
+  color: var(--color-text-main);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-list-item-description {
+  display: block;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+
+/* Trailing slot: meta text, a count, a badge, or an action button. */
+.ui-list-item-trailing {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* --- Variants ----------------------------------------------------------- */
+
+/* divided: hairline between rows, none above the first or below the last. */
+.ui-list[data-variant="divided"] > .ui-list-item + .ui-list-item,
+.ui-list[data-variant="divided"] > li + li {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* inset: rounded rows floating on the surface — .ui-nav's feel, applied to
+   content rows (image-hoard's library list). */
+.ui-list[data-variant="inset"] {
+  gap: var(--space-1);
+}
+
+.ui-list[data-variant="inset"] > .ui-list-item,
+.ui-list[data-variant="inset"] > li > .ui-list-item {
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  border-radius: var(--radius-nav);
+}
+
+/* compact: tighter rows for dense panels. */
+.ui-list[data-density="compact"] > .ui-list-item,
+.ui-list[data-density="compact"] > li > .ui-list-item {
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.ui-list[data-density="compact"] .ui-list-item-title {
+  font-size: var(--text-xs);
+}
+
+/* --- Selected / current ------------------------------------------------- */
+
+/* Selected row: elevated ground + inset primary bar + full-strength text,
+   matching .ui-nav's current-item treatment. */
+.ui-list-item[aria-selected="true"],
+.ui-list-item[aria-current]:not([aria-current="false"]) {
+  background-color: var(--color-bg-elevated);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+  color: var(--color-text-main);
+}
+
+.ui-list-item[aria-selected="true"] .ui-list-item-title,
+.ui-list-item[aria-current]:not([aria-current="false"]) .ui-list-item-title {
+  font-weight: var(--font-semibold);
+}
+
+/* Muted secondary text reads at AA against the plain surface but not against
+   the hover/active/selected grounds stacked on top of it, so those states
+   promote it to full-strength — the same move .ui-nav makes with its label. */
+:is(a, button, [role="option"]).ui-list-item:is(:hover, :active) :is(.ui-list-item-description, .ui-list-item-trailing),
+.ui-list-item[aria-selected="true"] :is(.ui-list-item-description, .ui-list-item-trailing),
+.ui-list-item[aria-current]:not([aria-current="false"]) :is(.ui-list-item-description, .ui-list-item-trailing) {
+  color: var(--color-text-main);
+}
+
+/* Keep the focus ring on a selected row — the two shadows stack. */
+.ui-list-item[aria-selected="true"]:focus-visible,
+.ui-list-item[aria-current]:not([aria-current="false"]):focus-visible {
+  box-shadow: var(--focus-ring), inset 3px 0 0 var(--color-primary);
+}
+
+/* --- Disabled ----------------------------------------------------------- */
+
+.ui-list-item:disabled,
+.ui-list-item[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Listbox ------------------------------------------------------------ */
+
+/* The same classes serve a single-select listbox: role="listbox" of
+   role="option" rows, selection still on aria-selected. Options are focusable
+   via the app's roving tabindex, so give them the interactive affordances a
+   plain <li> does not get from the element-based rules above. */
+.ui-list[role="listbox"] {
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-surface);
+}
+
+.ui-list[role="listbox"] > .ui-list-item {
+  border-radius: var(--radius-nav);
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.ui-list-item,
+  button.ui-list-item,
+  .ui-list[role="listbox"] > .ui-list-item {
+    transition: none;
+  }
+}
