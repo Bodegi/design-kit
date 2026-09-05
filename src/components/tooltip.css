@@ -14,7 +14,9 @@
    data-placement that suits the trigger's position. When you need either
    Escape-dismissal or escape from a clipping ancestor, use the click-triggered
    toggletip on a native [popover] (.ui-popover) — it renders in the top layer,
-   clear of overflow, and dismisses on Escape natively.
+   clear of overflow, and dismisses on Escape natively. On Chromium the second
+   half of this file keeps the hover trigger and fixes both: an interest invoker
+   opening a popover="hint" carrying the same .ui-tooltip surface.
    ========================================================================== */
 
 .ui-tooltip {
@@ -147,5 +149,216 @@
   .ui-tooltip[data-placement="left"] .ui-tooltip-content,
   .ui-tooltip[data-placement="right"] .ui-tooltip-content {
     transform: translateY(-50%);
+  }
+}
+
+/* ==========================================================================
+   Hint popover surface (.ui-tooltip[popover="hint"])
+   The same surface as .ui-tooltip-content above, on a native hint popover that
+   an interest invoker opens: interestfor="<id>" on the trigger, popover="hint"
+   on the target. The browser owns showing and hiding it, the hover-intent
+   delay, the pointer bridge between trigger and hint, the tooltip role and the
+   description relationship, so this path needs no aria-describedby, no wrapper,
+   and no runtime.
+
+   It dismisses on Escape and on a click outside, natively — the WCAG 1.4.13 gap
+   the CSS tooltip above documents — and renders in the top layer, clear of any
+   overflow:hidden ancestor. Engines without hint popovers show nothing for it
+   (they treat the unknown popover value as popover="auto", which stays closed
+   with no invoker to open it), so keep the CSS tooltip above or a title
+   attribute as the fallback there. Chromium and Edge ship both halves —
+   popover="hint" since 133 and interestfor since 142; Firefox and Safari ship
+   neither today.
+
+   Placement is the same data-placement set, this time resolved against the
+   invoker by CSS anchor positioning: interestfor makes the trigger the hint's
+   implicit anchor, so anchor() resolves with no anchor-name or position-anchor
+   for the app to wire. anchor() rather than position-area because the four
+   offsets and the arrow share one geometry with the CSS tooltip. Without anchor
+   support the hint keeps the UA's viewport-centred placement.
+   ========================================================================== */
+
+.ui-tooltip[popover="hint"] {
+  display: block;
+  position: fixed;
+  width: max-content;
+  max-width: 240px;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+  text-align: start;
+  overflow: visible;
+  opacity: 0;
+  transition:
+    opacity var(--transition-fast),
+    translate var(--transition-fast),
+    overlay var(--transition-fast) allow-discrete,
+    display var(--transition-fast) allow-discrete;
+}
+
+/* .ui-tooltip's own display:inline-flex outranks the UA's
+   [popover]:not(:popover-open) { display: none }, so the hidden state is
+   restated at this specificity — otherwise a closed hint sits in the flow. */
+.ui-tooltip[popover="hint"]:not(:popover-open) {
+  display: none;
+}
+
+.ui-tooltip[popover="hint"]:popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  .ui-tooltip[popover="hint"]:popover-open {
+    opacity: 0;
+  }
+}
+
+/* Arrow — the same rotated square as the CSS tooltip, top placement default. */
+.ui-tooltip[popover="hint"]::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-bg-elevated);
+  transform: rotate(45deg);
+  top: 100%;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -4px;
+  border-right: 1px solid var(--color-border-strong);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[popover="hint"][data-placement="bottom"]::after {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: -5px;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid var(--color-border-strong);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[popover="hint"][data-placement="left"]::after {
+  top: 50%;
+  left: 100%;
+  margin-top: -4px;
+  margin-left: -5px;
+  border-right: 1px solid var(--color-border-strong);
+  border-bottom: none;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[popover="hint"][data-placement="right"]::after {
+  top: 50%;
+  left: auto;
+  right: 100%;
+  margin-top: -4px;
+  margin-left: 0;
+  margin-right: -5px;
+  border-right: none;
+  border-bottom: 1px solid var(--color-border-strong);
+  border-left: 1px solid var(--color-border-strong);
+}
+
+@supports (anchor-name: --a) {
+  .ui-tooltip[popover="hint"] {
+    margin: 0;
+    inset: auto;
+    bottom: anchor(top);
+    left: anchor(center);
+    margin-bottom: var(--space-2);
+    translate: -50% 4px;
+  }
+  .ui-tooltip[popover="hint"]:popover-open {
+    translate: -50% 0;
+  }
+  @starting-style {
+    .ui-tooltip[popover="hint"]:popover-open {
+      translate: -50% 4px;
+    }
+  }
+
+  .ui-tooltip[popover="hint"][data-placement="bottom"] {
+    bottom: auto;
+    top: anchor(bottom);
+    margin-bottom: 0;
+    margin-top: var(--space-2);
+    translate: -50% -4px;
+  }
+  .ui-tooltip[popover="hint"][data-placement="bottom"]:popover-open {
+    translate: -50% 0;
+  }
+  @starting-style {
+    .ui-tooltip[popover="hint"][data-placement="bottom"]:popover-open {
+      translate: -50% -4px;
+    }
+  }
+
+  .ui-tooltip[popover="hint"][data-placement="left"] {
+    bottom: auto;
+    left: auto;
+    right: anchor(left);
+    top: anchor(center);
+    margin-bottom: 0;
+    margin-right: var(--space-2);
+    translate: 4px -50%;
+  }
+  .ui-tooltip[popover="hint"][data-placement="left"]:popover-open {
+    translate: 0 -50%;
+  }
+  @starting-style {
+    .ui-tooltip[popover="hint"][data-placement="left"]:popover-open {
+      translate: 4px -50%;
+    }
+  }
+
+  .ui-tooltip[popover="hint"][data-placement="right"] {
+    bottom: auto;
+    left: anchor(right);
+    top: anchor(center);
+    margin-bottom: 0;
+    margin-left: var(--space-2);
+    translate: -4px -50%;
+  }
+  .ui-tooltip[popover="hint"][data-placement="right"]:popover-open {
+    translate: 0 -50%;
+  }
+  @starting-style {
+    .ui-tooltip[popover="hint"][data-placement="right"]:popover-open {
+      translate: -4px -50%;
+    }
+  }
+}
+
+/* Hover-intent timing. An app may set these on any invoker; .ui-tooltip-trigger
+   is the kit's default pairing — quick to appear, slower to leave so a pointer
+   has time to travel from the trigger onto the hint. Both properties are
+   ignored by engines without interest invokers. */
+.ui-tooltip-trigger {
+  interest-delay-start: 0.35s;
+  interest-delay-end: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-tooltip[popover="hint"] {
+    transition:
+      overlay var(--transition-fast) allow-discrete,
+      display var(--transition-fast) allow-discrete;
+    translate: -50% 0;
+  }
+  .ui-tooltip[popover="hint"][data-placement="bottom"] {
+    translate: -50% 0;
+  }
+  .ui-tooltip[popover="hint"][data-placement="left"],
+  .ui-tooltip[popover="hint"][data-placement="right"] {
+    translate: 0 -50%;
   }
 }
