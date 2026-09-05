@@ -4,7 +4,7 @@ A lightweight, framework-agnostic design system and component styling library bu
 
 * **100% Pure CSS**: Zero JavaScript runtime dependencies. Works in Vanilla JS, React, Vue, Svelte, and Tauri desktop applications.
 * **Three-Tier Token System**: Global primitives $\to$ Semantic component contracts $\to$ Application theme presets.
-* **Open UI Anatomy**: Standardized component parts (`.ui-field`, `.ui-dialog`, `.ui-panel`, etc.) leveraging native `<dialog>`, `[popover]`, and `<details>`.
+* **Open UI Anatomy**: Standardized component parts (`.ui-field`, `.ui-dialog`, `.ui-panel`, etc.) leveraging native `<dialog>`, `[popover]`, `<details>`, `<table>`, `<progress>`, `<meter>`, `<select>`, and `<input type="range">` / `<input type="file">`.
 * **Curated SVG Icon Suite**: 38 essential UI vector icons packaged as an SVG sprite and standalone SVGs.
 * **Vite Visual Workshop**: Fast component/token preview catalog deployable to GitHub Pages.
 
@@ -74,7 +74,7 @@ Components are plain HTML with an Open UI `.ui-*` anatomy class; variants are dr
 </button>
 ```
 
-Because the kit ships **no JavaScript**, interactive components provide the styling and state hooks — your app supplies the behavior by toggling the relevant state. Style keys off native or ARIA state, so wiring it correctly also keeps it accessible: set `aria-selected` on a `.ui-tab`, add or remove a `.ui-toast`, toggle `[data-state]`. Native elements (`<dialog>`, `[popover]`, `<progress>`, `<meter>`) work through their own built-in APIs.
+Because the kit ships **no JavaScript**, interactive components provide the styling and state hooks — your app supplies the behavior by toggling the relevant state. Style keys off native or ARIA state, so wiring it correctly also keeps it accessible: set `aria-selected` on a `.ui-tab`, add or remove a `.ui-toast`, toggle `[data-state]`. Native elements (`<dialog>`, `[popover]`, `<details>`, `<progress>`, `<meter>`, `<select>`, `<input type="range">`, `<input type="file">`) work through their own built-in APIs — including `<details name>` for an accordion that opens one panel at a time.
 
 Browse the full component catalog — every variant, state, and copyable HTML/JSX snippet — in the **[live workshop](https://bodegi.github.io/design-kit/)** (or run it locally with `npm run dev`).
 
