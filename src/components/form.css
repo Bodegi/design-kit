@@ -46,11 +46,34 @@
 
 .ui-select {
   cursor: pointer;
-  padding-right: var(--space-8);
+}
+
+/* Chevron. A classic <select> generates no pseudo-elements of its own, so the
+   chevron hangs off the .ui-control wrapper and is drawn from two rotated
+   borders painted with --color-text-muted, which follows the active theme. The
+   native arrow is only suppressed where that wrapper is present, so a
+   .ui-select used bare keeps its platform arrow rather than losing the
+   affordance entirely. */
+.ui-control:has(> .ui-select) > .ui-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right var(--space-3) center;
+  padding-right: var(--space-8);
+}
+
+.ui-control:has(> .ui-select)::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--space-3) + 2px);
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid var(--color-text-muted);
+  border-bottom: 2px solid var(--color-text-muted);
+  border-end-end-radius: var(--radius-xs);
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
+}
+
+.ui-control:has(> .ui-select:disabled)::after {
+  opacity: 0.5;
 }
 
 .ui-input:hover:not(:disabled),
@@ -204,4 +227,190 @@
 
 .ui-switch input:focus-visible + .ui-switch-track {
   box-shadow: var(--focus-ring);
+}
+
+/* --- Customizable Select -------------------------------------------------
+   Open UI's Customizable Select anatomy (open-ui.org/components/customizableselect).
+   `appearance: base-select` on both the <select> and its ::picker(select) swaps
+   the OS dropdown for an in-page popover the kit can style: the closed control
+   keeps the .ui-input look, ::picker-icon is the chevron, ::picker(select) is a
+   .ui-popover-like surface, and each <option> is a .ui-menu-item-like row with
+   a ::checkmark on the checked one. Rich option markup (an icon, a color dot)
+   is allowed, and <selectedcontent> mirrors the chosen option into the button.
+   An <optgroup> takes its label from a child <legend> in this mode.
+
+   Blink (Chromium 135+) is the only engine that ships it today; Gecko and
+   WebKit skip this whole @supports block and keep the classic control above,
+   so the two renderings have to stay visually interchangeable. Opt-in is
+   automatic for every select.ui-select: consumers already asked the kit to own
+   this control's look, the picker only reaches engines that can render it
+   in-theme, and gating it behind a data-variant would leave the styled path
+   unused by default.
+   ------------------------------------------------------------------------ */
+
+@supports (appearance: base-select) {
+  select.ui-select,
+  select.ui-select::picker(select) {
+    appearance: base-select;
+  }
+
+  /* ::picker-icon replaces the wrapper chevron, so the wrapper drops its own
+     and gives back the room it reserved. Repeating `appearance` here is what
+     overrides the wrapper-scoped `appearance: none` above, which outweighs
+     `select.ui-select` on specificity. */
+  .ui-control:has(> .ui-select)::after {
+    display: none;
+  }
+
+  .ui-control:has(> .ui-select) > .ui-select {
+    appearance: base-select;
+    padding-right: var(--space-3);
+  }
+
+  select.ui-select {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: left;
+  }
+
+  select.ui-select selectedcontent {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  select.ui-select::picker-icon {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: rotate var(--transition-fast);
+  }
+
+  select.ui-select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  /* --- Picker surface --- */
+  select.ui-select::picker(select) {
+    box-sizing: border-box;
+    min-width: anchor-size(inline);
+    max-height: 18rem;
+    overflow-y: auto;
+    margin-block-start: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-base);
+    background-color: var(--color-bg-elevated);
+    color: var(--color-text-main);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    translate: 0 -4px;
+    transition:
+      opacity var(--transition-fast),
+      translate var(--transition-fast),
+      display var(--transition-fast) allow-discrete,
+      overlay var(--transition-fast) allow-discrete;
+  }
+
+  select.ui-select:open::picker(select) {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    select.ui-select:open::picker(select) {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+
+  /* --- Options --- */
+  select.ui-select option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-nav);
+    font-size: var(--text-sm);
+    color: var(--color-text-main);
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  select.ui-select option:hover:not(:disabled) {
+    background-color: var(--color-bg-hover);
+  }
+
+  select.ui-select option:focus-visible {
+    outline: none;
+    background-color: var(--color-bg-hover);
+    box-shadow: var(--focus-ring);
+  }
+
+  select.ui-select option:checked {
+    background-color: var(--color-primary-subtle);
+    font-weight: var(--font-medium);
+  }
+
+  select.ui-select option:disabled {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* The checkmark box is generated on every option and only revealed on the
+     checked one, so rows keep their width as the selection moves. */
+  select.ui-select option::checkmark {
+    order: 1;
+    margin-left: auto;
+    content: "\2713";
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+  }
+
+  select.ui-select option:not(:checked)::checkmark {
+    visibility: hidden;
+  }
+
+  /* --- Groups --- */
+  select.ui-select optgroup {
+    padding: 0;
+    border: none;
+    background: none;
+    font-weight: inherit;
+  }
+
+  select.ui-select optgroup + optgroup {
+    margin-top: var(--space-1);
+    padding-top: var(--space-1);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  select.ui-select optgroup legend {
+    padding: var(--space-2) var(--space-3) var(--space-1);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    select.ui-select::picker-icon,
+    select.ui-select::picker(select),
+    select.ui-select option {
+      transition: none;
+    }
+
+    select.ui-select::picker(select) {
+      opacity: 1;
+      translate: none;
+    }
+  }
 }
