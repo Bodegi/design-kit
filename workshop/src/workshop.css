@@ -214,6 +214,31 @@
 }
 
 /* Contrast Ratios */
+.ws-contrast-summary {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+.ws-contrast-summary[data-level='pass'] {
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.ws-contrast-summary[data-level='fail'] {
+  background-color: var(--color-danger-subtle);
+  color: var(--color-danger);
+}
+
+.ws-contrast-threshold {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
 .ws-contrast-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -286,11 +311,6 @@
 .ws-contrast-badge[data-level='pass'] {
   background-color: var(--color-success-subtle);
   color: var(--color-success);
-}
-
-.ws-contrast-badge[data-level='large'] {
-  background-color: var(--color-warning-subtle);
-  color: var(--color-warning);
 }
 
 .ws-contrast-badge[data-level='fail'] {

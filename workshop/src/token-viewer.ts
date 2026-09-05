@@ -1,4 +1,13 @@
 import { showToast } from './toast';
+import {
+  evaluatePairings,
+  flatten,
+  over,
+  parseColor,
+  toHex,
+  type PairingResult,
+  type Rgb,
+} from './contrast';
 
 export function renderTokenViewer(container: HTMLElement) {
   container.innerHTML = `
@@ -45,22 +54,7 @@ export function renderTokenViewer(container: HTMLElement) {
     </section>
 
     <!-- 4. Contrast Ratios -->
-    <section class="ws-section">
-      <h2 class="ws-section-title">Contrast Ratios (WCAG AA)</h2>
-      <p class="ws-section-desc">Computed for the active theme. AA needs 4.5:1 for body text, 3.0:1 for large text and UI.</p>
-      <div class="ws-contrast-list">
-        ${renderContrastRow('Main text on canvas', '--color-text-main', '--color-bg-canvas')}
-        ${renderContrastRow('Muted text on canvas', '--color-text-muted', '--color-bg-canvas')}
-        ${renderContrastRow('Main text on surface', '--color-text-main', '--color-bg-surface')}
-        ${renderContrastRow('Muted text on surface', '--color-text-muted', '--color-bg-surface')}
-        ${renderContrastRow('Primary label on fill', '--color-primary-contrast', '--color-primary')}
-        ${renderContrastRow('Accent label on fill', '--color-accent-contrast', '--color-accent')}
-        ${renderContrastRow('Success label on fill', '--color-success-contrast', '--color-success')}
-        ${renderContrastRow('Warning label on fill', '--color-warning-contrast', '--color-warning')}
-        ${renderContrastRow('Danger label on fill', '--color-danger-contrast', '--color-danger')}
-        ${renderContrastRow('Info label on fill', '--color-info-contrast', '--color-info')}
-      </div>
-    </section>
+    ${renderContrastSection()}
 
     <!-- 5. Spacing Scale -->
     <section class="ws-section">
@@ -140,30 +134,53 @@ function renderSwatchCard(name: string, token: string, label: string) {
   `;
 }
 
-function renderContrastRow(label: string, fgToken: string, bgToken: string) {
-  const fg = parseColor(computedValue(fgToken));
-  const bg = parseColor(computedValue(bgToken));
+function renderContrastSection() {
+  const results = evaluatePairings(computedValue);
+  const failed = results.filter((result) => !result.pass).length;
+  const summaryLevel = failed === 0 ? 'pass' : 'fail';
+  const summaryText =
+    failed === 0
+      ? `All ${results.length} pairings pass`
+      : `${failed} of ${results.length} pairings fail`;
 
-  let ratioText = 'n/a';
-  let badge = '';
-  if (fg && bg) {
-    const ratio = contrastRatio(fg, bg);
-    ratioText = `${ratio.toFixed(2)}:1`;
-    const level = ratio >= 4.5 ? 'pass' : ratio >= 3 ? 'large' : 'fail';
-    const badgeText = level === 'pass' ? 'AA' : level === 'large' ? 'AA Large' : 'Fail';
-    badge = `<span class="ws-contrast-badge" data-level="${level}">${badgeText}</span>`;
-  }
+  return `
+    <section class="ws-section">
+      <h2 class="ws-section-title">Contrast Ratios (WCAG AA)</h2>
+      <p class="ws-contrast-summary" data-level="${summaryLevel}">${summaryText}</p>
+      <p class="ws-section-desc">
+        Measured for the active theme, with translucent tokens composited over the
+        ground beneath them. Body text needs 4.5:1; large text and UI shapes need 3.0:1.
+      </p>
+      <div class="ws-contrast-list">
+        ${results.map(renderContrastRow).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderContrastRow({ pairing, ratio, pass }: PairingResult) {
+  const bgLayers = pairing.bg.map((token) => parseColor(computedValue(token)));
+  const bg = bgLayers.every((layer) => layer !== null) ? flatten(bgLayers as Rgb[]) : null;
+  const fgRaw = parseColor(computedValue(pairing.fg));
+  const fg = fgRaw && bg ? over(fgRaw, bg) : fgRaw;
+
+  const sampleStyle = bg && fg ? `background-color: ${toHex(bg)}; color: ${toHex(fg)};` : '';
+  const ratioText = ratio === null ? 'n/a' : `${ratio.toFixed(2)}:1`;
+  const level = ratio === null ? 'fail' : pass ? 'pass' : 'fail';
+  const badgeText = ratio === null ? 'N/A' : pass ? 'PASS' : 'FAIL';
+  const stack = [pairing.fg, ...pairing.bg].join(' on ');
 
   return `
     <div class="ws-contrast-row">
-      <div class="ws-contrast-sample" style="background-color: var(${bgToken}); color: var(${fgToken});">Aa</div>
+      <div class="ws-contrast-sample" style="${sampleStyle}">Aa</div>
       <div class="ws-contrast-info">
-        <div class="ws-contrast-label">${label}</div>
-        <div class="ws-contrast-tokens">${fgToken} on ${bgToken}</div>
+        <div class="ws-contrast-label">${pairing.label}</div>
+        <div class="ws-contrast-tokens">${stack}</div>
       </div>
       <div class="ws-contrast-result">
         <span class="ws-contrast-ratio">${ratioText}</span>
-        ${badge}
+        <span class="ws-contrast-badge" data-level="${level}">${badgeText}</span>
+        <span class="ws-contrast-threshold">needs ${pairing.threshold.toFixed(1)}:1</span>
       </div>
     </div>
   `;
@@ -200,61 +217,7 @@ function renderRadiiCard(token: string, label: string) {
   `;
 }
 
-type Rgb = { r: number; g: number; b: number; a: number };
-
 // Resolved value of a custom property on :root for the active theme.
 function computedValue(token: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
-}
-
-// Parses the color literals our tokens use (#hex, #hexa, rgb(), rgba()).
-// Returns null for anything else (e.g. a non-color token) so callers fall back.
-function parseColor(value: string): Rgb | null {
-  const v = value.trim();
-
-  const hex = v.match(/^#([0-9a-f]{3,8})$/i);
-  if (hex) {
-    let h = hex[1];
-    if (h.length === 3 || h.length === 4) {
-      h = h.split('').map((c) => c + c).join('');
-    }
-    if (h.length !== 6 && h.length !== 8) return null;
-    return {
-      r: parseInt(h.slice(0, 2), 16),
-      g: parseInt(h.slice(2, 4), 16),
-      b: parseInt(h.slice(4, 6), 16),
-      a: h.length === 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1,
-    };
-  }
-
-  const rgb = v.match(/^rgba?\(([^)]+)\)$/i);
-  if (rgb) {
-    const parts = rgb[1].split(/[,/\s]+/).filter(Boolean).map(parseFloat);
-    if (parts.length >= 3 && parts.slice(0, 3).every((n) => !Number.isNaN(n))) {
-      return { r: parts[0], g: parts[1], b: parts[2], a: parts[3] ?? 1 };
-    }
-  }
-
-  return null;
-}
-
-function toHex({ r, g, b, a }: Rgb): string {
-  const h = (n: number) => Math.round(n).toString(16).padStart(2, '0');
-  const alpha = a < 1 ? h(a * 255) : '';
-  return `#${h(r)}${h(g)}${h(b)}${alpha}`;
-}
-
-// WCAG 2.x relative luminance.
-function relativeLuminance({ r, g, b }: Rgb): number {
-  const channel = (c: number) => {
-    const s = c / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-  };
-  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
-}
-
-function contrastRatio(fg: Rgb, bg: Rgb): number {
-  const l1 = relativeLuminance(fg);
-  const l2 = relativeLuminance(bg);
-  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 }

@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "vite workshop",
     "typecheck": "tsc --noEmit -p workshop",
+    "check:contrast": "node scripts/check-contrast.mjs",
     "build:icons": "node scripts/generate-icons.mjs",
     "build:css": "node scripts/build-css.mjs",
     "build:workshop": "vite build workshop",
