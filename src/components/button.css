@@ -74,9 +74,13 @@
   padding: 0;
 }
 
-.ui-btn[data-size="icon"][data-size="sm"] {
+/* A square icon button at the small height. `data-size` holds one value, so the
+   small square is its own value rather than "icon" + "sm". */
+.ui-btn[data-size="icon-sm"] {
   width: 28px;
   height: 28px;
+  padding: 0;
+  font-size: var(--text-xs);
 }
 
 /* --- Variants: Solid Intent --- */
