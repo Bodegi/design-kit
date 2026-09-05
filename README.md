@@ -47,7 +47,7 @@ In your application root stylesheet (or JavaScript entrypoint):
 * `design-kit/dist/themes/image-annotate.css` (High-contrast / orange)
 
 ### 3. Optional Local Overrides (Escape Hatch)
-To customize tokens locally within your application, add a `:root` block after your theme import:
+To customize colors locally within your application, add a `:root` block after your theme import:
 
 ```css
 @import "design-kit/dist/index.css";
@@ -56,9 +56,11 @@ To customize tokens locally within your application, add a `:root` block after y
 /* Optional local overrides */
 :root {
   --color-primary: #10b981;
-  --radius-base: 6px;
+  --color-primary-contrast: #052e16;
 }
 ```
+
+Corner radius is a system constant, not a per-app knob: the `--radius-*` scale and the `--radius-nav` / `--radius-control` / `--radius-base` roles are shared by every app so they differ by color alone.
 
 ---
 
