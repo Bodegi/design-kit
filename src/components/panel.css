@@ -50,3 +50,10 @@
   justify-content: flex-end;
   gap: var(--space-3);
 }
+
+/* The panel's hover edge and shadow settle instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-panel {
+    transition: none;
+  }
+}

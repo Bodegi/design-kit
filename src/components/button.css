@@ -211,3 +211,19 @@
 .ui-toolbar-spacer {
   flex: 1 1 auto;
 }
+
+/* Buttons still their color fade and give up the hover lift entirely — the
+   rest transform is dropped with it, so nothing is left to animate from. The
+   lift rules are repeated verbatim because a media query adds no specificity;
+   these win by coming later in the file. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-btn {
+    transition: none;
+  }
+
+  .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]),
+  .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled),
+  .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):active:not(:disabled) {
+    transform: none;
+  }
+}

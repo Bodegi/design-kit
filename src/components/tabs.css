@@ -116,3 +116,11 @@
   padding-top: 0;
   flex: 1;
 }
+
+/* Tabs still the color and underline fade; the active tab still changes, it
+   just arrives without the crossfade. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-tab {
+    transition: none;
+  }
+}

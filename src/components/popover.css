@@ -62,3 +62,10 @@
   background-color: var(--color-border-subtle);
   margin: var(--space-1) 0;
 }
+
+/* Menu rows still their hover fade. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-menu-item {
+    transition: none;
+  }
+}
