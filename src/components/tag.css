@@ -1,0 +1,258 @@
+/* ==========================================================================
+   Open UI: Tag (.ui-tag)
+   A user-manipulable token — a filter chip, a removable input token, a
+   navigable label. The interactive counterpart to .ui-badge, which stays a
+   static status label: a badge reports state, a tag is something the reader
+   selects, follows, or removes.
+
+   Anatomy: .ui-tag holds an optional leading .ui-tag-icon, a .ui-tag-label,
+   and an optional trailing .ui-tag-remove button. .ui-tag-group wraps a set.
+   The container is a <span> when static, an <a> or <button> when interactive;
+   .ui-tag-remove is always a real <button type="button"> with an accessible
+   name, so a removable tag's container is a <span>, never a <button> — a
+   button inside a button is invalid and browsers unnest it.
+
+   State hooks (no runtime — the app toggles these):
+     aria-pressed="true" / aria-selected="true"  selected filter tag
+     :disabled / [aria-disabled="true"]          inactive
+   Interactive affordances (hover, pointer) apply only to a.ui-tag and
+   button.ui-tag, so a static span tag never looks clickable.
+
+   Contrast: the label is always --color-text-main over a tint of the intent
+   color, never the intent color itself and never a solid intent fill, so it
+   clears 4.5:1 in every theme at both sizes and in every state. Intent shows
+   in the border, a UI part held to 3.0:1. The leading icon slot inherits the
+   label color rather than the intent hue, because the intent color over its
+   own tint drops below 3.0:1 in some themes.
+
+   The three --_tag-* locals below carry the intent's colors down from the
+   [data-intent] rules, so every state rule is written once against those
+   locals instead of once per intent.
+   ========================================================================== */
+
+.ui-tag {
+  --_tag-accent: var(--color-text-muted);   /* intent hue: border, hover + selected tint */
+  --_tag-fill: var(--color-bg-muted);       /* resting background tint */
+  --_tag-border: var(--color-border-subtle);
+  --_ring: 0 0 transparent;                 /* the selected state's inner ring */
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 100%;
+  height: 28px;
+  padding: 0 var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: var(--_tag-fill);
+  color: var(--color-text-main);
+  border: 1px solid var(--_tag-border);
+  border-radius: var(--radius-full);
+  /* box-shadow is declared here and on :focus-visible only, both times through
+     --_ring, so the selected rule can never outrank the focus ring. */
+  box-shadow: var(--_ring);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ui-tag-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Leading slot — an app-supplied SVG, in the label color. */
+.ui-tag-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+  color: currentColor;
+}
+
+/* --- Intents --- */
+.ui-tag[data-intent="primary"] {
+  --_tag-accent: var(--color-primary);
+  --_tag-fill: var(--color-primary-subtle);
+  --_tag-border: var(--color-primary);
+}
+
+.ui-tag[data-intent="accent"] {
+  --_tag-accent: var(--color-accent);
+  --_tag-fill: var(--color-accent-subtle);
+  --_tag-border: var(--color-accent);
+}
+
+.ui-tag[data-intent="success"] {
+  --_tag-accent: var(--color-success);
+  --_tag-fill: var(--color-success-subtle);
+  --_tag-border: var(--color-success);
+}
+
+.ui-tag[data-intent="warning"] {
+  --_tag-accent: var(--color-warning);
+  --_tag-fill: var(--color-warning-subtle);
+  --_tag-border: var(--color-warning);
+}
+
+.ui-tag[data-intent="danger"] {
+  --_tag-accent: var(--color-danger);
+  --_tag-fill: var(--color-danger-subtle);
+  --_tag-border: var(--color-danger);
+}
+
+.ui-tag[data-intent="info"] {
+  --_tag-accent: var(--color-info);
+  --_tag-fill: var(--color-info-subtle);
+  --_tag-border: var(--color-info);
+}
+
+/* --- Variant: outline (the default is the subtle fill above) --- */
+.ui-tag[data-variant="outline"] {
+  --_tag-fill: transparent;
+  --_tag-border: var(--_tag-accent);
+}
+
+/* Neutral outline keeps a visible edge rather than the near-invisible muted grey. */
+.ui-tag[data-variant="outline"]:not([data-intent]) {
+  --_tag-border: var(--color-border-strong);
+}
+
+/* --- Sizes --- */
+.ui-tag[data-size="sm"] {
+  height: 22px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+  gap: var(--space-1);
+}
+
+.ui-tag[data-size="md"] {
+  height: 28px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+  gap: var(--space-2);
+}
+
+/* --- Interactive container (link or button tags only) --- */
+a.ui-tag,
+button.ui-tag {
+  cursor: pointer;
+}
+
+a.ui-tag:hover,
+button.ui-tag:hover:not(:disabled) {
+  /* Deepen the tint and bring the border up to the full intent hue —
+     the move tectonic's .chip makes on hover. */
+  --_tag-fill: color-mix(in srgb, var(--_tag-accent) 15%, transparent);
+  --_tag-border: var(--_tag-accent);
+}
+
+.ui-tag:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), var(--_ring);
+}
+
+/* --- Selected (filter tag) ---
+   A deeper tint plus a doubled edge (border + inset ring) rather than a solid
+   intent fill: the label stays --color-text-main on a tint, which passes AA in
+   every theme, where a solid fill would depend on each theme's -contrast token. */
+.ui-tag[aria-pressed="true"],
+.ui-tag[aria-selected="true"] {
+  --_tag-fill: color-mix(in srgb, var(--_tag-accent) 32%, transparent);
+  --_tag-border: var(--_tag-accent);
+  --_ring: inset 0 0 0 1px var(--_tag-accent);
+}
+
+.ui-tag[aria-pressed="true"] .ui-tag-remove,
+.ui-tag[aria-selected="true"] .ui-tag-remove {
+  color: currentColor;
+}
+
+/* --- Disabled --- */
+.ui-tag:disabled,
+.ui-tag[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ui-tag:disabled .ui-tag-remove,
+.ui-tag[aria-disabled="true"] .ui-tag-remove {
+  pointer-events: none;
+}
+
+/* --- Remove affordance ---
+   A real <button> so it is reachable and named; the glyph is two rotated bars
+   in the current text color, so it needs no icon font or data-URI and inherits
+   the tag's color in every state. */
+.ui-tag-remove {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin-inline-end: calc(var(--space-1) * -1);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ui-tag-remove::before,
+.ui-tag-remove::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 1.5px;
+  background-color: currentColor;
+  border-radius: var(--radius-full);
+}
+
+.ui-tag-remove::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ui-tag-remove::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.ui-tag-remove:hover {
+  background-color: var(--color-bg-active);
+  color: var(--color-text-main);
+}
+
+.ui-tag-remove:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ui-tag[data-size="sm"] .ui-tag-remove {
+  width: 13px;
+  height: 13px;
+}
+
+.ui-tag[data-size="sm"] .ui-tag-remove::before,
+.ui-tag[data-size="sm"] .ui-tag-remove::after {
+  width: 7px;
+}
+
+/* --- Group --- */
+.ui-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-tag,
+  .ui-tag-remove {
+    transition: none;
+  }
+}
