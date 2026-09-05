@@ -34,10 +34,9 @@
   --color-accent-contrast: #3d0a22;
   --color-accent-subtle: rgba(228, 91, 152, 0.125);
 
-  /* Intents lifted wholesale from Image Hoard's own status tokens
-     (src/index.css): --accent-success, --accent-warning, --accent-danger, and
-     --accent-wallpaper (a blue used for the wallpaper tag) as info. The app
-     defined a real, complete status set, so no status hue here is invented. */
+  /* Intents are Image Hoard's own status tokens (src/index.css):
+     --accent-success, --accent-warning, --accent-danger, and --accent-wallpaper
+     (the wallpaper tag's blue) as info. */
   --color-success: #10b981;
   --color-success-hover: #0d9668;
   --color-success-contrast: #06251b;

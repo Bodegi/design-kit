@@ -34,11 +34,12 @@
   --color-accent-contrast: #04121f;
   --color-accent-subtle: rgba(65, 144, 234, 0.115);
 
-  /* Server Panel is a Material UI app (client/src/theme.ts), so its real status
-     source is MUI's dark-mode palette: success #66bb6a, warning #ffa726, error
-     #f44336, info #29b6f6. Success stays a lighter green than the grass primary
-     and info a cyan-blue apart from the accent's azure, so each reads apart from
-     the brand hue it neighbors. */
+  /* Server Panel is a Material UI app (client/src/theme.ts), so the intents are
+     MUI's dark-mode palette: success #66bb6a, warning #ffa726, info #29b6f6.
+     Danger is MUI's #f44336 lightened to #f55a4e to clear AA on the near-black
+     surface. Success stays lighter than the grass primary and info stays a
+     cyan-blue apart from the accent's azure, so each reads apart from the brand
+     hue it neighbors. */
   --color-success: #66bb6a;
   --color-success-hover: #52a856;
   --color-success-contrast: #0d260f;

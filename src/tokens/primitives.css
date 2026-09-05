@@ -1,6 +1,7 @@
 /* ==========================================================================
    Tier 1: Global Primitives Scale
-   Foundational units for spacing, typography, radii, transitions, and shadows.
+   The raw scales every other tier is built from. No colors live here: color
+   enters at Tier 2 (tokens/semantic.css) so a theme has one place to change.
    ========================================================================== */
 
 :root {

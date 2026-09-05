@@ -32,8 +32,8 @@
   --color-accent-contrast: #ffffff;
   --color-accent-subtle: rgba(79, 70, 229, 0.12);
 
-  /* Intents retuned for a light surface: darker fills so white contrast
-     text, badge text on -subtle tint, and text on canvas all meet WCAG AA. */
+  /* Intents are darkened for a light surface, so white -contrast text, badge
+     text over the -subtle tint, and the intent on canvas all clear WCAG AA. */
   --color-success: #047857;
   --color-success-hover: #065f46;
   --color-success-contrast: #ffffff;

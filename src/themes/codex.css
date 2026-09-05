@@ -29,20 +29,18 @@
   --color-primary-contrast: #1c1917;
   --color-primary-subtle: rgba(245, 158, 11, 0.15);
 
-  /* Accent derives from Codex's --accent-purple (#8b5cf6), a real but
-     never-wired app token. The app's most-used non-gold color was its crimson,
-     but that is the danger color (see --color-danger) — using it here duplicated
-     danger, so accent moves to the one distinct secondary the app already had. */
+  /* Accent is Codex's own --accent-purple (#8b5cf6), the app's one secondary
+     hue that is distinct from every status color, lightened to #9e7ce1 to clear
+     AA against these navy surfaces. */
   --color-accent: #9e7ce1;
   --color-accent-hover: #8a68cf;
   --color-accent-contrast: #1c1033;
   --color-accent-subtle: rgba(158, 124, 225, 0.13);
 
-  /* Intents lifted from the Codex app's real status colors (src/styles/main.css):
-     --accent-emerald (healthy/live), --accent-crimson (danger/stale), and
-     --accent-blue (info). Warning has no app source — gold is the primary — so
-     it stays a blessed yellow-gold, pushed yellower than the amber primary so
-     the two read as distinct. */
+  /* Success, danger and info are Codex's own status colors
+     (src/styles/main.css): --accent-emerald, --accent-crimson, --accent-blue.
+     Warning is a yellow-gold pushed yellower than the amber primary so the two
+     read apart. */
   --color-success: #10b981;
   --color-success-hover: #0d9668;
   --color-success-contrast: #06251b;

@@ -33,8 +33,8 @@
   --color-accent-contrast: #1e1b4b;
   --color-accent-subtle: rgba(139, 149, 249, 0.105);
 
-  /* success / warning / danger / info are inherited from the semantic baseline
-     (tokens/semantic.css) on purpose: this is the reference dark theme, and the
-     cool-slate baseline set is its deliberate intent palette. Other themes
-     override these to their own register; default-dark is where they live. */
+  /* The intent set (success / warning / danger / info and their -subtle /
+     -contrast) is the semantic baseline's, in tokens/semantic.css: this is the
+     reference dark theme, so the baseline's cool-slate intents are its palette.
+     Every other theme defines its own. */
 }

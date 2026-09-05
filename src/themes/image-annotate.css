@@ -34,10 +34,9 @@
   --color-accent-contrast: #10151c;
   --color-accent-subtle: rgba(255, 209, 102, 0.16);
 
-  /* Intents tuned to Image Annotate's cool blue-slate register: a bright teal
-     success, an orange-amber warning kept distinct from the yellow accent, a
-     cool coral danger, and a cyan-teal info so it reads apart from the
-     light-blue primary. */
+  /* Intents are tuned to the cool blue-slate register, each pushed clear of the
+     brand hue it neighbors: an orange-amber warning apart from the yellow
+     accent, a cyan-teal info apart from the light-blue primary. */
   --color-success: #4bd4a0;
   --color-success-hover: #33bd89;
   --color-success-contrast: #06281d;
