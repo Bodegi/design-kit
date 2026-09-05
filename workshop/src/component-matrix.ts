@@ -1223,19 +1223,54 @@ export function renderComponentMatrix(container: HTMLElement) {
         </div>
       </dialog>
 
-      <div style="margin-top: var(--space-4);">
-        <details class="ui-accordion">
-          <summary class="ui-accordion-summary">How does theme inheritance work?</summary>
-          <div class="ui-accordion-content">
-            Components reference Tier 2 semantic variables. When an application imports a theme preset (Tier 3), all variables cascade automatically into every component.
+      <div class="ws-preview-block" style="margin-top: var(--space-4);">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Independent Disclosures</span>
+          ${copyControls(accordionSnippet)}
+        </div>
+        <div class="ws-preview-canvas ws-canvas-col">
+          <details class="ui-accordion">
+            <summary class="ui-accordion-summary">How does theme inheritance work?</summary>
+            <div class="ui-accordion-content">
+              Components reference Tier 2 semantic variables. When an application imports a theme preset (Tier 3), all variables cascade automatically into every component.
+            </div>
+          </details>
+          <details class="ui-accordion">
+            <summary class="ui-accordion-summary">Are JavaScript runtimes required?</summary>
+            <div class="ui-accordion-content">
+              No. The styling library is 100% pure CSS and native HTML standards, making it completely framework-agnostic.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Exclusive Accordion (&lt;details name&gt;)</span>
+          ${copyControls(accordionGroupSnippet)}
+        </div>
+        <div class="ws-preview-canvas ws-canvas-col">
+          <div class="ui-accordion-group">
+            <details class="ui-accordion" name="ws-accordion-demo" open>
+              <summary class="ui-accordion-summary">Tokens</summary>
+              <div class="ui-accordion-content">
+                Primitives feed semantic contracts, which themes override. Open one of the other panels and this one closes itself — the shared <code>name</code> does it, no script.
+              </div>
+            </details>
+            <details class="ui-accordion" name="ws-accordion-demo">
+              <summary class="ui-accordion-summary">Components</summary>
+              <div class="ui-accordion-content">
+                Every component reads Tier 2 tokens only, and keys its states off native or ARIA state so the visual never drifts from the accessibility state.
+              </div>
+            </details>
+            <details class="ui-accordion" name="ws-accordion-demo">
+              <summary class="ui-accordion-summary">Browser support</summary>
+              <div class="ui-accordion-content">
+                <code>&lt;details name&gt;</code> ships in Chrome/Edge 120, Safari 17.2 and Firefox 130. Older engines ignore the attribute and the panels open independently; the kit ships no shim for that.
+              </div>
+            </details>
           </div>
-        </details>
-        <details class="ui-accordion">
-          <summary class="ui-accordion-summary">Are JavaScript runtimes required?</summary>
-          <div class="ui-accordion-content">
-            No. The styling library is 100% pure CSS and native HTML standards, making it completely framework-agnostic.
-          </div>
-        </details>
+        </div>
       </div>
     </section>
   `;
@@ -1723,6 +1758,28 @@ function wireAlerts(root: HTMLElement) {
     btn.addEventListener('click', () => btn.closest('.ui-alert')?.remove());
   });
 }
+
+const accordionSnippet = `<details class="ui-accordion">
+  <summary class="ui-accordion-summary">How does theme inheritance work?</summary>
+  <div class="ui-accordion-content">Components reference Tier 2 semantic variables.</div>
+</details>`;
+
+// Exclusive accordion: the shared name attribute is the whole mechanism — the
+// group class only collapses the radii and dividers into one card.
+const accordionGroupSnippet = `<div class="ui-accordion-group">
+  <details class="ui-accordion" name="docs" open>
+    <summary class="ui-accordion-summary">Tokens</summary>
+    <div class="ui-accordion-content">Primitives feed semantic contracts, which themes override.</div>
+  </details>
+  <details class="ui-accordion" name="docs">
+    <summary class="ui-accordion-summary">Components</summary>
+    <div class="ui-accordion-content">Every component reads Tier 2 tokens only.</div>
+  </details>
+  <details class="ui-accordion" name="docs">
+    <summary class="ui-accordion-summary">Browser support</summary>
+    <div class="ui-accordion-content">Chrome/Edge 120, Safari 17.2, Firefox 130.</div>
+  </details>
+</div>`;
 
 const tableSnippet = `<div class="ui-table-wrap">
   <table class="ui-table">

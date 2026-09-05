@@ -1,5 +1,19 @@
 /* ==========================================================================
    Open UI: Native Accordion / Details (details.ui-accordion)
+   A disclosure is a single `details.ui-accordion` holding
+   `summary.ui-accordion-summary` and `.ui-accordion-content`. Open/closed is
+   the native `[open]` state; the kit ships no runtime.
+
+   An exclusive accordion — one panel open at a time — is that same markup
+   repeated inside `.ui-accordion-group`, with a shared `name` on every
+   `<details>`. The `name` attribute is what enforces "only one open"; the
+   group class only handles the visuals (collapsed radii and shared dividers,
+   so the stack reads as one card).
+
+   `<details name>` shipped in Chrome/Edge 120 and Safari 17.2 (Dec 2023) and
+   Firefox 130 (Sept 2024). An older engine ignores the attribute and the
+   items behave as independent panels — every one can be open at once. That
+   degradation is deliberate: the kit ships no JS shim for it.
    ========================================================================== */
 
 details.ui-accordion {
@@ -20,8 +34,9 @@ summary.ui-accordion-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-3);
   list-style: none;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 summary.ui-accordion-summary::-webkit-details-marker {
@@ -39,18 +54,23 @@ summary.ui-accordion-summary:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-border-focus);
 }
 
+/* Chevron: an 8px box showing only its bottom-right corner, swung clockwise
+   from pointing right (closed) to pointing down (open). The visible corner
+   sits off-centre in the box, so the open state also lifts the glyph by a
+   quarter of its height to keep the apex on the row's optical centre. */
 summary.ui-accordion-summary::after {
   content: "";
+  flex-shrink: 0;
   width: 8px;
   height: 8px;
   border-right: 2px solid var(--color-text-muted);
   border-bottom: 2px solid var(--color-text-muted);
   transform: rotate(-45deg);
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-details.ui-accordion[open] summary.ui-accordion-summary::after {
-  transform: rotate(45deg);
+details.ui-accordion[open] > summary.ui-accordion-summary::after {
+  transform: translateY(-25%) rotate(45deg);
 }
 
 .ui-accordion-content {
@@ -59,4 +79,60 @@ details.ui-accordion[open] summary.ui-accordion-summary::after {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: var(--leading-relaxed);
+}
+
+/* --- Exclusive group ---------------------------------------------------- */
+
+/* Items butt together into one card: outer corners only, and the divider
+   between two items is the upper one's bottom border, never doubled. */
+.ui-accordion-group > details.ui-accordion {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.ui-accordion-group > details.ui-accordion + details.ui-accordion {
+  border-top: none;
+}
+
+.ui-accordion-group > details.ui-accordion:first-child {
+  border-top-left-radius: var(--radius-base);
+  border-top-right-radius: var(--radius-base);
+}
+
+.ui-accordion-group > details.ui-accordion:last-child {
+  border-bottom-left-radius: var(--radius-base);
+  border-bottom-right-radius: var(--radius-base);
+}
+
+/* The open item is the current one, and gets .ui-nav's current-item
+   treatment: elevated ground, inset primary bar, full-strength text. Only
+   meaningful in a group, where exactly one item is open — a standalone
+   disclosure keeps its plain summary. */
+.ui-accordion-group > details.ui-accordion[open] > summary.ui-accordion-summary {
+  background-color: var(--color-bg-elevated);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+  color: var(--color-text-main);
+  font-weight: var(--font-semibold);
+}
+
+.ui-accordion-group > details.ui-accordion[open] > summary.ui-accordion-summary:hover {
+  background-color: var(--color-bg-active);
+}
+
+/* Keep the focus ring on the open item — the two inset shadows stack, ring
+   first so it paints over the bar. */
+.ui-accordion-group > details.ui-accordion[open] > summary.ui-accordion-summary:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-border-focus), inset 3px 0 0 var(--color-primary);
+}
+
+.ui-accordion-group > details.ui-accordion[open] > summary.ui-accordion-summary::after {
+  border-right-color: var(--color-text-main);
+  border-bottom-color: var(--color-text-main);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  summary.ui-accordion-summary,
+  summary.ui-accordion-summary::after {
+    transition: none;
+  }
 }
