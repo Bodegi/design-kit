@@ -229,7 +229,8 @@
    .ui-input takes. A checked one keeps the primary fill so the value it
    carries is still legible through the dimming. */
 .ui-checkbox:disabled:not(:checked),
-.ui-radio:disabled:not(:checked) {
+.ui-radio:disabled:not(:checked),
+.ui-switch-native:disabled:not(:checked) {
   background-color: var(--color-bg-muted);
 }
 
