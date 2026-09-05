@@ -29,6 +29,10 @@
      data-state="error"      the selection was rejected
      aria-invalid="true"     the field is invalid — same danger treatment,
                              read from either the label or the input
+     input:user-invalid      the browser's own verdict (a required field left
+                             empty through a submit), via :has(). :user-invalid
+                             rather than :invalid, matching form.css, so an
+                             untouched required input is not red on load
      input:disabled          dims and blocks the whole label, via :has()
 
    Focus: the input in the button form is visually hidden but still focusable,
@@ -202,7 +206,8 @@
 
   /* Lets the app put aria-invalid where the validity is — on the control —
      rather than on the wrapper. */
-  .ui-file:has(input[type="file"][aria-invalid="true"]) {
+  .ui-file:has(input[type="file"][aria-invalid="true"]),
+  .ui-file:has(input[type="file"]:user-invalid) {
     --_zone-border: var(--color-danger);
     --_zone-fill: var(--color-danger-subtle);
     --_zone-ink: var(--color-text-main);
@@ -297,6 +302,18 @@ input[type="file"].ui-file-native[aria-invalid="true"]::file-selector-button {
 }
 
 input[type="file"].ui-file-native[aria-invalid="true"]::-webkit-file-upload-button {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+/* The browser's own verdict, kept in its own rule per pseudo-element and per
+   selector so an engine missing either one drops only that rule. */
+input[type="file"].ui-file-native:user-invalid::file-selector-button {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+input[type="file"].ui-file-native:user-invalid::-webkit-file-upload-button {
   color: var(--color-danger);
   border-color: var(--color-danger);
 }

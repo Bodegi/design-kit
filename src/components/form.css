@@ -97,15 +97,35 @@
   cursor: not-allowed;
 }
 
-/* Validation States */
+/* Validation States
+   Three ways a control reads as errored, the same trio number.css and file.css
+   honor: the app's own data-state="error", the ARIA flag for an error the app
+   decided (a server rejection), and the browser's own constraint verdict.
+   That last one is :user-invalid rather than :invalid, so an untouched required
+   field is not already red when the form paints.
+
+   Each selector adds a class-or-attribute over the plain :focus-visible rule
+   above, so the danger ring outranks the default one on specificity. */
 .ui-input[data-state="error"],
 .ui-textarea[data-state="error"],
-.ui-select[data-state="error"] {
+.ui-select[data-state="error"],
+.ui-input[aria-invalid="true"],
+.ui-textarea[aria-invalid="true"],
+.ui-select[aria-invalid="true"],
+.ui-input:user-invalid,
+.ui-textarea:user-invalid,
+.ui-select:user-invalid {
   border-color: var(--color-danger);
 }
 .ui-input[data-state="error"]:focus-visible,
 .ui-textarea[data-state="error"]:focus-visible,
-.ui-select[data-state="error"]:focus-visible {
+.ui-select[data-state="error"]:focus-visible,
+.ui-input[aria-invalid="true"]:focus-visible,
+.ui-textarea[aria-invalid="true"]:focus-visible,
+.ui-select[aria-invalid="true"]:focus-visible,
+.ui-input:user-invalid:focus-visible,
+.ui-textarea:user-invalid:focus-visible,
+.ui-select:user-invalid:focus-visible {
   box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
 }
 
