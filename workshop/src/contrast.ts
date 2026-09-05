@@ -109,6 +109,16 @@ export const PAIRINGS: Pairing[] = [
     threshold: 4.5,
   })),
 
+  /* Outline and ghost buttons draw their label in the intent color straight on
+     the surface, at the same 14px as body copy — so the ink is measured as text
+     at 4.5, not as a UI shape at 3.0. */
+  ...INTENTS.map((intent) => ({
+    label: `${title(intent)} ink on surface`,
+    fg: `--color-${intent}`,
+    bg: ['--color-bg-surface', '--color-bg-canvas'],
+    threshold: 4.5,
+  })),
+
   { label: 'Focus ring on canvas', fg: '--color-border-focus', bg: ['--color-bg-canvas'], threshold: 3 },
   { label: 'Primary UI mark on surface', fg: '--color-primary', bg: ['--color-bg-surface', '--color-bg-canvas'], threshold: 3 },
 ];

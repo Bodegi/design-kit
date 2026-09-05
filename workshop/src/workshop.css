@@ -440,6 +440,27 @@
   max-width: 480px;
 }
 
+/* Buttons: the intent x variant matrix — one labelled row per variant. */
+.ws-btn-matrix {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ws-btn-matrix-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ws-btn-matrix-label {
+  flex: none;
+  width: 72px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
 /* Full-bleed canvas for a preview that owns its own width (tables). Block, not
    flex: a wrapping flex line sizes to its content, so a scroll container inside
    one grows to the width it was meant to scroll. */

@@ -1,5 +1,27 @@
 /* ==========================================================================
    Open UI: Button Component (.ui-btn)
+
+   Anatomy   .ui-btn (button | a | input), grouped by .ui-btn-group, arranged
+             by .ui-toolbar with .ui-toolbar-separator / .ui-toolbar-spacer.
+   Variants  data-variant = solid (default) | outline | ghost
+   Intents   data-intent  = primary | accent | success | warning | danger | info
+   Sizes     data-size    = sm | md (default) | lg | icon | icon-sm
+
+   The intent x variant matrix is driven by five private properties rather than
+   one rule per cell: each intent declares its ink once and every variant reads
+   the same five names, so all eighteen cells exist and a new intent is one
+   declaration block.
+
+     --_ink        the intent color — solid fill, outline/ghost label + border
+     --_ink-hover  the next shade in — outline/ghost border on hover
+     --_ink-active the pressed shade — solid fill while the button is held
+     --_on-ink     label over a solid fill (the intent's -contrast token)
+     --_tint       translucent ground for outline/ghost hover (the -subtle token)
+
+   Solid buttons hold their rest fill through hover and answer with the ambient
+   glow and a 1px lift instead of a darker ground: the -hover shades clear AA
+   against their -contrast label in only some themes, so the label never rides
+   one while the reader is reading it.
    ========================================================================== */
 
 .ui-btn {
@@ -83,79 +105,94 @@
   font-size: var(--text-xs);
 }
 
-/* --- Variants: Solid Intent --- */
-.ui-btn[data-variant="solid"][data-intent="primary"],
-.ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
-  background-color: var(--color-primary);
-  background-image: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
-  color: var(--color-primary-contrast);
-  border-color: var(--color-primary);
-  font-weight: var(--font-bold);
-  --_glow: 0 4px 14px color-mix(in srgb, var(--color-primary) 30%, transparent);
+/* --- Intents: the ink each variant draws with ---------------------------
+   Only `primary` ships an -active shade in every theme, so the others take
+   their -hover shade for the pressed fill through a var() fallback; a theme
+   that adds `--color-<intent>-active` is picked up with no change here. */
+.ui-btn[data-intent="primary"] {
+  --_ink: var(--color-primary);
+  --_ink-hover: var(--color-primary-hover);
+  --_ink-active: var(--color-primary-active, var(--color-primary-hover));
+  --_on-ink: var(--color-primary-contrast);
+  --_tint: var(--color-primary-subtle);
 }
-.ui-btn[data-variant="solid"][data-intent="primary"]:hover:not(:disabled),
-.ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
-  --_glow: 0 6px 20px color-mix(in srgb, var(--color-primary) 50%, transparent);
+.ui-btn[data-intent="accent"] {
+  --_ink: var(--color-accent);
+  --_ink-hover: var(--color-accent-hover);
+  --_ink-active: var(--color-accent-active, var(--color-accent-hover));
+  --_on-ink: var(--color-accent-contrast);
+  --_tint: var(--color-accent-subtle);
+}
+.ui-btn[data-intent="success"] {
+  --_ink: var(--color-success);
+  --_ink-hover: var(--color-success-hover);
+  --_ink-active: var(--color-success-active, var(--color-success-hover));
+  --_on-ink: var(--color-success-contrast);
+  --_tint: var(--color-success-subtle);
+}
+.ui-btn[data-intent="warning"] {
+  --_ink: var(--color-warning);
+  --_ink-hover: var(--color-warning-hover);
+  --_ink-active: var(--color-warning-active, var(--color-warning-hover));
+  --_on-ink: var(--color-warning-contrast);
+  --_tint: var(--color-warning-subtle);
+}
+.ui-btn[data-intent="danger"] {
+  --_ink: var(--color-danger);
+  --_ink-hover: var(--color-danger-hover);
+  --_ink-active: var(--color-danger-active, var(--color-danger-hover));
+  --_on-ink: var(--color-danger-contrast);
+  --_tint: var(--color-danger-subtle);
+}
+.ui-btn[data-intent="info"] {
+  --_ink: var(--color-info);
+  --_ink-hover: var(--color-info-hover);
+  --_ink-active: var(--color-info-active, var(--color-info-hover));
+  --_on-ink: var(--color-info-contrast);
+  --_tint: var(--color-info-subtle);
 }
 
-/* Filled intents lift on hover and settle on press; plain/outline/ghost stay put.
-   Explicit rest transform so the hover lift animates from 0 rather than `none`. */
+/* --- Variant: Solid ------------------------------------------------------
+   `solid` is the default, so the selector is "has an intent and is not one of
+   the other two variants" rather than [data-variant="solid"]; writing it as
+   one :not() chain keeps every solid rule at the same specificity. */
 .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]) {
+  background-color: var(--_ink);
+  color: var(--_on-ink);
+  border-color: var(--_ink);
+  font-weight: var(--font-bold);
+  --_glow: 0 4px 14px color-mix(in srgb, var(--_ink) 30%, transparent);
+  /* Explicit rest transform so the hover lift animates from 0, not `none`. */
   transform: translateY(0);
 }
 .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
+  --_glow: 0 6px 20px color-mix(in srgb, var(--_ink) 50%, transparent);
   transform: translateY(-1px);
 }
 .ui-btn[data-intent]:not([data-variant="outline"]):not([data-variant="ghost"]):active:not(:disabled) {
+  background-color: var(--_ink-active);
+  border-color: var(--_ink-active);
   transform: translateY(0);
 }
 
-.ui-btn[data-variant="solid"][data-intent="danger"],
-.ui-btn[data-intent="danger"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
-  background-color: var(--color-danger);
-  color: var(--color-danger-contrast);
-  border-color: var(--color-danger);
-}
-.ui-btn[data-variant="solid"][data-intent="danger"]:hover:not(:disabled),
-.ui-btn[data-intent="danger"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
-  background-color: var(--color-danger-hover);
-  border-color: var(--color-danger-hover);
-}
-
-.ui-btn[data-variant="solid"][data-intent="success"],
-.ui-btn[data-intent="success"]:not([data-variant="outline"]):not([data-variant="ghost"]) {
-  background-color: var(--color-success);
-  color: var(--color-success-contrast);
-  border-color: var(--color-success);
-}
-.ui-btn[data-variant="solid"][data-intent="success"]:hover:not(:disabled),
-.ui-btn[data-intent="success"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
-  background-color: var(--color-success-hover);
-  border-color: var(--color-success-hover);
-}
-
-/* --- Variants: Outline Intent --- */
-.ui-btn[data-variant="outline"][data-intent="primary"] {
+/* --- Variant: Outline ----------------------------------------------------
+   Outline is an intent variant: with no intent there is no ink to draw with,
+   so a bare data-variant="outline" keeps the neutral button's own look. */
+.ui-btn[data-variant="outline"][data-intent] {
   background-color: transparent;
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+  color: var(--_ink);
+  border-color: var(--_ink);
 }
-.ui-btn[data-variant="outline"][data-intent="primary"]:hover:not(:disabled) {
-  background-color: var(--color-primary);
-  color: var(--color-primary-contrast);
+.ui-btn[data-variant="outline"][data-intent]:hover:not(:disabled) {
+  background-color: var(--_tint);
+  color: var(--_ink);
+  border-color: var(--_ink-hover);
 }
-
-.ui-btn[data-variant="outline"][data-intent="danger"] {
-  background-color: transparent;
-  color: var(--color-danger);
-  border-color: var(--color-danger);
-}
-.ui-btn[data-variant="outline"][data-intent="danger"]:hover:not(:disabled) {
-  background-color: var(--color-danger);
-  color: var(--color-danger-contrast);
+.ui-btn[data-variant="outline"][data-intent]:active:not(:disabled) {
+  background-color: var(--_tint);
 }
 
-/* --- Variants: Ghost --- */
+/* --- Variant: Ghost --- */
 .ui-btn[data-variant="ghost"] {
   background-color: transparent;
   border-color: transparent;
@@ -164,11 +201,11 @@
 .ui-btn[data-variant="ghost"]:hover:not(:disabled) {
   background-color: var(--color-bg-hover);
 }
-.ui-btn[data-variant="ghost"][data-intent="primary"] {
-  color: var(--color-primary);
+.ui-btn[data-variant="ghost"][data-intent] {
+  color: var(--_ink);
 }
-.ui-btn[data-variant="ghost"][data-intent="primary"]:hover:not(:disabled) {
-  background-color: var(--color-primary-subtle);
+.ui-btn[data-variant="ghost"][data-intent]:hover:not(:disabled) {
+  background-color: var(--_tint);
 }
 
 /* --- Button Group --- */

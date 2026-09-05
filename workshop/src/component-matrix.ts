@@ -1,11 +1,14 @@
 import { showToast } from './toast';
 
+const BUTTON_VARIANTS = ['solid', 'outline', 'ghost'] as const;
+const BUTTON_INTENTS = ['primary', 'accent', 'success', 'warning', 'danger', 'info'] as const;
+
 export function renderComponentMatrix(container: HTMLElement) {
   container.innerHTML = `
     <!-- Buttons Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Buttons (.ui-btn)</h2>
-      <p class="ws-section-desc">Open UI buttons with semantic variants, sizes, intents, and states.</p>
+      <p class="ws-section-desc">Open UI buttons with semantic variants, sizes, intents, and states. Every <code>data-intent</code> (primary / accent / success / warning / danger / info) is defined for every <code>data-variant</code> (solid / outline / ghost): the intent declares its ink once and each variant reads it, so all eighteen cells render. Solid keeps its fill through hover and answers with the glow and a 1px lift; outline and ghost hover onto the intent's tint.</p>
 
       <div class="ws-preview-block">
         <div class="ws-preview-header">
@@ -31,6 +34,27 @@ export function renderComponentMatrix(container: HTMLElement) {
           <button class="ui-btn" data-variant="outline" data-intent="danger">Outline Danger</button>
           <button class="ui-btn" data-variant="ghost">Ghost Neutral</button>
           <button class="ui-btn" data-variant="ghost" data-intent="primary">Ghost Primary</button>
+        </div>
+      </div>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Intent × Variant Matrix (all 18 cells)</span>
+          ${copyControls('<button class="ui-btn" data-variant="outline" data-intent="warning">Warning</button>')}
+        </div>
+        <div class="ws-preview-canvas ws-btn-matrix">
+          ${BUTTON_VARIANTS.map(
+            (variant) => `
+            <div class="ws-btn-matrix-row">
+              <span class="ws-btn-matrix-label">${variant}</span>
+              ${BUTTON_INTENTS.map(
+                (intent) =>
+                  `<button class="ui-btn" type="button" data-variant="${variant}" data-intent="${intent}">${
+                    intent.charAt(0).toUpperCase() + intent.slice(1)
+                  }</button>`,
+              ).join('')}
+            </div>`,
+          ).join('')}
         </div>
       </div>
 
