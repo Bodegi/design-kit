@@ -5,10 +5,11 @@
 dialog.ui-dialog {
   padding: 0;
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-base);
   background-color: var(--color-bg-surface);
   color: var(--color-text-main);
   box-shadow: var(--shadow-xl);
+  overflow: hidden;   /* clip the header/footer fills to the rounded corners */
   max-width: 500px;
   width: 90vw;
   margin: auto;
