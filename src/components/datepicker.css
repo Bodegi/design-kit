@@ -1,0 +1,374 @@
+/* ==========================================================================
+   Open UI: Datepicker (.ui-datepicker)
+
+   No engine ships a stylable native date picker — `input[type="date"]` opens a
+   UA calendar whose internals are closed to CSS in every browser — so the kit
+   styles the visible calendar anatomy the app renders and the app owns all the
+   behavior: month math, keyboard navigation, selection, range logic. Open UI
+   publishes only a research page for the datepicker, so the part names below
+   follow its vocabulary (header, title, previous/next, grid, day, footer)
+   mapped onto a native <table>, and the day states ride ARIA state so the
+   visual and the accessible state cannot drift.
+
+   Anatomy:
+     .ui-datepicker                     the panel. Carries the .ui-popover
+                                        surface conventions, so the same markup
+                                        works inline or on a native [popover].
+       .ui-datepicker-header            month bar
+         .ui-datepicker-prev            compose .ui-btn (ghost, icon) in the
+         .ui-datepicker-next            markup — the kit only places them
+         .ui-datepicker-title           "March 2026"; make it a <button> when it
+                                        opens a month/year view
+       table.ui-datepicker-grid         [role="grid"]
+         thead th                       weekday abbreviation
+         tbody td > button.ui-datepicker-day
+       .ui-datepicker-presets           optional list of quick ranges
+         .ui-datepicker-preset          one range button
+       .ui-datepicker-footer            optional Today / Clear actions
+
+   State hooks — all on the day button, all set by the app:
+     aria-selected="true"    the chosen day: primary fill, -contrast ink
+     aria-current="date"     today: a primary ring, never a fill, so today and
+                             the selection read as two different things at once
+     :disabled               out of range
+     [data-outside]          an adjacent month's day, dimmed
+     [data-range="start"]    range ends: filled like a selection
+     [data-range="middle"]   spanned days: the subtle tint only
+     [data-range="end"]
+   Variants: data-size="sm|md" (default md) on the root.
+
+   The range tint has to span the gap between cells while the selected pill
+   stays rounded, and a background is clipped by its own border-radius — so the
+   tint is a square ::before behind the button (z-index: -1 inside an isolated
+   cell) and the pill is the button's own background. Because each cell is its
+   own stacking context, a focused cell is lifted with :has() so the focus ring
+   is not painted over by its neighbours.
+
+   Trigger field: `input[type="date"].ui-input` needs no layout of its own; only
+   the WebKit picker indicator is recolored, by masking a glyph with a Tier-2
+   token. The popup that indicator opens belongs to the UA and is not stylable.
+   ========================================================================== */
+
+.ui-datepicker {
+  --ui-datepicker-cell: 36px;
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: max-content;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  box-shadow: var(--shadow-lg);
+  outline: none;
+}
+
+/* On a native [popover] the panel anchors under its invoker where anchor
+   positioning is supported, and keeps the UA's viewport centering elsewhere —
+   the same bargain .ui-popover makes. */
+@supports (anchor-name: --a) {
+  [popover].ui-datepicker {
+    margin: 0;
+    inset: auto;
+    top: anchor(bottom);
+    left: anchor(left);
+    margin-top: var(--space-1);
+  }
+}
+
+/* --- Header ------------------------------------------------------------- */
+
+.ui-datepicker-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Placement only — the buttons themselves are .ui-btn ghost icons, so they keep
+   the kit's one button look and its focus ring. The order lets the markup lead
+   with the title (what a screen reader should hear first) either way. */
+.ui-datepicker-prev {
+  order: -1;
+}
+
+.ui-datepicker-next {
+  order: 1;
+}
+
+.ui-datepicker-title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+/* The title is a plain heading unless the app makes it a button for a
+   month/year view, in which case it takes the row treatment. */
+button.ui-datepicker-title {
+  padding: var(--space-1) var(--space-2);
+  border: none;
+  border-radius: var(--radius-nav);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+button.ui-datepicker-title:hover {
+  background-color: var(--color-bg-hover);
+}
+
+button.ui-datepicker-title:focus-visible {
+  outline: none;
+}
+
+/* --- Grid --------------------------------------------------------------- */
+
+/* Sized from the cell scale rather than from its container: the panel is
+   max-content, so a percentage width here would have nothing to resolve
+   against. */
+.ui-datepicker-grid {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: calc(var(--ui-datepicker-cell) * 7);
+}
+
+/* Weekday row. Ranked below the day numbers by size, weight and tracking
+   rather than by color: --color-text-muted misses 4.5:1 against
+   --color-bg-elevated in the dark baseline and in image-annotate, so every run
+   of text in the panel stays at full strength. */
+.ui-datepicker-grid th {
+  width: var(--ui-datepicker-cell);
+  padding: var(--space-1) 0;
+  color: var(--color-text-main);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Cells touch horizontally so a range tint reads as one continuous band; the
+   day button is inset by the row padding instead of by border-spacing. */
+.ui-datepicker-grid td {
+  padding: 1px 0;
+  isolation: isolate;
+}
+
+/* A focused day is lifted out of the paint order of the cells and rows that
+   follow it, so nothing crops its 4px focus ring. */
+.ui-datepicker-grid td:has(.ui-datepicker-day:focus-visible),
+.ui-datepicker-grid tr:has(.ui-datepicker-day:focus-visible) {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Day ---------------------------------------------------------------- */
+
+.ui-datepicker-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--ui-datepicker-cell);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-nav);
+  background-color: transparent;
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ui-datepicker-day:hover:not(:disabled) {
+  background-color: var(--color-bg-hover);
+}
+
+/* Focus ring comes from the global :focus-visible rule — no box-shadow here. */
+.ui-datepicker-day:focus-visible {
+  outline: none;
+}
+
+/* Today: a ring in the primary tone, never a fill, so it survives being
+   selected or spanned by a range. */
+.ui-datepicker-day[aria-current="date"] {
+  box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+/* :focus-visible sets the ring on the same property, so the focused day drops
+   today's inset ring rather than stacking two rings on one cell. */
+.ui-datepicker-day[aria-current="date"]:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* The chosen day, and the two ends of a range: a solid primary pill. */
+.ui-datepicker-day[aria-selected="true"],
+.ui-datepicker-day[data-range="start"],
+.ui-datepicker-day[data-range="end"] {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: var(--font-semibold);
+}
+
+.ui-datepicker-day[aria-selected="true"]:hover:not(:disabled),
+.ui-datepicker-day[data-range="start"]:hover:not(:disabled),
+.ui-datepicker-day[data-range="end"]:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+/* The spanning band. Square and full-bleed inside the cell, painted behind the
+   pill, and cut back to half the cell at each end so the band starts and stops
+   under the middle of the filled day. */
+.ui-datepicker-day[data-range]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-primary-subtle);
+}
+
+.ui-datepicker-day[data-range="start"]::before {
+  inset-inline-start: 50%;
+}
+
+.ui-datepicker-day[data-range="end"]::before {
+  inset-inline-end: 50%;
+}
+
+/* An adjacent month's day. 0.6 is the floor that keeps the number at 4.5:1 over
+   the panel in every theme (image-annotate is the tightest, at 4.58:1). */
+.ui-datepicker-day[data-outside] {
+  opacity: 0.6;
+}
+
+.ui-datepicker-day:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Presets ------------------------------------------------------------ */
+
+/* Quick ranges read across the top of the panel rather than down a rail beside
+   it: the panel is sized by its seven columns, so a side rail would widen it
+   past every other popover surface in the kit. */
+.ui-datepicker-presets {
+  order: -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.ui-datepicker-preset {
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  border: none;
+  border-radius: var(--radius-nav);
+  background-color: transparent;
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.ui-datepicker-preset:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.ui-datepicker-preset:focus-visible {
+  outline: none;
+}
+
+/* The quick range currently in effect. */
+.ui-datepicker-preset[aria-pressed="true"],
+.ui-datepicker-preset[aria-current="true"] {
+  background-color: var(--color-primary-subtle);
+  font-weight: var(--font-medium);
+}
+
+/* --- Footer ------------------------------------------------------------- */
+
+.ui-datepicker-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* --- Sizes -------------------------------------------------------------- */
+
+.ui-datepicker[data-size="sm"] {
+  --ui-datepicker-cell: 28px;
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+
+.ui-datepicker[data-size="sm"] .ui-datepicker-day,
+.ui-datepicker[data-size="sm"] .ui-datepicker-preset,
+.ui-datepicker[data-size="sm"] .ui-datepicker-title {
+  font-size: var(--text-xs);
+}
+
+/* --- Native trigger field ------------------------------------------------ */
+
+/* `input[type="date"]` keeps the .ui-input look from form.css; only WebKit's
+   picker button needs help, because it draws a dark UA glyph that disappears on
+   a dark surface. The glyph is a mask — the data URI carries shape only, and
+   the color is the Tier-2 token underneath it — so no hex is baked in and the
+   indicator recolors with the theme. The calendar the button opens is the UA's
+   own popup and cannot be styled by this or any other rule. */
+input[type="date"].ui-input::-webkit-calendar-picker-indicator {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  opacity: 1;
+  cursor: pointer;
+  background-color: var(--color-text-main);
+  background-image: none;
+  /* A stencil, not a picture: the SVG declares no color at all, so the mask
+     reads it purely as alpha and background-color above supplies the ink. */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.75 1h1.5v2.5h-1.5zM9.75 1h1.5v2.5h-1.5z'/%3E%3Cpath fill-rule='evenodd' d='M1.5 2.75h13v12.25h-13zM2.75 6.75h10.5v7h-10.5z'/%3E%3Cpath d='M4 8.25h2v1.75h-2zM7 8.25h2v1.75h-2zM10 8.25h2v1.75h-2zM4 11h2v1.75h-2zM7 11h2v1.75h-2z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.75 1h1.5v2.5h-1.5zM9.75 1h1.5v2.5h-1.5z'/%3E%3Cpath fill-rule='evenodd' d='M1.5 2.75h13v12.25h-13zM2.75 6.75h10.5v7h-10.5z'/%3E%3Cpath d='M4 8.25h2v1.75h-2zM7 8.25h2v1.75h-2zM10 8.25h2v1.75h-2zM4 11h2v1.75h-2zM7 11h2v1.75h-2z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: background-color var(--transition-fast);
+}
+
+input[type="date"].ui-input::-webkit-calendar-picker-indicator:hover {
+  background-color: var(--color-primary);
+}
+
+input[type="date"].ui-input:disabled::-webkit-calendar-picker-indicator {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-datepicker-day,
+  .ui-datepicker-preset,
+  button.ui-datepicker-title,
+  input[type="date"].ui-input::-webkit-calendar-picker-indicator {
+    transition: none;
+  }
+}
