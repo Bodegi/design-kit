@@ -80,7 +80,9 @@
 .ui-select[data-state="error"] {
   border-color: var(--color-danger);
 }
-.ui-input[data-state="error"]:focus-visible {
+.ui-input[data-state="error"]:focus-visible,
+.ui-textarea[data-state="error"]:focus-visible,
+.ui-select[data-state="error"]:focus-visible {
   box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
 }
 
