@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Open UI: Breadcrumb (.ui-breadcrumb)
+   Anatomy: nav.ui-breadcrumb[aria-label="Breadcrumb"] > ol.ui-breadcrumb-list
+   of li.ui-breadcrumb-item, each holding an a.ui-breadcrumb-link (or a plain
+   span with the same class for the page you are on). The current page is
+   keyed off aria-current="page" — the accessibility state — so the visual and
+   a11y state can never drift apart (mirrors .ui-nav and .ui-tabs).
+
+   Separators are drawn by CSS on `li + li`, never marked up, so screen readers
+   read the trail as a plain ordered list. `data-separator` on the nav picks the
+   glyph: chevron (default, borders rotated 45°), slash or dot (::before text).
+
+   Slots: .ui-breadcrumb-icon (leading mark inside a link) and
+   .ui-breadcrumb-ellipsis (the collapsed middle — a button or span reading "…"
+   that the app swaps for the hidden items; the kit ships no runtime).
+   Sizes: data-size="sm|md" (md default). Long labels truncate at
+   --ui-breadcrumb-label-max (20ch) rather than wrapping the trail.
+   ========================================================================== */
+
+.ui-breadcrumb {
+  --ui-breadcrumb-label-max: 20ch;
+  font-size: var(--text-sm);
+  line-height: var(--leading-tight);
+  color: var(--color-text-muted);
+}
+
+.ui-breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ui-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* Items the app collapses away use the native `hidden` attribute; restore its
+   effect over the display above. */
+.ui-breadcrumb-item[hidden] {
+  display: none;
+}
+
+/* Separator: chevron built from two borders on a rotated box (default). */
+.ui-breadcrumb-item + .ui-breadcrumb-item::before {
+  content: "";
+  flex-shrink: 0;
+  width: 0.4em;
+  height: 0.4em;
+  border-top: 1.5px solid var(--color-text-muted);
+  border-right: 1.5px solid var(--color-text-muted);
+  transform: rotate(45deg);
+}
+
+.ui-breadcrumb[data-separator="slash"] .ui-breadcrumb-item + .ui-breadcrumb-item::before,
+.ui-breadcrumb[data-separator="dot"] .ui-breadcrumb-item + .ui-breadcrumb-item::before {
+  width: auto;
+  height: auto;
+  border: none;
+  transform: none;
+  color: var(--color-text-muted);
+}
+
+.ui-breadcrumb[data-separator="slash"] .ui-breadcrumb-item + .ui-breadcrumb-item::before {
+  content: "/";
+}
+
+.ui-breadcrumb[data-separator="dot"] .ui-breadcrumb-item + .ui-breadcrumb-item::before {
+  content: "•";
+}
+
+/* Trail segment. Block-level inside the flex item so the label can ellipsis;
+   the icon rides along as inline content. */
+.ui-breadcrumb-link {
+  display: inline-block;
+  max-width: var(--ui-breadcrumb-label-max);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: var(--radius-nav);
+  color: var(--color-text-muted);
+  font: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Muted parent up-links that brighten and underline on hover — lifted from
+   Codex's "Type › Entry" header crumb. */
+a.ui-breadcrumb-link:hover {
+  color: var(--color-text-main);
+  text-decoration: underline;
+}
+
+.ui-breadcrumb-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Current page: full-strength text, not a link — no hover, no underline. */
+.ui-breadcrumb-link[aria-current="page"] {
+  color: var(--color-text-main);
+  font-weight: var(--font-medium);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* Leading mark inside a segment. */
+.ui-breadcrumb-icon {
+  display: inline-flex;
+  vertical-align: -0.15em;
+  margin-inline-end: var(--space-1);
+  color: var(--color-primary);
+}
+
+/* Collapsed middle: the app expands this into the items it stands for. */
+.ui-breadcrumb-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75em;
+  padding: 0 var(--space-1);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-nav);
+  color: var(--color-text-muted);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+button.ui-breadcrumb-ellipsis:hover {
+  color: var(--color-text-main);
+  background-color: var(--color-bg-hover);
+}
+
+.ui-breadcrumb-ellipsis:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ui-breadcrumb[data-size="sm"] {
+  font-size: var(--text-xs);
+}
+
+.ui-breadcrumb[data-size="sm"] .ui-breadcrumb-list {
+  gap: var(--space-1);
+}
+
+.ui-breadcrumb[data-size="md"] {
+  font-size: var(--text-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-breadcrumb-link,
+  .ui-breadcrumb-ellipsis {
+    transition: none;
+  }
+}
