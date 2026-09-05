@@ -156,6 +156,25 @@
   -webkit-backdrop-filter: var(--blur-glass);
 }
 
+/* The glass has to be restated for the interactive states: the ghost button's
+   own :hover and :active set background-color at (0,4,0) and (0,3,0), both of
+   which outrank the two-class rule above, so a hovered arrow would drop its
+   glass and sit as a flat --color-bg-hover patch over the photo. Matching that
+   specificity and coming later in the cascade (carousel.css is imported after
+   button.css) keeps the glass; the state tint rides over it as a background
+   image layer instead of replacing the ground. */
+.ui-carousel .ui-carousel-prev:hover:not(:disabled),
+.ui-carousel .ui-carousel-next:hover:not(:disabled) {
+  background-color: var(--color-bg-glass);
+  background-image: linear-gradient(var(--color-bg-hover), var(--color-bg-hover));
+}
+
+.ui-carousel .ui-carousel-prev:active:not(:disabled),
+.ui-carousel .ui-carousel-next:active:not(:disabled) {
+  background-color: var(--color-bg-glass);
+  background-image: linear-gradient(var(--color-bg-active), var(--color-bg-active));
+}
+
 .ui-carousel .ui-carousel-prev { inset-inline-start: var(--_carousel-arrow-inset); }
 .ui-carousel .ui-carousel-next { inset-inline-end: var(--_carousel-arrow-inset); }
 
@@ -265,8 +284,10 @@
     transition: background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
   }
 
+  /* Same move as the class-based arrows: the hover tint layers over the glass
+     rather than replacing it, so the button keeps its ground over a photo. */
   .ui-carousel-track::scroll-button(*):hover {
-    background-color: var(--color-bg-hover);
+    background-image: linear-gradient(var(--color-bg-hover), var(--color-bg-hover));
     border-color: var(--color-border-focus);
   }
 
