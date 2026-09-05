@@ -50,6 +50,12 @@
   animation: ui-skeleton-shimmer 1.6s infinite linear;
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   hiding the placeholder once content arrives needs this back. */
+.ui-skeleton[hidden] {
+  display: none;
+}
+
 /* Shapes */
 .ui-skeleton[data-shape="text"] {
   height: calc(1em * var(--leading-normal));

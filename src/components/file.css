@@ -63,6 +63,14 @@
   cursor: pointer;
 }
 
+/* The `display` here and on .ui-file-list outranks the UA's
+   `[hidden] { display: none }`, so an app hiding the field — or the chosen-file
+   list while nothing is chosen — with the hidden attribute needs this back. */
+.ui-file[hidden],
+.ui-file-list[hidden] {
+  display: none;
+}
+
 /* The real control: reachable by keyboard and to assistive tech, invisible to
    the eye. Not display:none or visibility:hidden — either drops it out of the
    focus order and takes the ring with it. */

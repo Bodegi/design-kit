@@ -70,6 +70,12 @@ ol.ui-list > li > .ui-list-item::before {
   text-align: left;
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   filtering rows out with the hidden attribute needs this back. */
+.ui-list-item[hidden] {
+  display: none;
+}
+
 /* Interactive rows only: the element decides, not a modifier class. */
 a.ui-list-item,
 button.ui-list-item {

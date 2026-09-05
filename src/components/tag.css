@@ -58,6 +58,12 @@
   transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   filtering tokens out with the hidden attribute needs this back. */
+.ui-tag[hidden] {
+  display: none;
+}
+
 .ui-tag-label {
   min-width: 0;
   overflow: hidden;

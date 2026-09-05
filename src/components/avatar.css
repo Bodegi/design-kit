@@ -67,6 +67,12 @@
   transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   dropping a member from a group with the hidden attribute needs this back. */
+.ui-avatar[hidden] {
+  display: none;
+}
+
 .ui-avatar[data-shape="square"] {
   border-radius: var(--radius-control);
 }
