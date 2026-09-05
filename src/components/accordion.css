@@ -32,8 +32,11 @@ summary.ui-accordion-summary:hover {
   background-color: var(--color-bg-hover);
 }
 
+/* The summary fills the details' padding box, and the details clips to it
+   (overflow: hidden, for the rounded corners), so an outset ring would be
+   clipped away entirely. This one is drawn inside the summary. */
 summary.ui-accordion-summary:focus-visible {
-  box-shadow: var(--focus-ring);
+  box-shadow: inset 0 0 0 2px var(--color-border-focus);
 }
 
 summary.ui-accordion-summary::after {
