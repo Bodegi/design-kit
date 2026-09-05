@@ -286,15 +286,20 @@
   font-weight: var(--font-medium);
 }
 
+/* The kit's shared check recipe at the medium size — the same glyph the
+   checkbox tick and the customizable select's ::checkmark draw. */
 .ui-combobox-option[aria-selected="true"]::after {
   content: "";
   flex-shrink: 0;
-  width: 9px;
-  height: 5px;
+  --_check-size: 10px;
+  --_check-weight: 2px;
+  width: var(--_check-size);
+  height: calc(var(--_check-size) * 0.6);
   margin-left: var(--space-2);
-  border-left: 1.5px solid var(--color-text-main);
-  border-bottom: 1.5px solid var(--color-text-main);
-  transform: rotate(-45deg) translate(1px, -1px);
+  border-left: var(--_check-weight) solid var(--color-text-main);
+  border-bottom: var(--_check-weight) solid var(--color-text-main);
+  translate: 0 -1.5px;
+  rotate: -45deg;
 }
 
 /* An option with no meta still pushes the check to the trailing edge. */

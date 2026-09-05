@@ -184,14 +184,26 @@
   border-color: var(--color-primary);
 }
 
+/* Check: the kit's shared recipe at the medium size — a box showing only its
+   bottom-left corner, swung anticlockwise so the short leg falls and the long
+   leg rises. The short leg is 0.6 of the long one, the ratio that reads as a
+   tick rather than a v; the weight matches the medium chevron. The swing is
+   written with the individual `rotate` and `translate` properties rather than
+   one `transform`, because Blink drops `transform` on the ::checkmark pseudo of
+   a customizable select but honors those two — so all three check sites can say
+   it the same way. `translate` applies before `rotate`, which is why the
+   optical nudge reads as 0 -1.5px rather than 1px -1px. */
 .ui-checkbox:checked::before,
 .ui-switch-native:checked::before {
   content: "";
-  width: 10px;
-  height: 6px;
-  border-left: 2px solid var(--color-primary-contrast);
-  border-bottom: 2px solid var(--color-primary-contrast);
-  transform: rotate(-45deg) translate(1px, -1px);
+  --_check-size: 10px;
+  --_check-weight: 2px;
+  width: var(--_check-size);
+  height: calc(var(--_check-size) * 0.6);
+  border-left: var(--_check-weight) solid var(--color-primary-contrast);
+  border-bottom: var(--_check-weight) solid var(--color-primary-contrast);
+  translate: 0 -1.5px;
+  rotate: -45deg;
 }
 
 .ui-radio:checked::before {
@@ -484,13 +496,25 @@
   }
 
   /* The checkmark box is generated on every option and only revealed on the
-     checked one, so rows keep their width as the selection moves. */
+     checked one, so rows keep their width as the selection moves. It draws the
+     kit's shared check recipe at the medium size rather than a text glyph, so
+     it is the same mark the .ui-combobox listbox shows for the same meaning.
+     Ink is text-main, not primary: over the primary tint of a checked row the
+     theme's own primary drops under the 3:1 UI threshold in image-hoard, and
+     the tint already carries the intent color. */
   select.ui-select option::checkmark {
     order: 1;
     margin-left: auto;
-    content: "\2713";
-    color: var(--color-primary);
-    font-weight: var(--font-semibold);
+    flex-shrink: 0;
+    content: "";
+    --_check-size: 10px;
+    --_check-weight: 2px;
+    width: var(--_check-size);
+    height: calc(var(--_check-size) * 0.6);
+    border-left: var(--_check-weight) solid var(--color-text-main);
+    border-bottom: var(--_check-weight) solid var(--color-text-main);
+    translate: 0 -1.5px;
+    rotate: -45deg;
   }
 
   select.ui-select option:not(:checked)::checkmark {
