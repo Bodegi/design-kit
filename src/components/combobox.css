@@ -211,6 +211,19 @@
 
 /* --- Options ------------------------------------------------------------ */
 
+/* Canonical option row. Three places in the kit draw a row inside a popover
+   listbox — this one, `select.ui-select option` in form.css, and the checked
+   row of a customizable select — and they are mirrored rather than sharing a
+   selector, because each is reached through a different element (a div here, a
+   real <option> there) and a shared class would have to cross that boundary.
+   Any change to the numbers below belongs in all of them: gap --space-2,
+   padding --space-2 --space-3, --radius-nav, --text-sm, --color-text-main,
+   :hover --color-bg-hover, chosen row --color-primary-subtle + --font-medium,
+   unavailable row opacity 0.5.
+
+   .ui-list-item[role="option"] in list.css is NOT one of the copies: a list row
+   playing option keeps the list's own metrics (gap/padding --space-3) and the
+   nav-style current-row selection. See the note there. */
 .ui-combobox-option {
   display: flex;
   align-items: center;

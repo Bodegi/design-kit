@@ -239,7 +239,15 @@ button.ui-list-item:active,
 /* The same classes serve a single-select listbox: role="listbox" of
    role="option" rows, selection still on aria-selected. Options are focusable
    via the app's roving tabindex, so give them the interactive affordances a
-   plain <li> does not get from the element-based rules above. */
+   plain <li> does not get from the element-based rules above.
+
+   This is a list row playing option, not a copy of the canonical option row
+   (.ui-combobox-option in combobox.css, mirrored by `select.ui-select option`
+   in form.css). It keeps the list's own metrics — gap and padding at
+   --space-3, not --space-2 — so rows in a listbox line up with rows in the
+   plain list beside it, and it keeps the nav-style current-row selection
+   (--color-bg-current + --shadow-current-bar) rather than the popover row's
+   primary tint. Only --radius-nav, :hover and the transition are shared. */
 .ui-list[role="listbox"] {
   gap: var(--space-1);
   padding: var(--space-1);

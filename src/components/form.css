@@ -480,7 +480,10 @@
     }
   }
 
-  /* --- Options --- */
+  /* --- Options ---
+     A mirror of the canonical option row, .ui-combobox-option in combobox.css
+     — same numbers, reached through a real <option> instead of a div. Change
+     the two together. */
   select.ui-select option {
     display: flex;
     align-items: center;
@@ -510,7 +513,6 @@
   }
 
   select.ui-select option:disabled {
-    color: var(--color-text-muted);
     opacity: 0.5;
     cursor: not-allowed;
   }
