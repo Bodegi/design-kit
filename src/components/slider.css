@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Open UI: Slider (input[type="range"].ui-slider)
+   The native range input restyled to the kit: a muted track, a filled portion
+   in the intent color, and a round thumb that scales on hover/press. Optional
+   wrapper anatomy is .ui-slider-field > .ui-slider-label + .ui-slider (+
+   .ui-slider-value as an <output>), and .ui-slider-ticks on a <datalist>.
+
+   Variants: data-size="sm|md|lg", data-intent="…", data-orientation="vertical".
+   States come from the element itself — :hover, :active, :focus-visible,
+   :disabled — so nothing has to be mirrored by an app.
+
+   Cross-engine: track and thumb are only reachable through vendor pseudo-
+   elements (::-webkit-slider-runnable-track / -slider-thumb on Chromium &
+   Safari, ::-moz-range-track / -range-thumb on Firefox), and a pseudo one
+   engine does not know invalidates the whole selector list, so every rule is
+   written twice — once per engine.
+
+   The filled portion likewise differs by engine. Firefox draws it natively
+   with ::-moz-range-progress. WebKit has no such pseudo, so the fill is a
+   linear-gradient on the track driven by the OPTIONAL --ui-slider-value custom
+   property, a unitless 0–100 the app sets from the current value
+   (el.style.setProperty('--ui-slider-value', percent)). Leave it unset and the
+   WebKit track simply reads unfilled; nothing else changes.
+   ========================================================================== */
+
+input[type="range"].ui-slider {
+  --_fill: var(--color-primary);
+  --_track-size: 6px;
+  --_thumb-size: 18px;
+  /* Percentage of the track that reads as filled on WebKit. */
+  --_fill-stop: calc(var(--ui-slider-value, 0) * 1%);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  /* The focus ring is drawn on the thumb, so it must not be clipped. */
+  overflow: visible;
+}
+
+/* Sizes */
+input[type="range"].ui-slider[data-size="sm"] {
+  --_track-size: 4px;
+  --_thumb-size: 14px;
+}
+input[type="range"].ui-slider[data-size="lg"] {
+  --_track-size: 8px;
+  --_thumb-size: 24px;
+}
+
+/* Intents — one custom property recolors the fill and the thumb together. */
+input[type="range"].ui-slider[data-intent="accent"]  { --_fill: var(--color-accent); }
+input[type="range"].ui-slider[data-intent="success"] { --_fill: var(--color-success); }
+input[type="range"].ui-slider[data-intent="warning"] { --_fill: var(--color-warning); }
+input[type="range"].ui-slider[data-intent="danger"]  { --_fill: var(--color-danger); }
+input[type="range"].ui-slider[data-intent="info"]    { --_fill: var(--color-info); }
+
+/* --- Track (WebKit) — carries the gradient fill --- */
+input[type="range"].ui-slider::-webkit-slider-runnable-track {
+  height: var(--_track-size);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-muted);
+  background-image: linear-gradient(
+    to right,
+    var(--_fill) 0 var(--_fill-stop),
+    transparent var(--_fill-stop) 100%
+  );
+}
+
+/* --- Track (Firefox) --- */
+input[type="range"].ui-slider::-moz-range-track {
+  height: var(--_track-size);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-muted);
+}
+
+/* --- Filled portion (Firefox draws it natively) --- */
+input[type="range"].ui-slider::-moz-range-progress {
+  height: var(--_track-size);
+  border-radius: var(--radius-full);
+  background-color: var(--_fill);
+}
+
+/* --- Thumb (WebKit) --- */
+input[type="range"].ui-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: var(--_thumb-size);
+  height: var(--_thumb-size);
+  border: 2px solid var(--color-bg-surface);
+  border-radius: var(--radius-full);
+  background-color: var(--_fill);
+  box-shadow: var(--shadow-sm);
+  /* WebKit lays the thumb out from the track's top edge. */
+  margin-top: calc((var(--_track-size) - var(--_thumb-size)) / 2);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* --- Thumb (Firefox) --- */
+input[type="range"].ui-slider::-moz-range-thumb {
+  width: var(--_thumb-size);
+  height: var(--_thumb-size);
+  border: 2px solid var(--color-bg-surface);
+  border-radius: var(--radius-full);
+  background-color: var(--_fill);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* Hover / press — the thumb grows under the pointer. */
+input[type="range"].ui-slider:hover:not(:disabled)::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+input[type="range"].ui-slider:hover:not(:disabled)::-moz-range-thumb {
+  transform: scale(1.12);
+}
+
+input[type="range"].ui-slider:active:not(:disabled)::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+input[type="range"].ui-slider:active:not(:disabled)::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+/* Focus — src/index.css puts --focus-ring on the focused element, which around
+   a range input would trace the whole control. Clear it there and ring the
+   thumb instead, where the interaction actually is. */
+input[type="range"].ui-slider:focus-visible {
+  box-shadow: none;
+}
+input[type="range"].ui-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--focus-ring);
+}
+input[type="range"].ui-slider:focus-visible::-moz-range-thumb {
+  box-shadow: var(--focus-ring);
+}
+
+/* Disabled */
+input[type="range"].ui-slider:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+input[type="range"].ui-slider:disabled::-webkit-slider-thumb {
+  background-color: var(--color-text-dim);
+}
+input[type="range"].ui-slider:disabled::-moz-range-thumb {
+  background-color: var(--color-text-dim);
+}
+input[type="range"].ui-slider:disabled::-moz-range-progress {
+  background-color: var(--color-text-dim);
+}
+
+/* --------------------------------------------------------------------------
+   Vertical — writing-mode turns the native control; direction: rtl puts the
+   minimum at the bottom. The WebKit gradient has to be re-aimed to match.
+   -------------------------------------------------------------------------- */
+input[type="range"].ui-slider[data-orientation="vertical"] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  /* auto collapses the box to the track's width; the thumb overhangs it
+     symmetrically, so reserve that overhang as margin. */
+  width: auto;
+  height: 160px;
+  margin-inline: calc((var(--_thumb-size) - var(--_track-size)) / 2);
+}
+
+input[type="range"].ui-slider[data-orientation="vertical"]::-webkit-slider-runnable-track {
+  width: var(--_track-size);
+  height: 100%;
+  background-image: linear-gradient(
+    to top,
+    var(--_fill) 0 var(--_fill-stop),
+    transparent var(--_fill-stop) 100%
+  );
+}
+
+input[type="range"].ui-slider[data-orientation="vertical"]::-moz-range-track {
+  width: var(--_track-size);
+  height: 100%;
+}
+
+input[type="range"].ui-slider[data-orientation="vertical"]::-moz-range-progress {
+  width: var(--_track-size);
+}
+
+input[type="range"].ui-slider[data-orientation="vertical"]::-webkit-slider-thumb {
+  margin-top: 0;
+  margin-left: calc((var(--_track-size) - var(--_thumb-size)) / 2);
+}
+
+/* --------------------------------------------------------------------------
+   Optional wrapper anatomy
+   -------------------------------------------------------------------------- */
+.ui-slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.ui-slider-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.ui-slider-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-main);
+  user-select: none;
+}
+
+.ui-slider-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* Tick marks — a <datalist list="…"> laid out as labels under the track.
+   Engines render the native tick glyphs inconsistently, so the datalist is
+   taken over and drawn as plain text instead. */
+datalist.ui-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  writing-mode: horizontal-tb;
+  /* Inset by half a default thumb so the end labels sit under the end stops. */
+  padding: 0 9px;
+  font-size: var(--text-xs);
+  /* --color-text-muted, not -dim: the ticks are small body text and need 4.5:1,
+     which -dim misses on the light themes. */
+  color: var(--color-text-muted);
+}
+
+datalist.ui-slider-ticks option {
+  padding: 0;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input[type="range"].ui-slider::-webkit-slider-thumb {
+    transition: none;
+  }
+  input[type="range"].ui-slider::-moz-range-thumb {
+    transition: none;
+  }
+  input[type="range"].ui-slider:hover:not(:disabled)::-webkit-slider-thumb,
+  input[type="range"].ui-slider:active:not(:disabled)::-webkit-slider-thumb {
+    transform: none;
+  }
+  input[type="range"].ui-slider:hover:not(:disabled)::-moz-range-thumb,
+  input[type="range"].ui-slider:active:not(:disabled)::-moz-range-thumb {
+    transform: none;
+  }
+}

@@ -9,6 +9,7 @@
 /* 2. Open UI Components Imports */
 @import "./components/button.css";
 @import "./components/form.css";
+@import "./components/slider.css";
 @import "./components/panel.css";
 @import "./components/badge.css";
 @import "./components/tag.css";
