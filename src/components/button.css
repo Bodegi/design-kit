@@ -18,6 +18,8 @@
   user-select: none;
   border-radius: var(--radius-control);
   border: 1px solid transparent;
+  --_glow: 0 0 transparent;   /* filled intents set their ambient glow here */
+  box-shadow: var(--_glow);
   transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
   padding: var(--space-2) var(--space-3);
   height: 36px;
@@ -35,8 +37,12 @@
   background-color: var(--color-bg-active);
 }
 
+/* box-shadow is declared here and on .ui-btn only: the filled-intent glow rides
+   in through --_glow (set by the intent rules below) instead of its own
+   box-shadow declaration, so the higher-specificity intent selectors can never
+   outrank this rule and swallow the focus ring. */
 .ui-btn:focus-visible {
-  box-shadow: var(--focus-ring);
+  box-shadow: var(--focus-ring), var(--_glow);
   outline: none;
 }
 
@@ -44,7 +50,7 @@
   opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
-  box-shadow: none;
+  --_glow: 0 0 transparent;
 }
 
 /* --- Sizes --- */
@@ -81,11 +87,11 @@
   color: var(--color-primary-contrast);
   border-color: var(--color-primary);
   font-weight: var(--font-bold);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --_glow: 0 4px 14px color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 .ui-btn[data-variant="solid"][data-intent="primary"]:hover:not(:disabled),
 .ui-btn[data-intent="primary"]:not([data-variant="outline"]):not([data-variant="ghost"]):hover:not(:disabled) {
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 50%, transparent);
+  --_glow: 0 6px 20px color-mix(in srgb, var(--color-primary) 50%, transparent);
 }
 
 /* Filled intents lift on hover and settle on press; plain/outline/ghost stay put.
