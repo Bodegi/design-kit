@@ -1,32 +1,44 @@
 /* ==========================================================================
    Open UI: Tooltip (.ui-tooltip)
-   A pure-CSS supplementary label revealed on hover AND keyboard focus
-   (:focus-within), so it is reachable without a pointer. No runtime.
+   A supplementary label revealed on hover and on keyboard focus, in two
+   renderings that share one surface and one arrow:
 
-   Anatomy: a .ui-tooltip wrapper around the trigger and a .ui-tooltip-content
-   (role="tooltip"). Wire the trigger to the content with aria-describedby so
-   assistive tech announces it. data-placement positions it (top default).
+   1. The CSS tooltip — a .ui-tooltip wrapper around the trigger and a
+      .ui-tooltip-content (role="tooltip") revealed by :hover / :focus-within,
+      with no runtime. Wire the trigger to the content with aria-describedby so
+      assistive tech announces it. The content stays pointer-hoverable and
+      persists while hovered or focused, but pure CSS cannot dismiss it with
+      Escape (WCAG 1.4.13). Being an ordinary absolutely-positioned element, it
+      is also clipped by any ancestor with overflow:hidden/auto/scroll and does
+      not flip at viewport edges — pick the data-placement that suits the
+      trigger's position. Works everywhere.
+   2. The hint popover — .ui-tooltip[popover="hint"] opened by an interest
+      invoker. The browser owns showing and hiding, the hover-intent delay, the
+      pointer bridge, the tooltip role and the description relationship, so this
+      path needs no aria-describedby, no wrapper and no runtime. It dismisses on
+      Escape and on an outside click, and renders in the top layer clear of any
+      clipping ancestor — both gaps the CSS tooltip has. Chromium and Edge only
+      (popover="hint" since 133, interestfor since 142).
 
-   The content stays pointer-hoverable and persists while hovered/focused, but
-   pure CSS cannot dismiss it with Escape (WCAG 1.4.13). Being an ordinary
-   absolutely-positioned element, it is also clipped by any ancestor with
-   overflow:hidden/auto/scroll and does not flip at viewport edges — pick the
-   data-placement that suits the trigger's position. When you need either
-   Escape-dismissal or escape from a clipping ancestor, use the click-triggered
-   toggletip on a native [popover] (.ui-popover) — it renders in the top layer,
-   clear of overflow, and dismisses on Escape natively. On Chromium the second
-   half of this file keeps the hover trigger and fixes both: an interest invoker
-   opening a popover="hint" carrying the same .ui-tooltip surface.
+   data-placement (top default | bottom | left | right) positions either one.
+   Engines without hint popovers show nothing for the second rendering — they
+   treat the unknown popover value as popover="auto", which stays closed with no
+   invoker to open it — so keep the CSS tooltip or a title attribute as the
+   fallback there. Where a click-triggered toggletip is wanted instead, put it
+   on a native [popover] (.ui-popover).
    ========================================================================== */
 
-.ui-tooltip {
-  position: relative;
-  display: inline-flex;
-}
+/* --------------------------------------------------------------------------
+   Shared surface and arrow
 
-.ui-tooltip-content {
-  position: absolute;
-  z-index: 1100;
+   One set of declarations for both renderings, so the two can never drift into
+   two slightly different tooltips. Each rendering adds its own positioning and
+   its own show/hide mechanism below; the placement offsets on the arrow are the
+   same geometry either way, which is why they are written once here.
+   -------------------------------------------------------------------------- */
+
+.ui-tooltip-content,
+.ui-tooltip[popover="hint"] {
   width: max-content;
   max-width: 240px;
   padding: var(--space-2) var(--space-3);
@@ -39,6 +51,75 @@
   font-weight: var(--font-medium);
   line-height: var(--leading-normal);
   text-align: start;
+}
+
+/* Arrow — a rotated square sharing the surface, showing the two edges that
+   face the trigger so the tooltip's border stays continuous around the point.
+   Top placement is the default. */
+.ui-tooltip-content::after,
+.ui-tooltip[popover="hint"]::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-bg-elevated);
+  transform: rotate(45deg);
+  top: 100%;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -4px;
+  border-right: 1px solid var(--color-border-strong);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[data-placement="bottom"] .ui-tooltip-content::after,
+.ui-tooltip[popover="hint"][data-placement="bottom"]::after {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: -5px;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid var(--color-border-strong);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[data-placement="left"] .ui-tooltip-content::after,
+.ui-tooltip[popover="hint"][data-placement="left"]::after {
+  top: 50%;
+  left: 100%;
+  margin-top: -4px;
+  margin-left: -5px;
+  border-right: 1px solid var(--color-border-strong);
+  border-bottom: none;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.ui-tooltip[data-placement="right"] .ui-tooltip-content::after,
+.ui-tooltip[popover="hint"][data-placement="right"]::after {
+  top: 50%;
+  left: auto;
+  right: 100%;
+  margin-top: -4px;
+  margin-left: 0;
+  margin-right: -5px;
+  border-right: none;
+  border-bottom: 1px solid var(--color-border-strong);
+  border-left: 1px solid var(--color-border-strong);
+}
+
+/* --------------------------------------------------------------------------
+   1. CSS tooltip — wrapper + absolutely positioned content
+   -------------------------------------------------------------------------- */
+
+.ui-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.ui-tooltip-content {
+  position: absolute;
+  z-index: 1100;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -58,23 +139,6 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* Arrow — a rotated square sharing the surface, showing the two edges that
-   face the trigger so the tooltip's border stays continuous around the point. */
-.ui-tooltip-content::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-bg-elevated);
-  transform: rotate(45deg);
-  top: 100%;
-  left: 50%;
-  margin-top: -5px;
-  margin-left: -4px;
-  border-right: 1px solid var(--color-border-strong);
-  border-bottom: 1px solid var(--color-border-strong);
-}
-
 /* Bottom */
 .ui-tooltip[data-placement="bottom"] .ui-tooltip-content {
   bottom: auto;
@@ -84,16 +148,6 @@
 .ui-tooltip[data-placement="bottom"]:hover .ui-tooltip-content,
 .ui-tooltip[data-placement="bottom"]:focus-within .ui-tooltip-content {
   transform: translateX(-50%) translateY(0);
-}
-.ui-tooltip[data-placement="bottom"] .ui-tooltip-content::after {
-  top: auto;
-  bottom: 100%;
-  margin-top: 0;
-  margin-bottom: -5px;
-  border-right: none;
-  border-bottom: none;
-  border-left: 1px solid var(--color-border-strong);
-  border-top: 1px solid var(--color-border-strong);
 }
 
 /* Left */
@@ -108,15 +162,6 @@
 .ui-tooltip[data-placement="left"]:focus-within .ui-tooltip-content {
   transform: translateY(-50%) translateX(0);
 }
-.ui-tooltip[data-placement="left"] .ui-tooltip-content::after {
-  top: 50%;
-  left: 100%;
-  margin-top: -4px;
-  margin-left: -5px;
-  border-right: 1px solid var(--color-border-strong);
-  border-bottom: none;
-  border-top: 1px solid var(--color-border-strong);
-}
 
 /* Right */
 .ui-tooltip[data-placement="right"] .ui-tooltip-content {
@@ -128,17 +173,6 @@
 .ui-tooltip[data-placement="right"]:hover .ui-tooltip-content,
 .ui-tooltip[data-placement="right"]:focus-within .ui-tooltip-content {
   transform: translateY(-50%) translateX(0);
-}
-.ui-tooltip[data-placement="right"] .ui-tooltip-content::after {
-  top: 50%;
-  left: auto;
-  right: 100%;
-  margin-top: -4px;
-  margin-left: 0;
-  margin-right: -5px;
-  border-right: none;
-  border-bottom: 1px solid var(--color-border-strong);
-  border-left: 1px solid var(--color-border-strong);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -152,23 +186,8 @@
   }
 }
 
-/* ==========================================================================
-   Hint popover surface (.ui-tooltip[popover="hint"])
-   The same surface as .ui-tooltip-content above, on a native hint popover that
-   an interest invoker opens: interestfor="<id>" on the trigger, popover="hint"
-   on the target. The browser owns showing and hiding it, the hover-intent
-   delay, the pointer bridge between trigger and hint, the tooltip role and the
-   description relationship, so this path needs no aria-describedby, no wrapper,
-   and no runtime.
-
-   It dismisses on Escape and on a click outside, natively — the WCAG 1.4.13 gap
-   the CSS tooltip above documents — and renders in the top layer, clear of any
-   overflow:hidden ancestor. Engines without hint popovers show nothing for it
-   (they treat the unknown popover value as popover="auto", which stays closed
-   with no invoker to open it), so keep the CSS tooltip above or a title
-   attribute as the fallback there. Chromium and Edge ship both halves —
-   popover="hint" since 133 and interestfor since 142; Firefox and Safari ship
-   neither today.
+/* --------------------------------------------------------------------------
+   2. Hint popover — .ui-tooltip[popover="hint"] + interestfor
 
    Placement is the same data-placement set, this time resolved against the
    invoker by CSS anchor positioning: interestfor makes the trigger the hint's
@@ -176,23 +195,11 @@
    for the app to wire. anchor() rather than position-area because the four
    offsets and the arrow share one geometry with the CSS tooltip. Without anchor
    support the hint keeps the UA's viewport-centred placement.
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
 
 .ui-tooltip[popover="hint"] {
   display: block;
   position: fixed;
-  width: max-content;
-  max-width: 240px;
-  padding: var(--space-2) var(--space-3);
-  background-color: var(--color-bg-elevated);
-  color: var(--color-text-main);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-control);
-  box-shadow: var(--shadow-lg);
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  line-height: var(--leading-normal);
-  text-align: start;
   overflow: visible;
   opacity: 0;
   transition:
@@ -217,55 +224,6 @@
   .ui-tooltip[popover="hint"]:popover-open {
     opacity: 0;
   }
-}
-
-/* Arrow — the same rotated square as the CSS tooltip, top placement default. */
-.ui-tooltip[popover="hint"]::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-bg-elevated);
-  transform: rotate(45deg);
-  top: 100%;
-  left: 50%;
-  margin-top: -5px;
-  margin-left: -4px;
-  border-right: 1px solid var(--color-border-strong);
-  border-bottom: 1px solid var(--color-border-strong);
-}
-
-.ui-tooltip[popover="hint"][data-placement="bottom"]::after {
-  top: auto;
-  bottom: 100%;
-  margin-top: 0;
-  margin-bottom: -5px;
-  border-right: none;
-  border-bottom: none;
-  border-left: 1px solid var(--color-border-strong);
-  border-top: 1px solid var(--color-border-strong);
-}
-
-.ui-tooltip[popover="hint"][data-placement="left"]::after {
-  top: 50%;
-  left: 100%;
-  margin-top: -4px;
-  margin-left: -5px;
-  border-right: 1px solid var(--color-border-strong);
-  border-bottom: none;
-  border-top: 1px solid var(--color-border-strong);
-}
-
-.ui-tooltip[popover="hint"][data-placement="right"]::after {
-  top: 50%;
-  left: auto;
-  right: 100%;
-  margin-top: -4px;
-  margin-left: 0;
-  margin-right: -5px;
-  border-right: none;
-  border-bottom: 1px solid var(--color-border-strong);
-  border-left: 1px solid var(--color-border-strong);
 }
 
 @supports (anchor-name: --a) {
