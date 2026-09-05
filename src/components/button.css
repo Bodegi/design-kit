@@ -230,7 +230,10 @@
 .ui-btn[aria-pressed="true"],
 .ui-btn[aria-pressed="true"]:hover:not(:disabled) {
   background-color: var(--color-bg-active);
-  --_btn-glow: inset 0 0 0 1px var(--color-border-strong);
+  /* The inner line sits directly inside the neutral button's own
+     --color-border-strong edge, so it is drawn in the hairline tone: it shades
+     the inside of the border rather than doubling its weight. */
+  --_btn-glow: inset 0 0 0 1px var(--color-border-subtle);
   transform: translateY(0);
 }
 
