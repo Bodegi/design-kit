@@ -989,7 +989,7 @@ function wireTabs(root: HTMLElement) {
     const prevKey = vertical ? 'ArrowUp' : 'ArrowLeft';
     const nextKey = vertical ? 'ArrowDown' : 'ArrowRight';
 
-    tabs.forEach((tab, i) => {
+    tabs.forEach((tab) => {
       tab.tabIndex = tab.getAttribute('aria-selected') === 'true' ? 0 : -1;
       tab.addEventListener('click', () => select(tab));
       tab.addEventListener('keydown', (e) => {
