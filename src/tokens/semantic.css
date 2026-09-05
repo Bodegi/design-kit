@@ -22,7 +22,7 @@
 
   /* Default Border Levels */
   --color-border-subtle: rgba(255, 255, 255, 0.1);
-  --color-border-strong: rgba(255, 255, 255, 0.2);
+  --color-border-strong: rgba(255, 255, 255, 0.35);
   --color-border-focus: #38bdf8;
 
   /* Primary Intent */
