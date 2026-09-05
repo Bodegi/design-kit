@@ -48,10 +48,10 @@
   --color-warning-contrast: #3a2205;
   --color-warning-subtle: rgba(245, 167, 66, 0.16);
 
-  --color-danger: #f2606c;
-  --color-danger-hover: #e14654;
+  --color-danger: #f5818b;
+  --color-danger-hover: #e66570;
   --color-danger-contrast: #40090f;
-  --color-danger-subtle: rgba(242, 96, 108, 0.16);
+  --color-danger-subtle: rgba(245, 129, 139, 0.11);
 
   --color-info: #45c4d4;
   --color-info-hover: #2dabbb;

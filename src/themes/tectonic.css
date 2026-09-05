@@ -34,16 +34,16 @@
      unused real secondary to promote, so accent is a derived orchid: a cool
      counterpoint to the magma palette, deliberately clear of the brick danger,
      amber primary, and every status hue. */
-  --color-accent: #b06ab3;
-  --color-accent-hover: #9a569d;
+  --color-accent: #b574b8;
+  --color-accent-hover: #a35ca6;
   --color-accent-contrast: #240a25;
-  --color-accent-subtle: rgba(176, 106, 179, 0.15);
+  --color-accent-subtle: rgba(181, 116, 184, 0.12);
 
   /* Success and info lifted from Tectonic's own palette (src/styles.css):
      --accent-green and --accent-cyan. Danger diverges on purpose: the app's
      .status-error reuses its terracotta (#e76f51), which here is the accent and
      sits right next to the magma primary — so danger would be indistinguishable
-     from both. A deeper brick-red keeps it clearly "danger." Warning is a
+     from both. A distinct red keeps it clearly "danger." Warning is a
      blessed yellow-gold; the app has no warning color of its own. */
   --color-success: #34d399;
   --color-success-hover: #22c07d;
@@ -55,10 +55,10 @@
   --color-warning-contrast: #3a2c06;
   --color-warning-subtle: rgba(236, 201, 75, 0.15);
 
-  --color-danger: #c0392b;
-  --color-danger-hover: #a83125;
-  --color-danger-contrast: #ffffff;
-  --color-danger-subtle: rgba(192, 57, 43, 0.16);
+  --color-danger: #db695d;
+  --color-danger-hover: #d65144;
+  --color-danger-contrast: #350d08;
+  --color-danger-subtle: rgba(219, 105, 93, 0.13);
 
   --color-info: #60a5fa;
   --color-info-hover: #3b82f6;

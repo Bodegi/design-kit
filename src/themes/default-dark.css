@@ -28,10 +28,10 @@
   --color-primary-contrast: #0f172a;
   --color-primary-subtle: rgba(56, 189, 248, 0.15);
 
-  --color-accent: #818cf8;
-  --color-accent-hover: #6366f1;
+  --color-accent: #8b95f9;
+  --color-accent-hover: #6c6ff2;
   --color-accent-contrast: #1e1b4b;
-  --color-accent-subtle: rgba(129, 140, 248, 0.15);
+  --color-accent-subtle: rgba(139, 149, 249, 0.105);
 
   /* success / warning / danger / info are inherited from the semantic baseline
      (tokens/semantic.css) on purpose: this is the reference dark theme, and the

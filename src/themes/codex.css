@@ -29,14 +29,14 @@
   --color-primary-contrast: #1c1917;
   --color-primary-subtle: rgba(245, 158, 11, 0.15);
 
-  /* Accent is Codex's --accent-purple (an AA-darkened #8b5cf6), a real but
+  /* Accent derives from Codex's --accent-purple (#8b5cf6), a real but
      never-wired app token. The app's most-used non-gold color was its crimson,
      but that is the danger color (see --color-danger) — using it here duplicated
      danger, so accent moves to the one distinct secondary the app already had. */
-  --color-accent: #8257d9;
-  --color-accent-hover: #6f45c4;
-  --color-accent-contrast: #ffffff;
-  --color-accent-subtle: rgba(130, 87, 217, 0.15);
+  --color-accent: #9e7ce1;
+  --color-accent-hover: #8a68cf;
+  --color-accent-contrast: #1c1033;
+  --color-accent-subtle: rgba(158, 124, 225, 0.13);
 
   /* Intents lifted from the Codex app's real status colors (src/styles/main.css):
      --accent-emerald (healthy/live), --accent-crimson (danger/stale), and
@@ -53,13 +53,13 @@
   --color-warning-contrast: #2e2205;
   --color-warning-subtle: rgba(224, 180, 41, 0.15);
 
-  --color-danger: #ef4444;
-  --color-danger-hover: #dc2626;
+  --color-danger: #f15757;
+  --color-danger-hover: #df3838;
   --color-danger-contrast: #3a0a0a;
-  --color-danger-subtle: rgba(239, 68, 68, 0.16);
+  --color-danger-subtle: rgba(241, 87, 87, 0.13);
 
-  --color-info: #3b82f6;
-  --color-info-hover: #2563eb;
+  --color-info: #4a8bf7;
+  --color-info-hover: #336dec;
   --color-info-contrast: #04162a;
-  --color-info-subtle: rgba(59, 130, 246, 0.15);
+  --color-info-subtle: rgba(74, 139, 247, 0.12);
 }
