@@ -67,6 +67,10 @@
   --radius-control: var(--radius-xl);  /* 10px — buttons, inputs */
   --radius-base: var(--radius-2xl);    /* 12px — panels, cards */
   --focus-ring: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-border-focus);
+  /* The switch knob rides both the off track (--color-border-strong) and the on
+     track (--color-primary), so it is its own token rather than either one's
+     contrast color. */
+  --color-switch-thumb: #ffffff;
   --blur-glass: blur(16px);            /* backdrop blur of the shell's glass surfaces — a material constant, not a theme knob */
 
   /* Ambient logo watermark — one shared recipe (see .ui-watermark). The mark is

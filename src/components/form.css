@@ -212,7 +212,7 @@
   left: 2px;
   width: 18px;
   height: 18px;
-  background-color: #ffffff;
+  background-color: var(--color-switch-thumb);
   border-radius: var(--radius-full);
   transition: transform var(--transition-fast);
 }
