@@ -17,8 +17,6 @@ const meterSnippet = `<meter class="ui-meter"
   value="72" aria-label="Disk usage 72%"></meter>`;
 
 export const meterSection: Section = {
-  id: 'meter',
-  title: 'Meter / Gauge (meter.ui-meter)',
   html: `    <!-- Meter / Gauge Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Meter / Gauge (meter.ui-meter)</h2>

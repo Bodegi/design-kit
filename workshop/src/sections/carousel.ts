@@ -117,8 +117,6 @@ function wireCarousels(root: HTMLElement) {
 }
 
 export const carouselSection: Section = {
-  id: 'carousel',
-  title: 'Carousel (.ui-carousel)',
   html: `    <!-- Carousel Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Carousel (.ui-carousel)</h2>

@@ -41,8 +41,6 @@ function wireTags(root: HTMLElement) {
 }
 
 export const tagsSection: Section = {
-  id: 'tags',
-  title: 'Tags (.ui-tag)',
   html: `    <!-- Tags Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Tags (.ui-tag)</h2>

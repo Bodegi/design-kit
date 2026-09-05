@@ -6,8 +6,6 @@ const BUTTON_VARIANTS = ['solid', 'outline', 'ghost'] as const;
 const BUTTON_INTENTS = ['primary', 'accent', 'success', 'warning', 'danger', 'info'] as const;
 
 export const buttonsSection: Section = {
-  id: 'buttons',
-  title: 'Buttons (.ui-btn)',
   html: `    <!-- Buttons Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Buttons (.ui-btn)</h2>

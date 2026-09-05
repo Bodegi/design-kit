@@ -105,8 +105,6 @@ function wireListbox(root: HTMLElement) {
 }
 
 export const listSection: Section = {
-  id: 'list',
-  title: 'List (.ui-list)',
   html: `    <!-- List Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">List (.ui-list)</h2>

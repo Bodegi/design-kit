@@ -2,8 +2,6 @@ import type { Section } from './section';
 import { copyControls } from './shared';
 
 export const formControlsSection: Section = {
-  id: 'form-controls',
-  title: 'Form Controls (.ui-field, .ui-input, .ui-select, .ui-switch)',
   html: `    <!-- Form Controls Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Form Controls (.ui-field, .ui-input, .ui-select, .ui-switch)</h2>

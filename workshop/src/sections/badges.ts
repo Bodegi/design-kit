@@ -1,8 +1,6 @@
 import type { Section } from './section';
 
 export const badgesSection: Section = {
-  id: 'badges',
-  title: 'Badges & Status Chips (.ui-badge)',
   html: `    <!-- Badges Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Badges & Status Chips (.ui-badge)</h2>

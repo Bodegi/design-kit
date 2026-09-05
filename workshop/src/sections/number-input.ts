@@ -114,8 +114,6 @@ function wireNumberInputs(root: HTMLElement) {
 }
 
 export const numberInputSection: Section = {
-  id: 'number-input',
-  title: 'Number Input (.ui-number)',
   html: `    <!-- Number Input Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Number Input (.ui-number)</h2>

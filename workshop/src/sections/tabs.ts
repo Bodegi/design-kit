@@ -57,8 +57,6 @@ function wireTabs(root: HTMLElement) {
 }
 
 export const tabsSection: Section = {
-  id: 'tabs',
-  title: 'Tabs (.ui-tabs)',
   html: `    <!-- Tabs Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Tabs (.ui-tabs)</h2>

@@ -73,8 +73,6 @@ function wireToasts(root: HTMLElement) {
 }
 
 export const toastSection: Section = {
-  id: 'toast',
-  title: 'Toast (.ui-toast)',
   html: `    <!-- Toast Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Toast (.ui-toast)</h2>

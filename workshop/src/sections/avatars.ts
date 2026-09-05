@@ -67,8 +67,6 @@ const avatarInteractiveSnippet = `<button type="button" class="ui-avatar" data-s
 </a>`;
 
 export const avatarsSection: Section = {
-  id: 'avatars',
-  title: 'Avatars (.ui-avatar)',
   html: `    <!-- Avatars Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Avatars (.ui-avatar)</h2>

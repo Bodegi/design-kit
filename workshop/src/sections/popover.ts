@@ -12,8 +12,6 @@ const popoverSnippet = `<button class="ui-btn" data-variant="outline" popovertar
 </div>`;
 
 export const popoverSection: Section = {
-  id: 'popover',
-  title: 'Popover & Menu (.ui-popover)',
   html: `    <!-- Popover Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Popover & Menu (.ui-popover)</h2>

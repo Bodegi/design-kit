@@ -222,8 +222,6 @@ function wireCombobox(root: HTMLElement) {
 }
 
 export const comboboxSection: Section = {
-  id: 'combobox',
-  title: 'Combobox (.ui-combobox)',
   html: `    <!-- Combobox Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Combobox (.ui-combobox)</h2>

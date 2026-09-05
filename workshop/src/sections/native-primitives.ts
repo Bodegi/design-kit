@@ -49,8 +49,6 @@ function wireDialog() {
 }
 
 export const nativePrimitivesSection: Section = {
-  id: 'native-primitives',
-  title: 'Native HTML Primitives (Modal & Accordion)',
   html: `    <!-- Native Dialog Modal & Accordion -->
     <section class="ws-section">
       <h2 class="ws-section-title">Native HTML Primitives (Modal & Accordion)</h2>

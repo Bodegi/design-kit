@@ -25,8 +25,6 @@ function wireSliders(root: HTMLElement) {
 }
 
 export const sliderSection: Section = {
-  id: 'slider',
-  title: 'Slider (.ui-slider)',
   html: `    <!-- Slider Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Slider (.ui-slider)</h2>

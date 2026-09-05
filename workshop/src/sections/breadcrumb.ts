@@ -19,8 +19,6 @@ function wireBreadcrumbs(root: HTMLElement) {
 }
 
 export const breadcrumbSection: Section = {
-  id: 'breadcrumb',
-  title: 'Breadcrumb (.ui-breadcrumb)',
   html: `    <!-- Breadcrumb Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Breadcrumb (.ui-breadcrumb)</h2>

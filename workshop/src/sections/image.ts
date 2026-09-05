@@ -102,8 +102,6 @@ const imageInteractiveSnippet = `<a class="ui-image" href="/atlas" data-ratio="3
 </a>`;
 
 export const imageSection: Section = {
-  id: 'image',
-  title: 'Image (.ui-image)',
   html: `    <!-- Image Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Image (.ui-image)</h2>

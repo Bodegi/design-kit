@@ -12,8 +12,6 @@ const hintTooltipSnippet = `<button class="ui-btn ui-tooltip-trigger" data-varia
 <div class="ui-tooltip" popover="hint" id="tt-2" data-placement="top">Supplementary help text</div>`;
 
 export const tooltipSection: Section = {
-  id: 'tooltip',
-  title: 'Tooltip (.ui-tooltip)',
   html: `    <!-- Tooltip Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Tooltip (.ui-tooltip)</h2>

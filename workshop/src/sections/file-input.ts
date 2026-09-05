@@ -101,8 +101,6 @@ function wireFileInputs(root: HTMLElement) {
 /* --- Richer Text Field --------------------------------------------------- */
 
 export const fileInputSection: Section = {
-  id: 'file-input',
-  title: 'File Input (.ui-file)',
   html: `    <!-- File Input Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">File Input (.ui-file)</h2>

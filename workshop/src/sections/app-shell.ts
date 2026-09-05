@@ -2,8 +2,6 @@ import type { Section } from './section';
 import { copyControls } from './shared';
 
 export const appShellSection: Section = {
-  id: 'app-shell',
-  title: 'App Shell (.ui-app-shell)',
   html: `    <!-- App Shell Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">App Shell (.ui-app-shell)</h2>

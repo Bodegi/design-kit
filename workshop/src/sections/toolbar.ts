@@ -16,8 +16,6 @@ const toolbarSnippet = `<div class="ui-toolbar">
 </div>`;
 
 export const toolbarSection: Section = {
-  id: 'toolbar',
-  title: 'Toolbar (.ui-toolbar)',
   html: `    <!-- Toolbar Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Toolbar (.ui-toolbar)</h2>

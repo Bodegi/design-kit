@@ -31,8 +31,6 @@ const skeletonCardSnippet = `<div class="ui-panel" aria-busy="true">
 </div>`;
 
 export const skeletonSection: Section = {
-  id: 'skeleton',
-  title: 'Skeleton (.ui-skeleton)',
   html: `    <!-- Skeleton Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Skeleton (.ui-skeleton)</h2>

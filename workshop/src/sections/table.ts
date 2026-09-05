@@ -73,8 +73,6 @@ function wireTableSort(root: HTMLElement) {
 }
 
 export const tableSection: Section = {
-  id: 'table',
-  title: 'Table (.ui-table)',
   html: `    <!-- Table Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Table (.ui-table)</h2>

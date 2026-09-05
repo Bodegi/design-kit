@@ -14,8 +14,6 @@ const progressLabeledSnippet = `<div class="progress-field">
 </div>`;
 
 export const progressSection: Section = {
-  id: 'progress',
-  title: 'Progress (progress.ui-progress)',
   html: `    <!-- Progress Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Progress (progress.ui-progress)</h2>

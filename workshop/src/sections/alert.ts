@@ -50,8 +50,6 @@ function wireAlerts(root: HTMLElement) {
 }
 
 export const alertSection: Section = {
-  id: 'alert',
-  title: 'Alert / Callout (.ui-alert)',
   html: `    <!-- Alert / Callout Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Alert / Callout (.ui-alert)</h2>

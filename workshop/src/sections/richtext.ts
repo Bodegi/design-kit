@@ -166,8 +166,6 @@ function wireRichTextHighlights(root: HTMLElement) {
 }
 
 export const richtextSection: Section = {
-  id: 'richtext',
-  title: 'Richer Text Field (.ui-richtext)',
   html: `    <!-- Richer Text Field Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Richer Text Field (.ui-richtext)</h2>

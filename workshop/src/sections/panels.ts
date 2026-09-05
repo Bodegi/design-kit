@@ -1,8 +1,6 @@
 import type { Section } from './section';
 
 export const panelsSection: Section = {
-  id: 'panels',
-  title: 'Panels & Cards (.ui-panel)',
   html: `    <!-- Panels / Cards Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Panels & Cards (.ui-panel)</h2>

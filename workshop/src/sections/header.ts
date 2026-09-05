@@ -2,8 +2,6 @@ import type { Section } from './section';
 import { copyControls } from './shared';
 
 export const headerSection: Section = {
-  id: 'header',
-  title: 'Header (.ui-header)',
   html: `    <!-- Header Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Header (.ui-header)</h2>

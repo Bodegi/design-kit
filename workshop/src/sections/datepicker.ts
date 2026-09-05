@@ -122,8 +122,6 @@ const datepickerRangeSnippet = `<div class="ui-panel ui-datepicker">
 </div>`;
 
 export const datepickerSection: Section = {
-  id: 'datepicker',
-  title: 'Datepicker (.ui-datepicker)',
   html: `    <!-- Datepicker Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Datepicker (.ui-datepicker)</h2>
