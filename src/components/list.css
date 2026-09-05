@@ -195,12 +195,12 @@ button.ui-list-item:active,
 
 /* --- Selected / current ------------------------------------------------- */
 
-/* Selected row: elevated ground + inset primary bar + full-strength text,
-   matching .ui-nav's current-item treatment. */
+/* Selected row: the shared current-row recipe (elevated ground + inset primary
+   bar) plus full-strength text, matching .ui-nav's current item. */
 .ui-list-item[aria-selected="true"],
 .ui-list-item[aria-current]:not([aria-current="false"]) {
-  background-color: var(--color-bg-elevated);
-  box-shadow: inset 3px 0 0 var(--color-primary);
+  background-color: var(--color-bg-current);
+  box-shadow: var(--shadow-current-bar);
   color: var(--color-text-main);
 }
 
@@ -218,10 +218,11 @@ button.ui-list-item:active,
   color: var(--color-text-main);
 }
 
-/* Keep the focus ring on a selected row — the two shadows stack. */
+/* Keep the focus ring on a selected row — the two shadows stack, ring first so
+   it paints over the bar. */
 .ui-list-item[aria-selected="true"]:focus-visible,
 .ui-list-item[aria-current]:not([aria-current="false"]):focus-visible {
-  box-shadow: var(--focus-ring), inset 3px 0 0 var(--color-primary);
+  box-shadow: var(--focus-ring), var(--shadow-current-bar);
 }
 
 /* --- Disabled ----------------------------------------------------------- */

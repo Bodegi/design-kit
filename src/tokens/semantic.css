@@ -67,6 +67,14 @@
   --radius-control: var(--radius-xl);  /* 10px — buttons, inputs */
   --radius-base: var(--radius-2xl);    /* 12px — panels, cards */
   --focus-ring: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-border-focus);
+  /* "This row is current" recipe — an elevated ground plus an inset bar on the
+     leading edge. .ui-nav, .ui-list, .ui-accordion-group and .ui-table all read
+     these, so every current/selected row in the kit is the same treatment. The
+     bar is a shadow, so a consumer stacks it with --focus-ring in one
+     box-shadow list rather than choosing between them. Themes vary the colors
+     these resolve to; they never set these two. */
+  --color-bg-current: var(--color-bg-elevated);
+  --shadow-current-bar: inset 3px 0 0 var(--color-primary);
   /* The switch knob rides both the off track (--color-border-strong) and the on
      track (--color-primary), so it is its own token rather than either one's
      contrast color. */

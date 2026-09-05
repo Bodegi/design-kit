@@ -153,8 +153,11 @@
   background-color: var(--color-primary-subtle);
 }
 
+/* The leading cell carries the shared current-row bar; the ground is the
+   primary tint above rather than --color-bg-current, so a selected row still
+   reads as selected inside a striped body. */
 .ui-table tbody tr[aria-selected="true"] > *:first-child {
-  box-shadow: inset 3px 0 0 var(--color-primary);
+  box-shadow: var(--shadow-current-bar);
 }
 
 /* --- Sortable header --------------------------------------------------- */

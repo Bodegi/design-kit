@@ -42,16 +42,18 @@
   box-shadow: var(--focus-ring);
 }
 
-/* Current item: elevated ground + inset primary bar + full-strength text. */
+/* Current item: the shared current-row recipe (elevated ground + inset primary
+   bar) plus full-strength text. */
 .ui-nav-item[aria-current]:not([aria-current="false"]) {
   color: var(--color-text-main);
-  background-color: var(--color-bg-elevated);
-  box-shadow: inset 3px 0 0 var(--color-primary);
+  background-color: var(--color-bg-current);
+  box-shadow: var(--shadow-current-bar);
 }
 
-/* Keep the focus ring on the current item — the two shadows stack. */
+/* Keep the focus ring on the current item — the two shadows stack, ring first
+   so it paints over the bar. */
 .ui-nav-item[aria-current]:not([aria-current="false"]):focus-visible {
-  box-shadow: var(--focus-ring), inset 3px 0 0 var(--color-primary);
+  box-shadow: var(--focus-ring), var(--shadow-current-bar);
 }
 
 /* Leading marker/icon — primary-tinted (codex's amber bullet), theme-driven. */
