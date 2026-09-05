@@ -69,7 +69,7 @@
   height: var(--_form-chevron-size);
   border-right: var(--_form-chevron-weight) solid var(--color-text-muted);
   border-bottom: var(--_form-chevron-weight) solid var(--color-text-muted);
-  border-end-end-radius: var(--radius-xs);
+  border-end-end-radius: var(--radius-inline);
   transform: translateY(-25%) rotate(var(--_form-chevron-rotate));
   pointer-events: none;
 }
@@ -160,7 +160,7 @@
   width: 18px;
   height: 18px;
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-inline);
   background-color: var(--color-bg-surface);
   cursor: pointer;
   outline: none;

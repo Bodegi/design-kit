@@ -63,6 +63,7 @@
   --color-info-subtle: rgba(96, 165, 250, 0.13);
 
   /* Semantic Component Mappings — shape is a system constant; themes vary color only. */
+  --radius-inline: var(--radius-xs);   /* 2px  — marks at text scale: <code>, <mark>, the checkbox tick box */
   --radius-nav: var(--radius-md);      /* 6px  — nav rows */
   --radius-control: var(--radius-xl);  /* 10px — buttons, inputs */
   --radius-base: var(--radius-2xl);    /* 12px — panels, cards */

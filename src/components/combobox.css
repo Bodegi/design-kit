@@ -290,7 +290,7 @@
 .ui-combobox-option mark {
   background-color: var(--color-primary-subtle);
   color: inherit;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-inline);
   /* Negative margin cancels the padding's advance, so tinting a run of letters
      never re-spaces the label around it. */
   padding: 0 1px;

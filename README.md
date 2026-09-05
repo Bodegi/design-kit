@@ -60,7 +60,7 @@ To customize colors locally within your application, add a `:root` block after y
 }
 ```
 
-Corner radius is a system constant, not a per-app knob: the `--radius-*` scale and the `--radius-nav` / `--radius-control` / `--radius-base` roles are shared by every app so they differ by color alone.
+Corner radius is a system constant, not a per-app knob: the `--radius-*` scale and the `--radius-inline` / `--radius-nav` / `--radius-control` / `--radius-base` roles are shared by every app so they differ by color alone.
 
 ---
 
