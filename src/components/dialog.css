@@ -19,6 +19,7 @@ dialog.ui-dialog {
 dialog.ui-dialog::backdrop {
   background-color: var(--color-bg-overlay);
   backdrop-filter: var(--blur-scrim);
+  -webkit-backdrop-filter: var(--blur-scrim);
 }
 
 .ui-dialog-header {
