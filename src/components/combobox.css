@@ -9,10 +9,10 @@
    or hides the option.
 
    Anatomy:
-     .ui-combobox                       root; establishes the anchor/containing block
-       input.ui-input[role="combobox"]  the field itself — .ui-input from form.css,
-                                        not restyled here, only given room for the
-                                        buttons that sit over it
+     .ui-combobox                       the field shell; owns the border, ground
+                                        and ring, and is the anchor for the panel
+       input.ui-input[role="combobox"]  the value — .ui-input from form.css, made
+                                        borderless and ringless inside the shell
        .ui-combobox-clear               optional × button (app toggles [hidden])
        .ui-combobox-trigger             optional chevron button
        .ui-combobox-listbox[popover]    the panel, [role="listbox"]
@@ -35,6 +35,16 @@
      aria-disabled="true" on an option   unavailable
      data-size="sm|md" on the root       field height and listbox type scale
 
+   The field is a shell, the same technique .ui-number uses: .ui-combobox draws
+   the border, the radius, the ground and the ring, the input inside it is
+   borderless and ringless, and the clear and trigger buttons are flex children
+   rather than absolutely positioned overlays — so nothing has to reserve
+   padding for them and the assembly reads as one control. Every field state is
+   read off the wrapped input with :has(), so the shell reacts to the control it
+   holds: :focus-visible (the ring moves to the shell, and the input's own ring
+   is cleared so there is exactly one), :user-invalid / [aria-invalid="true"],
+   :read-only and :disabled. The two buttons keep their own :focus-visible ring.
+
    The listbox is a native [popover], so Escape and light-dismiss are the UA's.
    Where CSS anchor positioning is supported it is anchored under the field;
    elsewhere it falls back to absolute positioning inside the root. The anchored
@@ -43,40 +53,51 @@
    ========================================================================== */
 
 .ui-combobox {
+  --_combobox-height: 36px;
+  --_combobox-action-size: 24px;
+
+  /* position: relative both establishes the containing block for the no-anchor
+     listbox fallback and lets the buttons' own pseudo-elements resolve against
+     them. */
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   width: 100%;
   max-width: 320px;
-
-  /* Room reserved on the input's trailing edge for the buttons stacked over
-     it. Private: the rule below recomputes it from whether the clear button is
-     showing, so a consumer value would be overwritten on exactly the fields
-     where it would matter. */
-  --_combobox-actions: var(--space-8);
+  height: var(--_combobox-height);
+  padding-inline-end: var(--space-2);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.ui-combobox:has(.ui-combobox-clear:not([hidden])) {
-  --_combobox-actions: var(--space-12);
-}
-
+/* The value. .ui-input still supplies the type and the inner gutter; the shell
+   takes over everything that draws an edge. */
 .ui-combobox > .ui-input {
-  padding-right: var(--_combobox-actions);
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  height: 100%;
+  padding-inline-end: var(--space-2);
+  background-color: transparent;
+  border: none;
+  border-radius: inherit;
+  box-shadow: none;
 }
 
 /* --- Field buttons ------------------------------------------------------ */
 
 .ui-combobox-trigger,
 .ui-combobox-clear {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+  position: relative;
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  margin: auto 0;
+  width: var(--_combobox-action-size);
+  height: var(--_combobox-action-size);
   padding: 0;
-  height: 24px;
   border: none;
   border-radius: var(--radius-nav);
   background-color: transparent;
@@ -90,14 +111,6 @@
 .ui-combobox-trigger[hidden],
 .ui-combobox-clear[hidden] {
   display: none;
-}
-
-.ui-combobox-trigger {
-  right: var(--space-2);
-}
-
-.ui-combobox-clear {
-  right: calc(var(--space-2) + 24px);
 }
 
 .ui-combobox-trigger:hover,
@@ -170,7 +183,9 @@
 
 /* Panel chrome is on the class alone, so an app that wants an always-open
    inline listbox drops the [popover] attribute and keeps everything but the
-   positioning below. */
+   positioning below. That panel goes after .ui-combobox rather than inside it:
+   the shell is the bordered field itself and lays its children out in a row, so
+   a panel inside it would sit beside the input within the border. */
 .ui-combobox-listbox {
   box-sizing: border-box;
   max-height: 240px;
@@ -360,11 +375,15 @@
 
 /* --- Sizes -------------------------------------------------------------- */
 
+.ui-combobox[data-size="sm"] {
+  --_combobox-height: 30px;
+  --_combobox-action-size: 20px;
+}
+
 .ui-combobox[data-size="sm"] > .ui-input {
-  height: 30px;
   font-size: var(--text-xs);
-  padding-top: var(--space-1);
-  padding-bottom: var(--space-1);
+  padding-block: var(--space-1);
+  padding-inline-start: var(--space-2);
 }
 
 :is(.ui-combobox, .ui-combobox-listbox)[data-size="sm"] .ui-combobox-option {
@@ -377,7 +396,57 @@
   font-size: var(--text-xs);
 }
 
+/* --- States — read off the wrapped input --------------------------------- */
+
+.ui-combobox:hover:not(:has(> .ui-input:disabled)) {
+  border-color: var(--color-border-focus);
+}
+
+/* form.css rings the input itself; the shell carries the ring here instead, so
+   the two rules together leave exactly one. */
+.ui-combobox:has(> .ui-input:focus-visible) {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+.ui-combobox > .ui-input:focus-visible {
+  border-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Matches the error ring in form.css and number.css, down to reading
+   :user-invalid rather than :invalid so a field the user has not reached yet
+   stays neutral. The invalid ring wins over the plain focus ring. */
+.ui-combobox:has(> .ui-input:user-invalid),
+.ui-combobox:has(> .ui-input[aria-invalid="true"]) {
+  border-color: var(--color-danger);
+}
+
+.ui-combobox:has(> .ui-input:user-invalid):has(> .ui-input:focus-visible),
+.ui-combobox:has(> .ui-input[aria-invalid="true"]):has(> .ui-input:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
+}
+
+/* Read-only: the value is still selectable and focusable, so it keeps full text
+   contrast; only the ground and the (app-disabled) buttons recede. */
+.ui-combobox:has(> .ui-input:read-only:not(:disabled)) {
+  background-color: var(--color-bg-muted);
+  border-color: var(--color-border-subtle);
+}
+
+.ui-combobox:has(> .ui-input:disabled) {
+  opacity: 0.5;
+  background-color: var(--color-bg-muted);
+  cursor: not-allowed;
+}
+
+.ui-combobox:has(> .ui-input:disabled) .ui-input {
+  cursor: not-allowed;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .ui-combobox,
   .ui-combobox-trigger::before,
   .ui-combobox-option,
   .ui-combobox-trigger,
