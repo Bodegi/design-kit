@@ -169,6 +169,12 @@
   list-style: none;
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   hiding the dots — on a one-slide strip, say — needs this back. */
+.ui-carousel-markers[hidden] {
+  display: none;
+}
+
 .ui-carousel-marker {
   width: var(--_marker-size);
   height: var(--_marker-size);

@@ -66,6 +66,15 @@
   outline: none;
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   that shows and hides an inline panel — or either optional part — with the
+   hidden attribute needs this back. */
+.ui-datepicker[hidden],
+.ui-datepicker-presets[hidden],
+.ui-datepicker-footer[hidden] {
+  display: none;
+}
+
 /* On a native [popover] the panel anchors under its invoker where anchor
    positioning is supported, and keeps the UA's viewport centering elsewhere —
    the same bargain .ui-popover makes. */
