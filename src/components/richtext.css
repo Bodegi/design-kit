@@ -1,0 +1,409 @@
+/* ==========================================================================
+   Open UI: Richer Text Field (.ui-richtext)
+   Open UI's Richer Text Fields explainer is a set of proposed extensions to
+   the native fields — OpaqueRange over an <input>/<textarea> value, CSS
+   highlights painted over those ranges, ghost-text ::suggestion, and input
+   masking. Only OpaqueRange has begun to ship, so there is no "rich text
+   element" to restyle. What the kit styles is the container anatomy the app
+   already renders around a contenteditable or a <textarea>: the field chrome,
+   the toolbar rail, the editor's typography, and the marks laid over the text.
+   Editing behavior — what Bold does, what the toolbar toggles, how ranges are
+   computed — belongs to the app or the library it embeds. The kit ships no JS.
+
+   Anatomy:
+     .ui-richtext                 the field; owns the border, ground and ring
+       .ui-richtext-toolbar       optional rail — compose with .ui-toolbar
+       .ui-richtext-editor        [contenteditable] or <textarea>: the text
+       .ui-richtext-footer        optional status row
+         .ui-richtext-count       character/word count
+
+   The toolbar composes: write `class="ui-toolbar ui-richtext-toolbar"` and put
+   .ui-btn press-buttons (data-variant="ghost", data-size="icon-sm",
+   aria-pressed) inside it. .ui-toolbar already supplies the flex row, gap,
+   .ui-toolbar-separator and .ui-toolbar-spacer; this file only drops the
+   toolbar's own border/ground so it reads as part of the field, adds the rule
+   under it, and pins it while the editor scrolls — the idiom lifted from
+   Codex's sticky .se-toolbar, which keeps every action reachable on a long
+   document.
+
+   Variants: data-size="sm" | "md" (default), data-autoresize.
+   Width and height are set per field through --ui-richtext-min-height and
+   --ui-richtext-max-height.
+
+   State hooks, all app-asserted or native:
+     :has(.ui-richtext-editor:focus-visible)   the ring moves to the field
+     [aria-invalid="true"] / [data-state="error"]  the danger ring from form.css
+     [aria-readonly="true"]                    still selectable, muted ground
+     [aria-disabled="true"] / a disabled textarea / a contenteditable="false"
+       editor on a field not marked read-only
+
+   Contrast: highlight marks are always --color-text-main over the intent's
+   -subtle tint, never the intent color on its own tint — measured at 7.99:1 or
+   better in every theme, worst case image-annotate's accent. Blockquote text is
+   main text too, because muted text over the primary tint drops to 3.7:1 in the
+   light themes.
+   ========================================================================== */
+
+.ui-richtext {
+  --_font-size: var(--text-sm);
+  --_gutter: var(--space-4);
+
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ui-richtext[data-size="sm"] {
+  --_font-size: var(--text-xs);
+  --_gutter: var(--space-3);
+}
+
+.ui-richtext:hover:not([aria-disabled="true"]) {
+  border-color: var(--color-border-focus);
+}
+
+/* --------------------------------------------------------------------------
+   Toolbar — .ui-toolbar minus its own box
+   -------------------------------------------------------------------------- */
+
+.ui-richtext-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-2);
+  background-color: var(--color-bg-surface);
+  border: none;
+  border-block-end: 1px solid var(--color-border-subtle);
+  border-radius: 0;
+  border-start-start-radius: calc(var(--radius-control) - 1px);
+  border-start-end-radius: calc(var(--radius-control) - 1px);
+}
+
+/* --------------------------------------------------------------------------
+   Editor
+   -------------------------------------------------------------------------- */
+
+.ui-richtext-editor {
+  flex: 1 1 auto;
+  min-height: var(--ui-richtext-min-height, 8rem);
+  max-height: var(--ui-richtext-max-height, 24rem);
+  overflow-y: auto;
+  padding: var(--_gutter);
+  font-family: var(--font-sans);
+  font-size: var(--_font-size);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-main);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  resize: none;
+}
+
+/* form.css and index.css both ring a focused control; the field carries the
+   ring here instead, so there is exactly one. */
+.ui-richtext .ui-richtext-editor:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
+/* A <textarea> editor is plain text — it keeps the sans face and the measure,
+   but none of the block typography below applies to it. */
+textarea.ui-richtext-editor {
+  display: block;
+  width: 100%;
+}
+
+/* Placeholder. An empty contenteditable is genuinely empty only until the
+   engine drops a bookkeeping <br> into it, so the second selector catches the
+   one-empty-block case that Chromium and Safari leave behind. */
+.ui-richtext-editor[data-placeholder]:empty::before,
+.ui-richtext-editor[data-placeholder]:has(> :only-child:empty)::before {
+  content: attr(data-placeholder);
+  display: block;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+/* --- Autoresize ----------------------------------------------------------
+   field-sizing: content lets the field take its height from what is typed,
+   which is the whole point — no scroll box, no JS measuring a shadow element.
+   Where the engine does not know it, the field falls back to a fixed box at
+   the same minimum height, which is a working field, just not a growing one.
+   ------------------------------------------------------------------------ */
+
+.ui-richtext[data-autoresize] .ui-richtext-editor {
+  max-height: none;
+  overflow-y: visible;
+  field-sizing: content;
+}
+
+@supports not (field-sizing: content) {
+  .ui-richtext[data-autoresize] textarea.ui-richtext-editor {
+    max-height: var(--ui-richtext-max-height, 24rem);
+    overflow-y: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Content typography — scoped to the editor, so it never leaks into the page
+   -------------------------------------------------------------------------- */
+
+.ui-richtext-editor > :first-child {
+  margin-block-start: 0;
+}
+
+.ui-richtext-editor > :last-child {
+  margin-block-end: 0;
+}
+
+.ui-richtext-editor p {
+  margin-block: 0 var(--space-3);
+}
+
+.ui-richtext-editor h1,
+.ui-richtext-editor h2,
+.ui-richtext-editor h3 {
+  margin-block: var(--space-5) var(--space-2);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text-main);
+}
+
+.ui-richtext-editor h1 {
+  font-size: var(--text-xl);
+}
+
+.ui-richtext-editor h2 {
+  font-size: var(--text-lg);
+}
+
+/* Lifted from Codex's reader view: the third level is a quiet small-caps field
+   label rather than a third size of heading. */
+.ui-richtext-editor h3 {
+  font-size: var(--_font-size);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.ui-richtext-editor ul,
+.ui-richtext-editor ol {
+  margin-block: 0 var(--space-3);
+  padding-inline-start: var(--space-6);
+}
+
+.ui-richtext-editor li {
+  margin-block-end: var(--space-1);
+}
+
+.ui-richtext-editor a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ui-richtext-editor code {
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.ui-richtext-editor pre {
+  margin-block: 0 var(--space-3);
+  padding: var(--space-3);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  background-color: var(--color-bg-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-nav);
+}
+
+.ui-richtext-editor pre code {
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+/* Codex's blockquote: a primary bar on the leading edge over the primary tint,
+   square where the bar meets it. The ink stays --color-text-main, because muted
+   text over that tint fails AA in the light themes. */
+.ui-richtext-editor blockquote {
+  margin-block: 0 var(--space-3);
+  margin-inline: 0;
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-text-main);
+  font-style: italic;
+  background-color: var(--color-primary-subtle);
+  border-inline-start: 3px solid var(--color-primary);
+  border-start-end-radius: var(--radius-nav);
+  border-end-end-radius: var(--radius-nav);
+}
+
+.ui-richtext-editor hr {
+  margin-block: var(--space-4);
+  border: none;
+  border-block-start: 1px solid var(--color-border-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   Highlights
+   -------------------------------------------------------------------------- */
+
+/* Ranges the app wraps itself: a real <mark> stays in the accessibility tree
+   and survives copy/paste, unlike a painted highlight. */
+.ui-richtext-highlight {
+  color: var(--color-text-main);
+  background-color: var(--color-primary-subtle);
+  border-radius: var(--radius-xs);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.ui-richtext-highlight[data-intent="accent"] {
+  background-color: var(--color-accent-subtle);
+}
+
+.ui-richtext-highlight[data-intent="success"] {
+  background-color: var(--color-success-subtle);
+}
+
+.ui-richtext-highlight[data-intent="warning"] {
+  background-color: var(--color-warning-subtle);
+}
+
+.ui-richtext-highlight[data-intent="danger"] {
+  background-color: var(--color-danger-subtle);
+}
+
+.ui-richtext-highlight[data-intent="info"] {
+  background-color: var(--color-info-subtle);
+}
+
+/* --- Custom Highlight API ------------------------------------------------
+   The other way to mark a range: CSS.highlights registers a Highlight of
+   Ranges under a name and ::highlight(name) paints it, with no wrapper element
+   and nothing added to the DOM — which is what a spell/grammar pass wants,
+   since the text is not being annotated, only flagged. The kit names two,
+   `ui-spelling` and `ui-grammar`; the app registers the ranges under those
+   names. Only decoration and color are honored on a highlight pseudo, so the
+   flags are wavy underlines rather than tinted grounds, and they never change
+   the ink. Engines without the API skip the block and the text renders plain.
+   ------------------------------------------------------------------------ */
+
+@supports selector(::highlight(x)) {
+  .ui-richtext-editor::highlight(ui-spelling) {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--color-danger);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .ui-richtext-editor::highlight(ui-grammar) {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--color-warning);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.ui-richtext-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--_gutter);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-surface);
+  border-block-start: 1px solid var(--color-border-subtle);
+  border-end-start-radius: calc(var(--radius-control) - 1px);
+  border-end-end-radius: calc(var(--radius-control) - 1px);
+}
+
+.ui-richtext-count {
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-richtext-count[data-state="warning"] {
+  color: var(--color-warning);
+}
+
+.ui-richtext-count[data-state="error"] {
+  color: var(--color-danger);
+  font-weight: var(--font-medium);
+}
+
+/* --------------------------------------------------------------------------
+   States
+   -------------------------------------------------------------------------- */
+
+.ui-richtext:has(.ui-richtext-editor:focus-visible) {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+/* The same trio form.css honors, asserted on the field rather than the control
+   — a contenteditable has no constraint validation to read. The danger ring
+   outranks the plain focus ring above on specificity. */
+.ui-richtext[aria-invalid="true"],
+.ui-richtext[data-state="error"] {
+  border-color: var(--color-danger);
+}
+
+.ui-richtext[aria-invalid="true"]:has(.ui-richtext-editor:focus-visible),
+.ui-richtext[data-state="error"]:has(.ui-richtext-editor:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
+}
+
+/* Read-only: the text is still selectable, focusable and copyable, so it keeps
+   full contrast — only the ground and border recede. */
+.ui-richtext[aria-readonly="true"],
+.ui-richtext:has(> textarea.ui-richtext-editor:read-only:not(:disabled)) {
+  background-color: var(--color-bg-muted);
+  border-color: var(--color-border-subtle);
+}
+
+.ui-richtext[aria-readonly="true"] .ui-richtext-toolbar,
+.ui-richtext[aria-readonly="true"] .ui-richtext-footer {
+  background-color: transparent;
+}
+
+/* Disabled. contenteditable="false" is how a rich-text editor is turned off,
+   but it is equally how a read-only one is rendered — so it only reads as
+   disabled on a field the app has not marked read-only. */
+.ui-richtext[aria-disabled="true"],
+.ui-richtext:has(> textarea.ui-richtext-editor:disabled),
+.ui-richtext:not([aria-readonly="true"]):has(> .ui-richtext-editor[contenteditable="false"]) {
+  opacity: 0.5;
+  background-color: var(--color-bg-muted);
+  cursor: not-allowed;
+}
+
+.ui-richtext[aria-disabled="true"] .ui-richtext-editor,
+.ui-richtext:has(> textarea.ui-richtext-editor:disabled) .ui-richtext-editor,
+.ui-richtext:not([aria-readonly="true"]):has(> .ui-richtext-editor[contenteditable="false"]) .ui-richtext-editor {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-richtext {
+    transition: none;
+  }
+}

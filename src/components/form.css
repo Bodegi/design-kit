@@ -533,3 +533,13 @@
     }
   }
 }
+
+/* A textarea that grows with what is typed. `field-sizing: content` is the
+   whole mechanism — no shadow element, no JS measuring scrollHeight — and it
+   is opt-in per field because a fixed box is still the right default for a
+   form. min-height above supplies the floor; engines without field-sizing
+   simply keep the fixed box. Same attribute as .ui-richtext[data-autoresize].
+*/
+textarea.ui-textarea[data-autoresize] {
+  field-sizing: content;
+}
