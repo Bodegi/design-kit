@@ -45,8 +45,8 @@
    ========================================================================== */
 
 .ui-richtext {
-  --_font-size: var(--text-sm);
-  --_gutter: var(--space-4);
+  --_richtext-font-size: var(--text-sm);
+  --_richtext-gutter: var(--space-4);
 
   display: flex;
   flex-direction: column;
@@ -66,8 +66,8 @@
 }
 
 .ui-richtext[data-size="sm"] {
-  --_font-size: var(--text-xs);
-  --_gutter: var(--space-3);
+  --_richtext-font-size: var(--text-xs);
+  --_richtext-gutter: var(--space-3);
 }
 
 .ui-richtext:hover:not([aria-disabled="true"]) {
@@ -101,9 +101,9 @@
   min-height: var(--ui-richtext-min-height, 8rem);
   max-height: var(--ui-richtext-max-height, 24rem);
   overflow-y: auto;
-  padding: var(--_gutter);
+  padding: var(--_richtext-gutter);
   font-family: var(--font-sans);
-  font-size: var(--_font-size);
+  font-size: var(--_richtext-font-size);
   line-height: var(--leading-relaxed);
   color: var(--color-text-main);
   background-color: transparent;
@@ -194,7 +194,7 @@ textarea.ui-richtext-editor {
 /* Lifted from Codex's reader view: the third level is a quiet small-caps field
    label rather than a third size of heading. */
 .ui-richtext-editor h3 {
-  font-size: var(--_font-size);
+  font-size: var(--_richtext-font-size);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -335,7 +335,7 @@ textarea.ui-richtext-editor {
   align-items: center;
   gap: var(--space-3);
   flex: 0 0 auto;
-  padding: var(--space-2) var(--_gutter);
+  padding: var(--space-2) var(--_richtext-gutter);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
   background-color: var(--color-bg-surface);

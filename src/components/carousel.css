@@ -59,12 +59,12 @@
      Its ring is a --color-bg-surface border rather than a box-shadow, so a dot
      over a dark image keeps a 3:1 edge and :focus-visible in index.css still
      owns box-shadow on the marker. */
-  --_marker-size: 12px;
-  --_marker-ring: 2px;
-  --_marker-current-width: 24px;
+  --_carousel-marker-size: 12px;
+  --_carousel-marker-ring: 2px;
+  --_carousel-marker-current-width: 24px;
   /* How far the overlaid prev/next sit in from the track's edges — shared the
      same way by .ui-carousel-prev/-next and ::scroll-button(). */
-  --_arrow-inset: var(--space-2);
+  --_carousel-arrow-inset: var(--space-2);
   position: relative;
 }
 
@@ -156,8 +156,8 @@
   -webkit-backdrop-filter: var(--blur-glass);
 }
 
-.ui-carousel .ui-carousel-prev { inset-inline-start: var(--_arrow-inset); }
-.ui-carousel .ui-carousel-next { inset-inline-end: var(--_arrow-inset); }
+.ui-carousel .ui-carousel-prev { inset-inline-start: var(--_carousel-arrow-inset); }
+.ui-carousel .ui-carousel-next { inset-inline-end: var(--_carousel-arrow-inset); }
 
 .ui-carousel-markers {
   display: flex;
@@ -176,11 +176,11 @@
 }
 
 .ui-carousel-marker {
-  width: var(--_marker-size);
-  height: var(--_marker-size);
+  width: var(--_carousel-marker-size);
+  height: var(--_carousel-marker-size);
   padding: 0;
   border-radius: var(--radius-full);
-  border: var(--_marker-ring) solid var(--color-bg-surface);
+  border: var(--_carousel-marker-ring) solid var(--color-bg-surface);
   background-color: var(--color-text-dim);
   cursor: pointer;
   transition: background-color var(--transition-fast), width var(--transition-fast);
@@ -194,7 +194,7 @@
    so the visual and the announced state cannot drift. */
 .ui-carousel-marker[aria-current="true"] {
   background-color: var(--color-primary);
-  width: var(--_marker-current-width);
+  width: var(--_carousel-marker-current-width);
 }
 
 .ui-carousel-marker:disabled {
@@ -278,12 +278,12 @@
 
   .ui-carousel-track::scroll-button(inline-start) {
     content: "\2039";
-    inset-inline-start: var(--_arrow-inset);
+    inset-inline-start: var(--_carousel-arrow-inset);
   }
 
   .ui-carousel-track::scroll-button(inline-end) {
     content: "\203A";
-    inset-inline-end: var(--_arrow-inset);
+    inset-inline-end: var(--_carousel-arrow-inset);
   }
 
   .ui-carousel-track::scroll-marker-group {
@@ -297,10 +297,10 @@
   /* The same dot as .ui-carousel-marker above, from the same properties. */
   .ui-carousel-item::scroll-marker {
     content: "";
-    width: var(--_marker-size);
-    height: var(--_marker-size);
+    width: var(--_carousel-marker-size);
+    height: var(--_carousel-marker-size);
     border-radius: var(--radius-full);
-    border: var(--_marker-ring) solid var(--color-bg-surface);
+    border: var(--_carousel-marker-ring) solid var(--color-bg-surface);
     background-color: var(--color-text-dim);
     cursor: pointer;
     transition: background-color var(--transition-fast), width var(--transition-fast);
@@ -313,7 +313,7 @@
   /* The slide the scroller is currently on. */
   .ui-carousel-item::scroll-marker:target-current {
     background-color: var(--color-primary);
-    width: var(--_marker-current-width);
+    width: var(--_carousel-marker-current-width);
   }
 
   .ui-carousel[data-orientation="vertical"] .ui-carousel-track::scroll-marker-group {

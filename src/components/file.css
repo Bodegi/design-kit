@@ -40,7 +40,7 @@
    (input:focus-visible + .ui-file-trigger), and the dropzone lights its border
    on :focus-within as well.
 
-   The three --_zone-* locals carry the zone's edge, fill and content color, so
+   The three --_file-zone-* locals carry the zone's edge, fill and content color, so
    each state rule is written once against them instead of once per part.
 
    Contrast: a tinted state keeps its text and icon on --color-text-main and
@@ -52,9 +52,9 @@
    ========================================================================== */
 
 .ui-file {
-  --_zone-border: var(--color-border-strong);
-  --_zone-fill: transparent;
-  --_zone-ink: var(--color-text-muted);
+  --_file-zone-border: var(--color-border-strong);
+  --_file-zone-fill: transparent;
+  --_file-zone-ink: var(--color-text-muted);
 
   display: inline-flex;
   align-items: center;
@@ -93,7 +93,7 @@
   flex-shrink: 0;
 }
 
-/* Filename readout. Small body text, so --_zone-ink resolves to
+/* Filename readout. Small body text, so --_file-zone-ink resolves to
    --color-text-muted (4.5:1) and never --color-text-dim. */
 .ui-file-name {
   min-width: 0;
@@ -101,21 +101,21 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--text-sm);
-  color: var(--_zone-ink);
+  color: var(--_file-zone-ink);
 }
 
 /* Supporting line inside a dropzone — "PNG or JPG, up to 10 MB". */
 .ui-file-hint {
   margin: 0;
   font-size: var(--text-sm);
-  color: var(--_zone-ink);
+  color: var(--_file-zone-ink);
 }
 
 /* App-supplied SVG, in the zone's content color. */
 .ui-file-icon {
   display: inline-flex;
   line-height: 0;
-  color: var(--_zone-ink);
+  color: var(--_file-zone-ink);
 }
 
 .ui-file-icon svg {
@@ -142,34 +142,34 @@
   /* The dashed inset edge image-annotate draws over its canvas while a file is
      dragged in, promoted from an ::after overlay to the box itself so it also
      reads as the target at rest. */
-  border: 2px dashed var(--_zone-border);
+  border: 2px dashed var(--_file-zone-border);
   border-radius: var(--radius-base);
-  background-color: var(--_zone-fill);
+  background-color: var(--_file-zone-fill);
   transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .ui-file[data-variant="dropzone"]:hover {
-  --_zone-border: var(--color-border-focus);
+  --_file-zone-border: var(--color-border-focus);
 }
 
 /* Keyboard parity with the pointer's dragover: tabbing in lights the same
    edge. The ring itself still lands on the trigger. */
 .ui-file[data-variant="dropzone"]:focus-within {
-  --_zone-border: var(--color-primary);
+  --_file-zone-border: var(--color-primary);
 }
 
 .ui-file[data-state="dragover"] {
-  --_zone-border: var(--color-primary);
-  --_zone-fill: var(--color-primary-subtle);
-  --_zone-ink: var(--color-text-main);
+  --_file-zone-border: var(--color-primary);
+  --_file-zone-fill: var(--color-primary-subtle);
+  --_file-zone-ink: var(--color-text-main);
 }
 
 /* --- Error / invalid --- */
 .ui-file[data-state="error"],
 .ui-file[aria-invalid="true"] {
-  --_zone-border: var(--color-danger);
-  --_zone-fill: var(--color-danger-subtle);
-  --_zone-ink: var(--color-text-main);
+  --_file-zone-border: var(--color-danger);
+  --_file-zone-fill: var(--color-danger-subtle);
+  --_file-zone-ink: var(--color-text-main);
 }
 
 /* --- Sizes --- */
@@ -209,16 +209,16 @@
   }
 
   .ui-file:has(input[type="file"]:disabled):hover {
-    --_zone-border: var(--color-border-strong);
+    --_file-zone-border: var(--color-border-strong);
   }
 
   /* Lets the app put aria-invalid where the validity is — on the control —
      rather than on the wrapper. */
   .ui-file:has(input[type="file"][aria-invalid="true"]),
   .ui-file:has(input[type="file"]:user-invalid) {
-    --_zone-border: var(--color-danger);
-    --_zone-fill: var(--color-danger-subtle);
-    --_zone-ink: var(--color-text-main);
+    --_file-zone-border: var(--color-danger);
+    --_file-zone-fill: var(--color-danger-subtle);
+    --_file-zone-ink: var(--color-text-main);
   }
 }
 

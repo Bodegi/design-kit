@@ -27,7 +27,7 @@
    or lightly tinted ground — never an intent color on its own tint — so they
    clear 4.5:1 in every theme. The intent shows in the ground only.
 
-   The --_ring local carries the separation ring (the surface-colored halo that
+   The --_avatar-ring local carries the separation ring (the surface-colored halo that
    lifts an avatar off the one behind it in a group) and the hover ring, so
    box-shadow is written once here and once on :focus-visible and the focus
    ring can never be outranked.
@@ -40,7 +40,7 @@
 
   --_avatar-size: 40px;
   --_avatar-ground: var(--color-bg-elevated);
-  --_ring: 0 0 transparent;
+  --_avatar-ring: 0 0 transparent;
 
   position: relative;
   display: inline-flex;
@@ -63,7 +63,7 @@
      otherwise have no visible boundary on a panel. */
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-full);
-  box-shadow: var(--_ring);
+  box-shadow: var(--_avatar-ring);
   transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
@@ -150,12 +150,12 @@ button.ui-avatar {
 
 a.ui-avatar:hover,
 button.ui-avatar:hover:not(:disabled) {
-  --_ring: 0 0 0 2px var(--color-primary);
+  --_avatar-ring: 0 0 0 2px var(--color-primary);
 }
 
 .ui-avatar:focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring), var(--_ring);
+  box-shadow: var(--focus-ring), var(--_avatar-ring);
 }
 
 .ui-avatar:disabled,
@@ -168,14 +168,14 @@ button.ui-avatar:hover:not(:disabled) {
    Bottom-right, ringed in the surface color so it reads as a separate mark
    rather than a blob of the photo. Sized off the box so it scales with it. */
 .ui-avatar-status {
-  --_status-color: var(--color-text-muted);
+  --_avatar-status-color: var(--color-text-muted);
 
   position: absolute;
   right: 0;
   bottom: 0;
   width: calc(var(--_avatar-size) * 0.28);
   height: calc(var(--_avatar-size) * 0.28);
-  background-color: var(--_status-color);
+  background-color: var(--_avatar-status-color);
   border-radius: var(--radius-full);
   box-shadow: 0 0 0 2px var(--ui-avatar-ring-color);
 }
@@ -186,9 +186,9 @@ button.ui-avatar:hover:not(:disabled) {
   bottom: calc(var(--_avatar-size) * -0.06);
 }
 
-.ui-avatar-status[data-intent="success"] { --_status-color: var(--color-success); }
-.ui-avatar-status[data-intent="warning"] { --_status-color: var(--color-warning); }
-.ui-avatar-status[data-intent="danger"]  { --_status-color: var(--color-danger); }
+.ui-avatar-status[data-intent="success"] { --_avatar-status-color: var(--color-success); }
+.ui-avatar-status[data-intent="warning"] { --_avatar-status-color: var(--color-warning); }
+.ui-avatar-status[data-intent="danger"]  { --_avatar-status-color: var(--color-danger); }
 
 /* --- Group ---
    Overlapping stack. Each avatar wears a surface-colored ring so the edges
@@ -199,7 +199,7 @@ button.ui-avatar:hover:not(:disabled) {
 }
 
 .ui-avatar-group > .ui-avatar {
-  --_ring: 0 0 0 2px var(--ui-avatar-ring-color);
+  --_avatar-ring: 0 0 0 2px var(--ui-avatar-ring-color);
 }
 
 .ui-avatar-group > .ui-avatar + .ui-avatar {

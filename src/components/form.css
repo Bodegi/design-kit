@@ -51,7 +51,7 @@
 /* Chevron. A classic <select> generates no pseudo-elements of its own, so the
    chevron hangs off the .ui-control wrapper and is drawn with the kit's shared
    chevron recipe — a square showing only its right and bottom borders, swung
-   by --_chevron-rotate — painted with --color-text-muted, which follows the
+   by --_form-chevron-rotate — painted with --color-text-muted, which follows the
    active theme. Medium size (8px / 2px), the field-control size also used by
    .ui-accordion and .ui-combobox-trigger. The native arrow is only suppressed
    where that wrapper is present, so a .ui-select used bare keeps its platform
@@ -65,15 +65,15 @@
   content: "";
   position: absolute;
   right: calc(var(--space-3) + 2px);
-  --_chevron-size: 8px;
-  --_chevron-weight: 2px;
-  --_chevron-rotate: 45deg; /* down */
-  width: var(--_chevron-size);
-  height: var(--_chevron-size);
-  border-right: var(--_chevron-weight) solid var(--color-text-muted);
-  border-bottom: var(--_chevron-weight) solid var(--color-text-muted);
+  --_form-chevron-size: 8px;
+  --_form-chevron-weight: 2px;
+  --_form-chevron-rotate: 45deg; /* down */
+  width: var(--_form-chevron-size);
+  height: var(--_form-chevron-size);
+  border-right: var(--_form-chevron-weight) solid var(--color-text-muted);
+  border-bottom: var(--_form-chevron-weight) solid var(--color-text-muted);
   border-end-end-radius: var(--radius-xs);
-  transform: translateY(-25%) rotate(var(--_chevron-rotate));
+  transform: translateY(-25%) rotate(var(--_form-chevron-rotate));
   pointer-events: none;
 }
 
@@ -196,12 +196,12 @@
 .ui-checkbox:checked::before,
 .ui-switch-native:checked::before {
   content: "";
-  --_check-size: 10px;
-  --_check-weight: 2px;
-  width: var(--_check-size);
-  height: calc(var(--_check-size) * 0.6);
-  border-left: var(--_check-weight) solid var(--color-primary-contrast);
-  border-bottom: var(--_check-weight) solid var(--color-primary-contrast);
+  --_form-check-size: 10px;
+  --_form-check-weight: 2px;
+  width: var(--_form-check-size);
+  height: calc(var(--_form-check-size) * 0.6);
+  border-left: var(--_form-check-weight) solid var(--color-primary-contrast);
+  border-bottom: var(--_form-check-weight) solid var(--color-primary-contrast);
   translate: 0 -1.5px;
   rotate: -45deg;
 }
@@ -529,12 +529,12 @@
     margin-left: auto;
     flex-shrink: 0;
     content: "";
-    --_check-size: 10px;
-    --_check-weight: 2px;
-    width: var(--_check-size);
-    height: calc(var(--_check-size) * 0.6);
-    border-left: var(--_check-weight) solid var(--color-text-main);
-    border-bottom: var(--_check-weight) solid var(--color-text-main);
+    --_form-check-size: 10px;
+    --_form-check-weight: 2px;
+    width: var(--_form-check-size);
+    height: calc(var(--_form-check-size) * 0.6);
+    border-left: var(--_form-check-weight) solid var(--color-text-main);
+    border-bottom: var(--_form-check-weight) solid var(--color-text-main);
     translate: 0 -1.5px;
     rotate: -45deg;
   }

@@ -126,14 +126,14 @@
    size (matching .ui-tag-remove). */
 .ui-combobox-trigger::before {
   content: "";
-  --_chevron-size: 8px;
-  --_chevron-weight: 2px;
-  --_chevron-rotate: 45deg; /* down */
-  width: var(--_chevron-size);
-  height: var(--_chevron-size);
-  border-right: var(--_chevron-weight) solid currentColor;
-  border-bottom: var(--_chevron-weight) solid currentColor;
-  transform: translateY(-25%) rotate(var(--_chevron-rotate));
+  --_combobox-chevron-size: 8px;
+  --_combobox-chevron-weight: 2px;
+  --_combobox-chevron-rotate: 45deg; /* down */
+  width: var(--_combobox-chevron-size);
+  height: var(--_combobox-chevron-size);
+  border-right: var(--_combobox-chevron-weight) solid currentColor;
+  border-bottom: var(--_combobox-chevron-weight) solid currentColor;
+  transform: translateY(-25%) rotate(var(--_combobox-chevron-rotate));
   transition: transform var(--transition-fast);
 }
 
@@ -141,10 +141,10 @@
 .ui-combobox-clear::after {
   content: "";
   position: absolute;
-  --_x-size: 9px;
-  --_x-weight: 1.5px;
-  width: var(--_x-size);
-  height: var(--_x-weight);
+  --_combobox-x-size: 9px;
+  --_combobox-x-weight: 1.5px;
+  width: var(--_combobox-x-size);
+  height: var(--_combobox-x-weight);
   border-radius: var(--radius-full);
   background-color: currentColor;
 }
@@ -162,8 +162,8 @@
 .ui-combobox > .ui-input[aria-expanded="true"] ~ .ui-combobox-trigger::before {
   /* up — written as 225deg rather than -135deg so the flip sweeps clockwise
      out of the closed 45deg, matching .ui-accordion's chevron. */
-  --_chevron-rotate: 225deg;
-  transform: translateY(25%) rotate(var(--_chevron-rotate));
+  --_combobox-chevron-rotate: 225deg;
+  transform: translateY(25%) rotate(var(--_combobox-chevron-rotate));
 }
 
 /* --- Listbox ------------------------------------------------------------ */
@@ -307,13 +307,13 @@
 .ui-combobox-option[aria-selected="true"]::after {
   content: "";
   flex-shrink: 0;
-  --_check-size: 10px;
-  --_check-weight: 2px;
-  width: var(--_check-size);
-  height: calc(var(--_check-size) * 0.6);
+  --_combobox-check-size: 10px;
+  --_combobox-check-weight: 2px;
+  width: var(--_combobox-check-size);
+  height: calc(var(--_combobox-check-size) * 0.6);
   margin-left: var(--space-2);
-  border-left: var(--_check-weight) solid var(--color-text-main);
-  border-bottom: var(--_check-weight) solid var(--color-text-main);
+  border-left: var(--_combobox-check-weight) solid var(--color-text-main);
+  border-bottom: var(--_combobox-check-weight) solid var(--color-text-main);
   translate: 0 -1.5px;
   rotate: -45deg;
 }

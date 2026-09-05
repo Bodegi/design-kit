@@ -53,14 +53,14 @@
 .ui-breadcrumb-item + .ui-breadcrumb-item::before {
   content: "";
   flex-shrink: 0;
-  --_chevron-size: 6px;
-  --_chevron-weight: 1.5px;
-  --_chevron-rotate: -45deg; /* right */
-  width: var(--_chevron-size);
-  height: var(--_chevron-size);
-  border-right: var(--_chevron-weight) solid var(--color-text-muted);
-  border-bottom: var(--_chevron-weight) solid var(--color-text-muted);
-  transform: rotate(var(--_chevron-rotate));
+  --_breadcrumb-chevron-size: 6px;
+  --_breadcrumb-chevron-weight: 1.5px;
+  --_breadcrumb-chevron-rotate: -45deg; /* right */
+  width: var(--_breadcrumb-chevron-size);
+  height: var(--_breadcrumb-chevron-size);
+  border-right: var(--_breadcrumb-chevron-weight) solid var(--color-text-muted);
+  border-bottom: var(--_breadcrumb-chevron-weight) solid var(--color-text-muted);
+  transform: rotate(var(--_breadcrumb-chevron-rotate));
 }
 
 .ui-breadcrumb[data-separator="slash"] .ui-breadcrumb-item + .ui-breadcrumb-item::before,

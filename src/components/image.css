@@ -69,9 +69,9 @@
   /* Public knobs. */
   --ui-image-ratio: auto;
 
-  --_fit: cover;
-  --_radius: var(--radius-base);
-  --_ground: transparent;
+  --_image-fit: cover;
+  --_image-radius: var(--radius-base);
+  --_image-ground: transparent;
 
   position: relative;
   display: block;
@@ -98,27 +98,27 @@
   width: 100%;
   height: auto;
   aspect-ratio: var(--ui-image-ratio);
-  object-fit: var(--_fit);
-  background-color: var(--_ground);
-  border-radius: var(--_radius);
+  object-fit: var(--_image-fit);
+  background-color: var(--_image-ground);
+  border-radius: var(--_image-radius);
   transition: transform var(--transition-base);
 }
 
 /* --- Fit --- */
-.ui-image[data-fit="cover"]   { --_fit: cover; }
-.ui-image[data-fit="contain"] { --_fit: contain; --_ground: var(--color-bg-muted); }
-.ui-image[data-fit="fill"]    { --_fit: fill; --_ground: var(--color-bg-muted); }
+.ui-image[data-fit="cover"]   { --_image-fit: cover; }
+.ui-image[data-fit="contain"] { --_image-fit: contain; --_image-ground: var(--color-bg-muted); }
+.ui-image[data-fit="fill"]    { --_image-fit: fill; --_image-ground: var(--color-bg-muted); }
 
 /* --- Shape ---
    A circle is only a circle if the box is square, so it squares the ratio;
    an explicit data-ratio below still wins, being later in the cascade. */
 .ui-image[data-shape="circle"] {
-  --_radius: var(--radius-full);
+  --_image-radius: var(--radius-full);
   --ui-image-ratio: 1;
 }
 
 .ui-image[data-shape="none"] {
-  --_radius: 0;
+  --_image-radius: 0;
 }
 
 /* --- Ratio --- */
@@ -131,7 +131,7 @@
    Contact-sheet scale: tighter corners and a hairline edge, so a thumbnail
    still has a boundary against a photograph that runs pale to its edges. */
 .ui-image[data-variant="thumbnail"] {
-  --_radius: var(--radius-nav);
+  --_image-radius: var(--radius-nav);
 }
 
 .ui-image[data-variant="thumbnail"] > img,
@@ -163,8 +163,8 @@
     var(--color-scrim) 60%,
     transparent 100%
   );
-  border-end-start-radius: var(--_radius);
-  border-end-end-radius: var(--_radius);
+  border-end-start-radius: var(--_image-radius);
+  border-end-end-radius: var(--_image-radius);
 }
 
 /* --- Badge slot --- */
@@ -210,7 +210,7 @@
 .ui-image[data-state="error"] > picture > img,
 .ui-image:has(> img:not([src])) > img,
 .ui-image:has(> picture > img:not([src])) > picture > img {
-  --_ground: var(--color-bg-muted);
+  --_image-ground: var(--color-bg-muted);
 
   border: 1px solid var(--color-border-subtle);
   min-height: 4rem;
@@ -249,7 +249,7 @@ a.ui-image,
 button.ui-image {
   cursor: pointer;
   overflow: hidden;
-  border-radius: var(--_radius);
+  border-radius: var(--_image-radius);
   text-decoration: none;
 }
 

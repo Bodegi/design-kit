@@ -2,7 +2,7 @@
    Native Progress (progress.ui-progress)
    Styling the native <progress> element: determinate (value set) fills to the
    value; indeterminate (no value attribute) shows a sliding sweep. One private
-   --_fill drives both the determinate value and the indeterminate gradient, so
+   --_progress-fill drives both the determinate value and the indeterminate gradient, so
    data-intent recolors either state. Not an Open UI component — <progress> is a
    native element — but styling it belongs in the coverage push.
 
@@ -12,7 +12,7 @@
    ========================================================================== */
 
 progress.ui-progress {
-  --_fill: var(--color-primary);
+  --_progress-fill: var(--color-primary);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -23,7 +23,7 @@ progress.ui-progress {
   border-radius: var(--radius-full);
   background-color: var(--color-bg-muted);
   overflow: hidden;
-  color: var(--_fill); /* Firefox uses the element color for the value fill */
+  color: var(--_progress-fill); /* Firefox uses the element color for the value fill */
 }
 
 /* Track */
@@ -34,13 +34,13 @@ progress.ui-progress::-webkit-progress-bar {
 
 /* Value (determinate) */
 progress.ui-progress::-webkit-progress-value {
-  background-color: var(--_fill);
+  background-color: var(--_progress-fill);
   border-radius: var(--radius-full);
   transition: width var(--transition-base);
 }
 
 progress.ui-progress::-moz-progress-bar {
-  background-color: var(--_fill);
+  background-color: var(--_progress-fill);
   border-radius: var(--radius-full);
 }
 
@@ -49,15 +49,15 @@ progress.ui-progress[data-size="sm"] { height: 5px; }
 progress.ui-progress[data-size="lg"] { height: 12px; }
 
 /* Intents — one custom property recolors both determinate and indeterminate. */
-progress.ui-progress[data-intent="success"] { --_fill: var(--color-success); }
-progress.ui-progress[data-intent="warning"] { --_fill: var(--color-warning); }
-progress.ui-progress[data-intent="danger"]  { --_fill: var(--color-danger); }
-progress.ui-progress[data-intent="info"]    { --_fill: var(--color-info); }
+progress.ui-progress[data-intent="success"] { --_progress-fill: var(--color-success); }
+progress.ui-progress[data-intent="warning"] { --_progress-fill: var(--color-warning); }
+progress.ui-progress[data-intent="danger"]  { --_progress-fill: var(--color-danger); }
+progress.ui-progress[data-intent="info"]    { --_progress-fill: var(--color-info); }
 
 /* Indeterminate — a sweep across the track while no value is known. */
 progress.ui-progress:indeterminate {
   background-color: var(--color-bg-muted);
-  background-image: linear-gradient(90deg, transparent, var(--_fill), transparent);
+  background-image: linear-gradient(90deg, transparent, var(--_progress-fill), transparent);
   background-size: 40% 100%;
   background-repeat: no-repeat;
   animation: ui-progress-indeterminate 1.2s infinite linear;
@@ -82,7 +82,7 @@ progress.ui-progress:indeterminate::-moz-progress-bar {
     /* Hold a steady partial fill rather than sweeping. */
     animation: none;
     background-size: 100% 100%;
-    background-image: linear-gradient(90deg, var(--_fill), var(--_fill));
+    background-image: linear-gradient(90deg, var(--_progress-fill), var(--_progress-fill));
     opacity: 0.6;
   }
   progress.ui-progress::-webkit-progress-value {

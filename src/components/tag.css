@@ -34,7 +34,7 @@
   --_tag-accent: var(--color-text-muted);   /* intent hue: border, hover + selected tint */
   --_tag-fill: var(--color-bg-muted);       /* resting background tint */
   --_tag-border: var(--color-border-subtle);
-  --_ring: 0 0 transparent;                 /* the selected state's inner ring */
+  --_tag-ring: 0 0 transparent;                 /* the selected state's inner ring */
 
   display: inline-flex;
   align-items: center;
@@ -53,8 +53,8 @@
   border: 1px solid var(--_tag-border);
   border-radius: var(--radius-full);
   /* box-shadow is declared here and on :focus-visible only, both times through
-     --_ring, so the selected rule can never outrank the focus ring. */
-  box-shadow: var(--_ring);
+     --_tag-ring, so the selected rule can never outrank the focus ring. */
+  box-shadow: var(--_tag-ring);
   transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -158,7 +158,7 @@ button.ui-tag:hover:not(:disabled) {
 
 .ui-tag:focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring), var(--_ring);
+  box-shadow: var(--focus-ring), var(--_tag-ring);
 }
 
 /* --- Selected (filter tag) ---
@@ -169,7 +169,7 @@ button.ui-tag:hover:not(:disabled) {
 .ui-tag[aria-selected="true"] {
   --_tag-fill: color-mix(in srgb, var(--_tag-accent) 32%, transparent);
   --_tag-border: var(--_tag-accent);
-  --_ring: inset 0 0 0 1px var(--_tag-accent);
+  --_tag-ring: inset 0 0 0 1px var(--_tag-accent);
 }
 
 .ui-tag[aria-pressed="true"] .ui-tag-remove,
@@ -208,7 +208,7 @@ button.ui-tag:hover:not(:disabled) {
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-/* The kit's shared × recipe: two bars of --_x-size by --_x-weight crossed at
+/* The kit's shared × recipe: two bars of --_tag-x-size by --_tag-x-weight crossed at
    ±45°. Two sizes — md 9px (a 16px hit area, also .ui-combobox-clear's) and
    sm 7px (a 13px hit area) — at one weight. */
 .ui-tag-remove::before,
@@ -217,10 +217,10 @@ button.ui-tag:hover:not(:disabled) {
   position: absolute;
   top: 50%;
   left: 50%;
-  --_x-size: 9px;
-  --_x-weight: 1.5px;
-  width: var(--_x-size);
-  height: var(--_x-weight);
+  --_tag-x-size: 9px;
+  --_tag-x-weight: 1.5px;
+  width: var(--_tag-x-size);
+  height: var(--_tag-x-weight);
   background-color: currentColor;
   border-radius: var(--radius-full);
 }
@@ -250,8 +250,8 @@ button.ui-tag:hover:not(:disabled) {
 
 .ui-tag[data-size="sm"] .ui-tag-remove::before,
 .ui-tag[data-size="sm"] .ui-tag-remove::after {
-  --_x-size: 7px;
-  width: var(--_x-size);
+  --_tag-x-size: 7px;
+  width: var(--_tag-x-size);
 }
 
 /* --- Group --- */

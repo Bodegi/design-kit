@@ -62,20 +62,20 @@ summary.ui-accordion-summary:focus-visible {
 summary.ui-accordion-summary::after {
   content: "";
   flex-shrink: 0;
-  --_chevron-size: 8px;
-  --_chevron-weight: 2px;
-  --_chevron-rotate: -45deg; /* right */
-  width: var(--_chevron-size);
-  height: var(--_chevron-size);
-  border-right: var(--_chevron-weight) solid var(--color-text-muted);
-  border-bottom: var(--_chevron-weight) solid var(--color-text-muted);
-  transform: rotate(var(--_chevron-rotate));
+  --_accordion-chevron-size: 8px;
+  --_accordion-chevron-weight: 2px;
+  --_accordion-chevron-rotate: -45deg; /* right */
+  width: var(--_accordion-chevron-size);
+  height: var(--_accordion-chevron-size);
+  border-right: var(--_accordion-chevron-weight) solid var(--color-text-muted);
+  border-bottom: var(--_accordion-chevron-weight) solid var(--color-text-muted);
+  transform: rotate(var(--_accordion-chevron-rotate));
   transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 details.ui-accordion[open] > summary.ui-accordion-summary::after {
-  --_chevron-rotate: 45deg; /* down */
-  transform: translateY(-25%) rotate(var(--_chevron-rotate));
+  --_accordion-chevron-rotate: 45deg; /* down */
+  transform: translateY(-25%) rotate(var(--_accordion-chevron-rotate));
 }
 
 .ui-accordion-content {

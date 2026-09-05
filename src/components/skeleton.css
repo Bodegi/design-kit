@@ -35,16 +35,16 @@
 
 .ui-skeleton,
 [aria-busy="true"] .ui-skeleton {
-  --_track: var(--color-bg-active);
-  --_sheen: var(--color-bg-hover);
+  --_skeleton-track: var(--color-bg-active);
+  --_skeleton-sheen: var(--color-bg-hover);
   display: block;
   width: 100%;
   height: calc(1em * var(--leading-normal));
   border-radius: var(--radius-nav);
-  background-color: var(--_track);
+  background-color: var(--_skeleton-track);
   /* The sheen is a translucent token layered over the track, so it lightens on
      dark themes and darkens on light ones — a moving band either way. */
-  background-image: linear-gradient(90deg, transparent, var(--_sheen), transparent);
+  background-image: linear-gradient(90deg, transparent, var(--_skeleton-sheen), transparent);
   background-size: 60% 100%;
   background-repeat: no-repeat;
   animation: ui-skeleton-shimmer 1.6s infinite linear;

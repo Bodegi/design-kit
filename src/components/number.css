@@ -41,13 +41,13 @@
 
 .ui-number {
   --ui-number-width: 9rem;
-  --_height: 36px;
-  --_step-size: 28px;
+  --_number-height: 36px;
+  --_number-step-size: 28px;
 
   display: inline-flex;
   align-items: stretch;
   width: var(--ui-number-width);
-  height: var(--_height);
+  height: var(--_number-height);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-control);
@@ -55,8 +55,8 @@
 }
 
 .ui-number[data-size="sm"] {
-  --_height: 28px;
-  --_step-size: 22px;
+  --_number-height: 28px;
+  --_number-step-size: 22px;
 }
 
 .ui-number:hover:not(:has(.ui-input:disabled)) {
@@ -153,7 +153,7 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  width: var(--_step-size);
+  width: var(--_number-step-size);
   border-inline-start: 1px solid var(--color-border-subtle);
 }
 
@@ -212,27 +212,27 @@
 }
 
 /* The kit's shared chevron recipe at the small size: a box showing only its
-   right and bottom borders, swung by --_chevron-rotate. Up- and down-pointing
+   right and bottom borders, swung by --_number-chevron-rotate. Up- and down-pointing
    chevrons carry a quarter-height nudge back toward the box centre, which here
    also draws the stacked pair together. */
 .ui-number:not([data-layout="split"]) .ui-number-increment::before,
 .ui-number:not([data-layout="split"]) .ui-number-decrement::before {
-  --_chevron-size: 6px;
-  --_chevron-weight: 1.5px;
-  width: var(--_chevron-size);
-  height: var(--_chevron-size);
-  border-right: var(--_chevron-weight) solid currentColor;
-  border-bottom: var(--_chevron-weight) solid currentColor;
+  --_number-chevron-size: 6px;
+  --_number-chevron-weight: 1.5px;
+  width: var(--_number-chevron-size);
+  height: var(--_number-chevron-size);
+  border-right: var(--_number-chevron-weight) solid currentColor;
+  border-bottom: var(--_number-chevron-weight) solid currentColor;
 }
 
 .ui-number:not([data-layout="split"]) .ui-number-increment::before {
-  --_chevron-rotate: -135deg; /* up */
-  transform: translateY(25%) rotate(var(--_chevron-rotate));
+  --_number-chevron-rotate: -135deg; /* up */
+  transform: translateY(25%) rotate(var(--_number-chevron-rotate));
 }
 
 .ui-number:not([data-layout="split"]) .ui-number-decrement::before {
-  --_chevron-rotate: 45deg; /* down */
-  transform: translateY(-25%) rotate(var(--_chevron-rotate));
+  --_number-chevron-rotate: 45deg; /* down */
+  transform: translateY(-25%) rotate(var(--_number-chevron-rotate));
 }
 
 /* --- Split: − on the leading edge, + on the trailing edge ---------------- */
@@ -243,8 +243,8 @@
 
 .ui-number[data-layout="split"] .ui-number-decrement,
 .ui-number[data-layout="split"] .ui-number-increment {
-  flex: 0 0 var(--_step-size);
-  width: var(--_step-size);
+  flex: 0 0 var(--_number-step-size);
+  width: var(--_number-step-size);
 }
 
 .ui-number[data-layout="split"] .ui-number-decrement {

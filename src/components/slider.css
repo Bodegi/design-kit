@@ -24,11 +24,11 @@
    ========================================================================== */
 
 input[type="range"].ui-slider {
-  --_fill: var(--color-primary);
-  --_track-size: 6px;
-  --_thumb-size: 18px;
+  --_slider-fill: var(--color-primary);
+  --_slider-track-size: 6px;
+  --_slider-thumb-size: 18px;
   /* Percentage of the track that reads as filled on WebKit. */
-  --_fill-stop: calc(var(--ui-slider-value, 0) * 1%);
+  --_slider-fill-stop: calc(var(--ui-slider-value, 0) * 1%);
 
   appearance: none;
   -webkit-appearance: none;
@@ -46,37 +46,37 @@ input[type="range"].ui-slider {
 
 /* Sizes */
 input[type="range"].ui-slider[data-size="sm"] {
-  --_track-size: 4px;
-  --_thumb-size: 14px;
+  --_slider-track-size: 4px;
+  --_slider-thumb-size: 14px;
 }
 input[type="range"].ui-slider[data-size="lg"] {
-  --_track-size: 8px;
-  --_thumb-size: 24px;
+  --_slider-track-size: 8px;
+  --_slider-thumb-size: 24px;
 }
 
 /* Intents — one custom property recolors the fill and the thumb together. */
-input[type="range"].ui-slider[data-intent="accent"]  { --_fill: var(--color-accent); }
-input[type="range"].ui-slider[data-intent="success"] { --_fill: var(--color-success); }
-input[type="range"].ui-slider[data-intent="warning"] { --_fill: var(--color-warning); }
-input[type="range"].ui-slider[data-intent="danger"]  { --_fill: var(--color-danger); }
-input[type="range"].ui-slider[data-intent="info"]    { --_fill: var(--color-info); }
+input[type="range"].ui-slider[data-intent="accent"]  { --_slider-fill: var(--color-accent); }
+input[type="range"].ui-slider[data-intent="success"] { --_slider-fill: var(--color-success); }
+input[type="range"].ui-slider[data-intent="warning"] { --_slider-fill: var(--color-warning); }
+input[type="range"].ui-slider[data-intent="danger"]  { --_slider-fill: var(--color-danger); }
+input[type="range"].ui-slider[data-intent="info"]    { --_slider-fill: var(--color-info); }
 
 /* --- Track (WebKit) — carries the gradient fill --- */
 input[type="range"].ui-slider::-webkit-slider-runnable-track {
-  height: var(--_track-size);
+  height: var(--_slider-track-size);
   border: none;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-muted);
   background-image: linear-gradient(
     to right,
-    var(--_fill) 0 var(--_fill-stop),
-    transparent var(--_fill-stop) 100%
+    var(--_slider-fill) 0 var(--_slider-fill-stop),
+    transparent var(--_slider-fill-stop) 100%
   );
 }
 
 /* --- Track (Firefox) --- */
 input[type="range"].ui-slider::-moz-range-track {
-  height: var(--_track-size);
+  height: var(--_slider-track-size);
   border: none;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-muted);
@@ -84,33 +84,33 @@ input[type="range"].ui-slider::-moz-range-track {
 
 /* --- Filled portion (Firefox draws it natively) --- */
 input[type="range"].ui-slider::-moz-range-progress {
-  height: var(--_track-size);
+  height: var(--_slider-track-size);
   border-radius: var(--radius-full);
-  background-color: var(--_fill);
+  background-color: var(--_slider-fill);
 }
 
 /* --- Thumb (WebKit) --- */
 input[type="range"].ui-slider::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
-  width: var(--_thumb-size);
-  height: var(--_thumb-size);
+  width: var(--_slider-thumb-size);
+  height: var(--_slider-thumb-size);
   border: 2px solid var(--color-bg-surface);
   border-radius: var(--radius-full);
-  background-color: var(--_fill);
+  background-color: var(--_slider-fill);
   box-shadow: var(--shadow-sm);
   /* WebKit lays the thumb out from the track's top edge. */
-  margin-top: calc((var(--_track-size) - var(--_thumb-size)) / 2);
+  margin-top: calc((var(--_slider-track-size) - var(--_slider-thumb-size)) / 2);
   transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
 
 /* --- Thumb (Firefox) --- */
 input[type="range"].ui-slider::-moz-range-thumb {
-  width: var(--_thumb-size);
-  height: var(--_thumb-size);
+  width: var(--_slider-thumb-size);
+  height: var(--_slider-thumb-size);
   border: 2px solid var(--color-bg-surface);
   border-radius: var(--radius-full);
-  background-color: var(--_fill);
+  background-color: var(--_slider-fill);
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
@@ -169,31 +169,31 @@ input[type="range"].ui-slider[data-orientation="vertical"] {
      symmetrically, so reserve that overhang as margin. */
   width: auto;
   height: 160px;
-  margin-inline: calc((var(--_thumb-size) - var(--_track-size)) / 2);
+  margin-inline: calc((var(--_slider-thumb-size) - var(--_slider-track-size)) / 2);
 }
 
 input[type="range"].ui-slider[data-orientation="vertical"]::-webkit-slider-runnable-track {
-  width: var(--_track-size);
+  width: var(--_slider-track-size);
   height: 100%;
   background-image: linear-gradient(
     to top,
-    var(--_fill) 0 var(--_fill-stop),
-    transparent var(--_fill-stop) 100%
+    var(--_slider-fill) 0 var(--_slider-fill-stop),
+    transparent var(--_slider-fill-stop) 100%
   );
 }
 
 input[type="range"].ui-slider[data-orientation="vertical"]::-moz-range-track {
-  width: var(--_track-size);
+  width: var(--_slider-track-size);
   height: 100%;
 }
 
 input[type="range"].ui-slider[data-orientation="vertical"]::-moz-range-progress {
-  width: var(--_track-size);
+  width: var(--_slider-track-size);
 }
 
 input[type="range"].ui-slider[data-orientation="vertical"]::-webkit-slider-thumb {
   margin-top: 0;
-  margin-left: calc((var(--_track-size) - var(--_thumb-size)) / 2);
+  margin-left: calc((var(--_slider-track-size) - var(--_slider-thumb-size)) / 2);
 }
 
 /* --------------------------------------------------------------------------
