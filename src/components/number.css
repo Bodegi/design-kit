@@ -25,8 +25,9 @@
    control it wraps: :focus-visible (the ring moves to the shell, and the
    input's own ring is cleared so there is exactly one), :disabled,
    :read-only, and :user-invalid / [aria-invalid="true"] for the danger ring
-   that matches form.css's error styling. The stepper buttons keep their own
-   :focus-visible ring.
+   that matches form.css's error styling. data-state="error" is the third way
+   in and is read from the shell or the input. The stepper buttons keep their
+   own :focus-visible ring.
 
    Cross-engine: the native spin buttons are removed per engine — WebKit and
    Blink through ::-webkit-inner-spin-button / ::-webkit-outer-spin-button,
@@ -288,15 +289,21 @@
   box-shadow: var(--focus-ring);
 }
 
-/* Out of range / min / max / step, or an app-asserted error. Matches the error
-   ring in form.css, down to reading :user-invalid rather than :invalid so a
-   value the user has not reached yet stays neutral. The invalid ring wins over
-   the plain focus ring. */
+/* The same trio form.css honors: the app's own data-state="error", the ARIA
+   flag for an error the app decided, and the browser's own verdict — the last
+   as :user-invalid rather than :invalid, so a value the user has not reached
+   yet stays neutral. data-state sits on the shell, where the app already sets
+   the field's variant and size; the other two sit on the control. The invalid
+   ring wins over the plain focus ring. */
+.ui-number[data-state="error"],
+.ui-number:has(.ui-input[data-state="error"]),
 .ui-number:has(.ui-input:user-invalid),
 .ui-number:has(.ui-input[aria-invalid="true"]) {
   border-color: var(--color-danger);
 }
 
+.ui-number[data-state="error"]:has(.ui-input:focus-visible),
+.ui-number:has(.ui-input[data-state="error"]):has(.ui-input:focus-visible),
 .ui-number:has(.ui-input:user-invalid):has(.ui-input:focus-visible),
 .ui-number:has(.ui-input[aria-invalid="true"]):has(.ui-input:focus-visible) {
   box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
