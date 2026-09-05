@@ -88,6 +88,7 @@
   --color-scrim: #0b1120;
   --color-text-on-scrim: #f8fafc;
   --blur-glass: blur(16px);            /* backdrop blur of the shell's glass surfaces — a material constant, not a theme knob */
+  --blur-scrim: blur(4px);             /* backdrop blur behind a modal scrim: enough to push the page back, light enough to keep it recognizable */
 
   /* Ambient logo watermark — one shared recipe (see .ui-watermark). The mark is
      the theme primary masked by --ui-watermark-image; apps set that to their
