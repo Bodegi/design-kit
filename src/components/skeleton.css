@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Open UI: Skeleton (.ui-skeleton)
+   A loading placeholder — a block the size and shape of the content that is
+   still arriving. Open UI's skeleton page is research only (a survey of other
+   systems' naming), so the anatomy below extends the kit's own conventions:
+   one block element, shape and animation as data attributes.
+
+   Anatomy
+     .ui-skeleton        the placeholder block itself
+     .ui-skeleton-text   optional wrapper stacking several line skeletons;
+                         its last line is short, the way a paragraph ends
+
+   Variants
+     data-shape="text|rect|circle"   text (default) is one line tall, rect is a
+                                     block, circle is a 1:1 avatar dot
+     data-size="sm|md|lg"            sets the element's font-size; every shape
+                                     is sized in em, so one knob scales the
+                                     line height, the dot, and the block. Left
+                                     off, the skeleton inherits the surrounding
+                                     font-size and matches the text it replaces.
+     data-animation="shimmer|pulse|none"   shimmer (default) sweeps a band
+                                     across the track; pulse fades in place.
+
+   State hook
+     The app marks the region being loaded with aria-busy="true" and removes it
+     when content arrives. The skeleton itself carries aria-hidden="true" — it
+     conveys nothing to a screen reader — so the base block is written to match
+     both on its own and under a busy region: the appearance is the same either
+     way, and the region attribute is what the app toggles.
+
+   Composition
+     A card skeleton is just these primitives inside a .ui-panel — a circle, a
+     .ui-skeleton-text block, a rect. No extra CSS.
+   ========================================================================== */
+
+.ui-skeleton,
+[aria-busy="true"] .ui-skeleton {
+  --_track: var(--color-bg-active);
+  --_sheen: var(--color-bg-hover);
+  display: block;
+  width: 100%;
+  height: calc(1em * var(--leading-normal));
+  border-radius: var(--radius-nav);
+  background-color: var(--_track);
+  /* The sheen is a translucent token layered over the track, so it lightens on
+     dark themes and darkens on light ones — a moving band either way. */
+  background-image: linear-gradient(90deg, transparent, var(--_sheen), transparent);
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: ui-skeleton-shimmer 1.6s infinite linear;
+}
+
+/* Shapes */
+.ui-skeleton[data-shape="text"] {
+  height: calc(1em * var(--leading-normal));
+  border-radius: var(--radius-nav);
+}
+
+.ui-skeleton[data-shape="rect"] {
+  height: 4em;
+  border-radius: var(--radius-base);
+}
+
+.ui-skeleton[data-shape="circle"] {
+  width: 2.5em;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+/* Sizes — one font-size knob; every shape is measured in em. */
+.ui-skeleton[data-size="sm"] { font-size: var(--text-sm); }
+.ui-skeleton[data-size="md"] { font-size: var(--text-base); }
+.ui-skeleton[data-size="lg"] { font-size: var(--text-lg); }
+
+/* Animations */
+.ui-skeleton[data-animation="pulse"] {
+  background-image: none;
+  animation: ui-skeleton-pulse 1.6s infinite ease-in-out;
+}
+
+.ui-skeleton[data-animation="none"] {
+  background-image: none;
+  animation: none;
+}
+
+/* Multi-line text block — the last line runs short, like real copy. */
+.ui-skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ui-skeleton-text > .ui-skeleton:last-child {
+  width: 60%;
+}
+
+@keyframes ui-skeleton-shimmer {
+  from { background-position: -60% 0; }
+  to   { background-position: 160% 0; }
+}
+
+@keyframes ui-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton,
+  .ui-skeleton[data-animation],
+  [aria-busy="true"] .ui-skeleton {
+    /* Hold a flat track — no sweep, no fade. */
+    animation: none;
+    background-image: none;
+    opacity: 1;
+  }
+}

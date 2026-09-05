@@ -22,6 +22,7 @@
 @import "./components/tooltip.css";
 @import "./components/progress.css";
 @import "./components/meter.css";
+@import "./components/skeleton.css";
 @import "./components/icon.css";
 @import "./components/nav.css";
 @import "./components/breadcrumb.css";
