@@ -604,7 +604,7 @@ export function renderComponentMatrix(container: HTMLElement) {
     <!-- Form Controls Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Form Controls (.ui-field, .ui-input, .ui-select, .ui-switch)</h2>
-      <p class="ws-section-desc">Open UI compliant inputs, validation feedback, native toggle switches, and the Customizable Select picker where <code>appearance: base-select</code> is supported.</p>
+      <p class="ws-section-desc">Open UI compliant inputs, validation feedback, native toggle switches, and the Customizable Select picker where <code>appearance: base-select</code> is supported. Switches come two ways: <code>.ui-switch</code> draws a track and thumb from its own markup in every engine, and <code>.ui-switch-native</code> is the bare <code>&lt;input type="checkbox" switch&gt;</code> restyled through <code>::track</code> and <code>::thumb</code> inside <code>@supports selector(::thumb)</code> — Safari 17.4+ draws the switch, Chromium keeps it behind a flag, and every engine without the parts renders a working checkbox in the <code>.ui-checkbox</code> look.</p>
 
       <div class="ws-preview-block">
         <div class="ws-preview-header">
@@ -702,6 +702,27 @@ export function renderComponentMatrix(container: HTMLElement) {
               <span class="ui-switch-thumb"></span>
             </span>
             <span>Live Monitoring</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="ws-preview-block">
+        <div class="ws-preview-header">
+          <span class="ws-preview-title">Native Switch (.ui-switch-native)</span>
+          ${copyControls('<label class="ui-checkbox-label"><input type="checkbox" switch class="ui-switch-native" checked /><span>Label</span></label>')}
+        </div>
+        <div class="ws-preview-canvas ws-canvas-col">
+          <label class="ui-checkbox-label">
+            <input type="checkbox" switch class="ui-switch-native" checked />
+            <span>Live Monitoring (on)</span>
+          </label>
+          <label class="ui-checkbox-label">
+            <input type="checkbox" switch class="ui-switch-native" />
+            <span>Verbose logging (off)</span>
+          </label>
+          <label class="ui-checkbox-label">
+            <input type="checkbox" switch class="ui-switch-native" checked disabled />
+            <span>Managed by policy (disabled)</span>
           </label>
         </div>
       </div>

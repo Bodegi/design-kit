@@ -152,7 +152,8 @@
 }
 
 .ui-checkbox,
-.ui-radio {
+.ui-radio,
+.ui-switch-native {
   appearance: none;
   width: 18px;
   height: 18px;
@@ -172,12 +173,14 @@
 }
 
 .ui-checkbox:checked,
-.ui-radio:checked {
+.ui-radio:checked,
+.ui-switch-native:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.ui-checkbox:checked::before {
+.ui-checkbox:checked::before,
+.ui-switch-native:checked::before {
   content: "";
   width: 10px;
   height: 6px;
@@ -195,8 +198,17 @@
 }
 
 .ui-checkbox:focus-visible,
-.ui-radio:focus-visible {
+.ui-radio:focus-visible,
+.ui-switch-native:focus-visible {
   box-shadow: var(--focus-ring);
+}
+
+/* An appearance: none control gets no dimming from the UA, so a disabled
+   switch has to say so itself — in both renderings, which is why this sits
+   outside the feature query below. */
+.ui-switch-native:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* --- Toggle Switch --- */
@@ -249,6 +261,73 @@
   box-shadow: var(--focus-ring);
 }
 
+/* --- Native Switch (the `switch` attribute) ------------------------------
+   `<input type="checkbox" switch>` is a switch in the accessibility tree with
+   no wrapper markup at all — one element instead of .ui-switch's label +
+   track + thumb — so state, keyboard and screen-reader behavior are the
+   platform's. Open UI's Switch Attribute explainer defers its internals to the
+   CSSWG's cross-control form-control work: the parts arrive as ::track and
+   ::thumb (::checkmark and ::picker belong to the customizable select and have
+   no meaning here), and `appearance` is left alone, because `appearance: none`
+   discards the switch and hands back a bare checkbox.
+
+   @supports selector(::thumb) is the gate the explainer points at — an engine
+   that knows those pseudo-elements is one that draws the switch. Everything
+   outside the query is the fallback, and it takes the .ui-checkbox look
+   deliberately: an engine that ignores the attribute renders a working
+   checkbox, and so does an engine that draws the switch but keeps the parts
+   behind a flag (Safari 17.4 through 18.x, Chromium today). The control reads
+   correctly either way; only its shape differs.
+   ------------------------------------------------------------------------ */
+@supports selector(::thumb) {
+  input[type="checkbox"][switch].ui-switch-native {
+    appearance: auto;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    border: none;
+    border-radius: var(--radius-full);
+    background-color: transparent;
+  }
+
+  /* The checkbox fallback's tick has no place on a track. */
+  input[type="checkbox"][switch].ui-switch-native:checked {
+    background-color: transparent;
+  }
+  input[type="checkbox"][switch].ui-switch-native:checked::before {
+    content: none;
+  }
+
+  input[type="checkbox"][switch].ui-switch-native::track {
+    background-color: var(--color-border-strong);
+    border: none;
+    border-radius: var(--radius-full);
+    transition: background-color var(--transition-fast);
+  }
+  input[type="checkbox"][switch].ui-switch-native:checked::track {
+    background-color: var(--color-primary);
+  }
+
+  input[type="checkbox"][switch].ui-switch-native::thumb {
+    background-color: var(--color-switch-thumb);
+    border: none;
+    border-radius: var(--radius-full);
+    transition: translate var(--transition-fast);
+  }
+
+  input[type="checkbox"][switch].ui-switch-native:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    input[type="checkbox"][switch].ui-switch-native::track,
+    input[type="checkbox"][switch].ui-switch-native::thumb {
+      transition: none;
+    }
+  }
+}
+
 /* The classic controls still their hover/focus fades and the switch's thumb
    travel. The picker below carries its own reduce block inside @supports. */
 @media (prefers-reduced-motion: reduce) {
@@ -257,6 +336,7 @@
   .ui-select,
   .ui-checkbox,
   .ui-radio,
+  .ui-switch-native,
   .ui-switch-track,
   .ui-switch-thumb {
     transition: none;
