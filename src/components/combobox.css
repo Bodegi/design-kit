@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Open UI: Combobox / Filterable Select (.ui-combobox)
+
+   A text input that filters a listbox of options. Open UI's combobox explainer
+   proposes a native <input list> + <datalist> with :active-option and
+   :filtered; none of that has shipped, so this is the ARIA combobox pattern
+   dressed in the same anatomy. The two proposed pseudo-classes map onto hooks
+   the app sets: :active-option -> [data-active], :filtered -> the app removes
+   or hides the option.
+
+   Anatomy:
+     .ui-combobox                       root; establishes the anchor/containing block
+       input.ui-input[role="combobox"]  the field itself — .ui-input from form.css,
+                                        not restyled here, only given room for the
+                                        buttons that sit over it
+       .ui-combobox-clear               optional × button (app toggles [hidden])
+       .ui-combobox-trigger             optional chevron button
+       .ui-combobox-listbox[popover]    the panel, [role="listbox"]
+         .ui-combobox-group             optional [role="group"]
+           .ui-combobox-group-label
+         .ui-combobox-option            [role="option"], holding
+                                        .ui-combobox-option-label (which may wrap
+                                        a matched run in <mark>) and an optional
+                                        .ui-combobox-option-meta
+         .ui-combobox-empty             "no matches" message
+
+   State hooks (the kit ships no runtime; the app sets all of these):
+     aria-expanded="true" on the input   rotates the chevron
+     [data-active] on an option          the active-descendant highlight. The
+                                         input keeps DOM focus and points at the
+                                         option with aria-activedescendant, so the
+                                         option itself is never :focus — it needs
+                                         an attribute hook of its own.
+     aria-selected="true" on an option   the chosen value (tint + check mark)
+     aria-disabled="true" on an option   unavailable
+     data-size="sm|md" on the root       field height and listbox type scale
+
+   The listbox is a native [popover], so Escape and light-dismiss are the UA's.
+   Where CSS anchor positioning is supported it is anchored under the field;
+   elsewhere it falls back to absolute positioning inside the root. The anchored
+   branch also requires anchor-scope, so that several comboboxes on one page
+   cannot resolve to each other's anchor.
+   ========================================================================== */
+
+.ui-combobox {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 320px;
+
+  /* Room reserved on the input's trailing edge for the buttons stacked over it. */
+  --ui-combobox-actions: var(--space-8);
+}
+
+.ui-combobox:has(.ui-combobox-clear:not([hidden])) {
+  --ui-combobox-actions: var(--space-12);
+}
+
+.ui-combobox > .ui-input {
+  padding-right: var(--ui-combobox-actions);
+}
+
+/* --- Field buttons ------------------------------------------------------ */
+
+.ui-combobox-trigger,
+.ui-combobox-clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  margin: auto 0;
+  padding: 0;
+  height: 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   toggling the clear button with the hidden attribute needs this back. */
+.ui-combobox-trigger[hidden],
+.ui-combobox-clear[hidden] {
+  display: none;
+}
+
+.ui-combobox-trigger {
+  right: var(--space-2);
+}
+
+.ui-combobox-clear {
+  right: calc(var(--space-2) + 24px);
+}
+
+.ui-combobox-trigger:hover,
+.ui-combobox-clear:hover {
+  color: var(--color-text-main);
+  background-color: var(--color-bg-hover);
+}
+
+/* Focus ring comes from the global :focus-visible rule — no box-shadow here. */
+.ui-combobox-trigger:focus-visible,
+.ui-combobox-clear:focus-visible {
+  outline: none;
+  color: var(--color-text-main);
+}
+
+.ui-combobox-trigger:disabled,
+.ui-combobox-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chevron and × are drawn in CSS from currentColor, so the classes alone carry
+   the glyph and it recolors with the button rather than with a baked-in fill. */
+.ui-combobox-trigger::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--transition-fast);
+}
+
+.ui-combobox-clear::before,
+.ui-combobox-clear::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 1.5px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+}
+
+.ui-combobox-clear::before {
+  transform: rotate(45deg);
+}
+
+.ui-combobox-clear::after {
+  transform: rotate(-45deg);
+}
+
+/* Open state: the chevron flips. aria-expanded lives on the input, and the
+   buttons follow it in the markup, so a sibling combinator reads it. */
+.ui-combobox > .ui-input[aria-expanded="true"] ~ .ui-combobox-trigger::before {
+  transform: translateY(2px) rotate(225deg);
+}
+
+/* --- Listbox ------------------------------------------------------------ */
+
+/* Panel chrome is on the class alone, so an app that wants an always-open
+   inline listbox drops the [popover] attribute and keeps everything but the
+   positioning below. */
+.ui-combobox-listbox {
+  box-sizing: border-box;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  box-shadow: var(--shadow-lg);
+  outline: none;
+}
+
+/* No-anchor fallback: absolutely positioned under the field inside the root.
+   inset/margin are set explicitly because the UA otherwise centers a popover
+   in the viewport (inset: 0; margin: auto). */
+[popover].ui-combobox-listbox {
+  position: absolute;
+  inset: auto;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  right: 0;
+}
+
+@supports (anchor-name: --a) and (anchor-scope: --a) {
+  .ui-combobox {
+    anchor-name: --ui-combobox-field;
+    anchor-scope: --ui-combobox-field;
+  }
+
+  [popover].ui-combobox-listbox {
+    position-anchor: --ui-combobox-field;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: auto;
+    margin-top: var(--space-1);
+    min-width: anchor-size(width);
+  }
+}
+
+/* --- Options ------------------------------------------------------------ */
+
+.ui-combobox-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-nav);
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ui-combobox-option:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* The row is a flex container, so the label must be its own element: bare text
+   nodes beside it would each become an anonymous flex item and pick up the
+   row's gap — which would re-space a label around its <mark>. */
+.ui-combobox-option-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Trailing meta (a count, a category). Ranked below the label by size alone:
+   --color-text-muted misses 4.5:1 against --color-bg-elevated in the dark
+   baseline and in image-annotate, so the listbox keeps every run of text at
+   full strength. */
+.ui-combobox-option-meta {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--color-text-main);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The run of text that matched what was typed. */
+.ui-combobox-option mark {
+  background-color: var(--color-primary-subtle);
+  color: inherit;
+  border-radius: var(--radius-xs);
+  /* Negative margin cancels the padding's advance, so tinting a run of letters
+     never re-spaces the label around it. */
+  padding: 0 1px;
+  margin: 0 -1px;
+  font-weight: var(--font-semibold);
+}
+
+/* Active descendant: the option Enter would take. A keyboard cursor, not a
+   selection, so it reads as the strongest ground plus a leading edge bar —
+   a step past :hover, which the pointer may be sitting on at the same time.
+   The bar is text-main: the theme primary over the lightened active ground
+   drops under the 3:1 UI threshold in image-hoard. */
+.ui-combobox-option[data-active] {
+  background-color: var(--color-bg-active);
+  box-shadow: inset 2px 0 0 var(--color-text-main);
+}
+
+/* Chosen value: primary tint plus a drawn check on the trailing edge. The check
+   is text-main rather than primary — over the primary tint the theme's own
+   primary is too close to its ground (2.78:1 in image-hoard) to clear the 3:1
+   UI threshold; the tint already carries the intent color. */
+.ui-combobox-option[aria-selected="true"] {
+  background-color: var(--color-primary-subtle);
+  font-weight: var(--font-medium);
+}
+
+.ui-combobox-option[aria-selected="true"]::after {
+  content: "";
+  flex-shrink: 0;
+  width: 9px;
+  height: 5px;
+  margin-left: var(--space-2);
+  border-left: 1.5px solid var(--color-text-main);
+  border-bottom: 1.5px solid var(--color-text-main);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+/* An option with no meta still pushes the check to the trailing edge. */
+.ui-combobox-option[aria-selected="true"]:not(:has(.ui-combobox-option-meta))::after {
+  margin-left: auto;
+}
+
+.ui-combobox-option[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-combobox-option[aria-disabled="true"]:hover {
+  background-color: transparent;
+}
+
+/* --- Groups & empty state ----------------------------------------------- */
+
+.ui-combobox-group + .ui-combobox-group {
+  margin-top: var(--space-1);
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: var(--space-1);
+}
+
+.ui-combobox-group-label {
+  display: block;
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  color: var(--color-text-main);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ui-combobox-empty {
+  display: block;
+  padding: var(--space-3);
+  color: var(--color-text-main);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+/* --- Sizes -------------------------------------------------------------- */
+
+.ui-combobox[data-size="sm"] > .ui-input {
+  height: 30px;
+  font-size: var(--text-xs);
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+}
+
+:is(.ui-combobox, .ui-combobox-listbox)[data-size="sm"] .ui-combobox-option {
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+:is(.ui-combobox, .ui-combobox-listbox)[data-size="sm"] .ui-combobox-empty {
+  font-size: var(--text-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-combobox-trigger::before,
+  .ui-combobox-option,
+  .ui-combobox-trigger,
+  .ui-combobox-clear {
+    transition: none;
+  }
+}
