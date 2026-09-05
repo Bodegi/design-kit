@@ -90,9 +90,14 @@
 /* --- Header ------------------------------------------------------------- */
 
 .ui-datepicker-header {
+  /* The remove the month steppers sit at from the title and the header's
+     edges. Same number .ui-toolbar and .ui-carousel place their ghost icon
+     buttons at; see the toolbar's note in button.css. */
+  --_datepicker-icon-inset: var(--space-2);
+
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--_datepicker-icon-inset);
 }
 
 /* Placement only — the buttons themselves are .ui-btn ghost icons, so they keep

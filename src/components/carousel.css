@@ -63,8 +63,10 @@
   --_carousel-marker-ring: 2px;
   --_carousel-marker-current-width: 24px;
   /* How far the overlaid prev/next sit in from the track's edges — shared the
-     same way by .ui-carousel-prev/-next and ::scroll-button(). */
-  --_carousel-arrow-inset: var(--space-2);
+     same way by .ui-carousel-prev/-next and ::scroll-button(). The same number
+     .ui-toolbar and .ui-datepicker-header hold their ghost icon buttons at;
+     see the toolbar's note in button.css. */
+  --_carousel-icon-inset: var(--space-2);
   position: relative;
 }
 
@@ -175,8 +177,8 @@
   background-image: linear-gradient(var(--color-bg-active), var(--color-bg-active));
 }
 
-.ui-carousel .ui-carousel-prev { inset-inline-start: var(--_carousel-arrow-inset); }
-.ui-carousel .ui-carousel-next { inset-inline-end: var(--_carousel-arrow-inset); }
+.ui-carousel .ui-carousel-prev { inset-inline-start: var(--_carousel-icon-inset); }
+.ui-carousel .ui-carousel-next { inset-inline-end: var(--_carousel-icon-inset); }
 
 .ui-carousel-markers {
   display: flex;
@@ -299,12 +301,12 @@
 
   .ui-carousel-track::scroll-button(inline-start) {
     content: "\2039";
-    inset-inline-start: var(--_carousel-arrow-inset);
+    inset-inline-start: var(--_carousel-icon-inset);
   }
 
   .ui-carousel-track::scroll-button(inline-end) {
     content: "\203A";
-    inset-inline-end: var(--_carousel-arrow-inset);
+    inset-inline-end: var(--_carousel-icon-inset);
   }
 
   .ui-carousel-track::scroll-marker-group {

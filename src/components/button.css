@@ -283,13 +283,22 @@
   border-bottom-right-radius: var(--radius-control);
 }
 
-/* --- Toolbar --- */
+/* --- Toolbar ---
+   One of the kit's three ghost-icon-button rails, with .ui-carousel's arrows
+   and .ui-datepicker's month steppers. All three place the same thing — a
+   .ui-btn[data-variant="ghost"][data-size="icon"], the 36px square declared
+   above — at the same --space-2 remove from the edge of whatever holds it, and
+   each names that number in a --_<component>-icon-inset of its own, the way
+   the chevron recipe is repeated rather than shared. Change one, change all
+   three. */
 .ui-toolbar {
+  --_toolbar-icon-inset: var(--space-2);
+
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  padding: var(--space-2);
+  gap: var(--_toolbar-icon-inset);
+  padding: var(--_toolbar-icon-inset);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-base);
