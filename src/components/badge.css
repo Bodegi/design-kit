@@ -16,6 +16,12 @@
   border: 1px solid var(--color-border-subtle);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   hiding a status chip with the hidden attribute needs this back. */
+.ui-badge[hidden] {
+  display: none;
+}
+
 .ui-badge[data-intent="primary"] {
   background-color: var(--color-primary-subtle);
   color: var(--color-primary);

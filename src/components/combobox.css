@@ -375,6 +375,12 @@
   text-align: center;
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, and the
+   app hides this message whenever the filter has matches. */
+.ui-combobox-empty[hidden] {
+  display: none;
+}
+
 /* --- Sizes -------------------------------------------------------------- */
 
 .ui-combobox[data-size="sm"] {

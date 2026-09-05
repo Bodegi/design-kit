@@ -17,6 +17,12 @@
   color: var(--color-text-main);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   dismissing the message with the hidden attribute needs this back. */
+.ui-alert[hidden] {
+  display: none;
+}
+
 /* Leading status icon — app-supplied SVG, tinted by intent. */
 .ui-alert-icon {
   display: inline-flex;

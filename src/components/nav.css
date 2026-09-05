@@ -32,6 +32,12 @@
   transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   hiding a row the current user cannot reach needs this back. */
+.ui-nav-item[hidden] {
+  display: none;
+}
+
 .ui-nav-item:hover {
   color: var(--color-text-main);
   background-color: var(--color-bg-hover);

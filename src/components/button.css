@@ -50,6 +50,13 @@
   border-color: var(--color-border-strong);
 }
 
+/* The `display` above outranks the UA's `[hidden] { display: none }`, so an app
+   showing and hiding an action with the hidden attribute needs this back. */
+.ui-btn[hidden],
+.ui-btn-group[hidden] {
+  display: none;
+}
+
 .ui-btn:hover:not(:disabled) {
   background-color: var(--color-bg-hover);
   border-color: var(--color-border-focus);
