@@ -17,6 +17,7 @@
 @import "./components/table.css";
 @import "./components/dialog.css";
 @import "./components/popover.css";
+@import "./components/combobox.css";
 @import "./components/accordion.css";
 @import "./components/tabs.css";
 @import "./components/toast.css";
