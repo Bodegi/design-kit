@@ -17,7 +17,7 @@ Install directly in your project via Git reference in `package.json`:
 ```json
 {
   "dependencies": {
-    "design-kit": "github:Bodegi/design-kit#main"
+    "design-kit": "github:Bodegi/design-kit#v1.0.0"
   }
 }
 ```
@@ -108,6 +108,10 @@ The kit ships no JavaScript, and where the platform provides a declarative drive
 | Tooltip | nothing on the hint path; `aria-describedby` once on the CSS-tooltip path | the shared tooltip surface, arrow, and `data-placement` | `interestfor` on the trigger + `popover="hint"` on the target (Chromium); the CSS `:hover` / `:focus-within` tooltip everywhere else |
 
 ---
+
+## Contributing
+
+`CONTRIBUTING.md` describes how a component is added, how contrast is measured and gated, the commit format, and how parallel changes are merged. `CLAUDE.md` holds the architecture and the conventions.
 
 ## Workshop Development
 
