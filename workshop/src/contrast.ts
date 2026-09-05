@@ -120,6 +120,14 @@ export const PAIRINGS: Pairing[] = [
   })),
 
   { label: 'Focus ring on canvas', fg: '--color-border-focus', bg: ['--color-bg-canvas'], threshold: 3 },
+
+  /* --color-border-strong draws the visual boundary of every field — input,
+     select, textarea, number, combobox, file dropzone, richtext — and a field
+     sits on a panel or straight on the canvas, so both grounds are measured at
+     the 1.4.11 non-text threshold. (--color-border-subtle is not gated: it
+     draws decorative dividers, not the edge of a control.) */
+  { label: 'Field border on surface', fg: '--color-border-strong', bg: ['--color-bg-surface', '--color-bg-canvas'], threshold: 3 },
+  { label: 'Field border on canvas', fg: '--color-border-strong', bg: ['--color-bg-canvas'], threshold: 3 },
   { label: 'Primary UI mark on surface', fg: '--color-primary', bg: ['--color-bg-surface', '--color-bg-canvas'], threshold: 3 },
 
   /* An image's overlay caption (.ui-image[data-caption="overlay"]) sits on the
