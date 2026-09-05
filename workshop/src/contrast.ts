@@ -121,6 +121,10 @@ export const PAIRINGS: Pairing[] = [
 
   { label: 'Focus ring on canvas', fg: '--color-border-focus', bg: ['--color-bg-canvas'], threshold: 3 },
   { label: 'Primary UI mark on surface', fg: '--color-primary', bg: ['--color-bg-surface', '--color-bg-canvas'], threshold: 3 },
+
+  /* An image's overlay caption (.ui-image[data-caption="overlay"]) sits on the
+     solid scrim band, not on the photograph, so the scrim is the ground. */
+  { label: 'Overlay caption on scrim', fg: '--color-text-on-scrim', bg: ['--color-scrim'], threshold: 4.5 },
 ];
 
 function title(word: string): string {

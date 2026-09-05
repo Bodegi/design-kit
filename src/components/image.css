@@ -1,0 +1,303 @@
+/* ==========================================================================
+   Open UI: Image (.ui-image)
+   The framed picture: a photo, thumbnail, or artwork with the ratio, crop and
+   corner treatment the layout wants, plus the things that hang off it — a
+   caption, a badge, a loading placeholder, a broken-image fallback. Open UI's
+   image page is research only (a survey of fit, ratio, lazy-loading and
+   fallback behaviour across other systems), so the parts below extend the
+   kit's own .ui-<component>-<part> convention.
+
+   Anatomy
+     .ui-image            the frame — a <figure> when it has a caption, a <div>
+                          when it does not, an <a> or <button> when it opens
+                          something. It holds one <img> (or <picture> > <img>).
+     .ui-image-caption    a <figcaption>; sits below the picture by default,
+                          or over its foot with data-caption="overlay"
+     .ui-image-badge      a corner slot for a .ui-tag / .ui-badge
+     .ui-image-fallback   the icon/text shown in place of a broken picture;
+                          hidden until the frame is in the error state
+     .ui-image-grid       a grid of frames (the library / contact-sheet layout)
+
+   Variants
+     data-fit="cover|contain|fill"   how the picture fills its box; cover is
+                                     the default. contain and fill letterbox
+                                     against --color-bg-muted.
+     data-ratio="1:1|4:3|16:9|3:2"   sets the picture's aspect-ratio. Left off,
+                                     the picture keeps its natural ratio. Any
+                                     other ratio goes through the knob below.
+     data-shape="circle|none"        --radius-full (which also squares the
+                                     ratio unless data-ratio says otherwise) or
+                                     no rounding; the default is --radius-base.
+     data-variant="thumbnail"        grid scale: --radius-nav and a hairline
+                                     border, so a run of them reads as a sheet.
+     data-caption="overlay"          moves the caption onto the picture's foot.
+     .ui-image-badge[data-position="end"]   corner slot on the right instead of
+                                     the left.
+
+   Knobs
+     --ui-image-ratio      any aspect-ratio the four data-ratio values miss
+     --ui-image-grid-min   .ui-image-grid's minimum column width (160px)
+
+   State hooks
+     aria-busy="true" on the frame runs the shimmer on the picture's own box
+     while the bytes are still arriving — the same track and sheen tokens
+     .ui-skeleton uses, animated locally so the two components stay
+     independent, and stopping short of the caption.
+     The error state is either an <img> the app has not given a src yet
+     (img:not([src])) or data-state="error" set after the load fails; both
+     ground the frame in --color-bg-muted and reveal .ui-image-fallback.
+
+   Focus and clipping
+     An interactive frame clips its own content (the hover zoom has to be
+     contained) but a focus ring is the element's own box-shadow, which its
+     own overflow never clips — so the ring stays whole, and the frame does
+     not need an outer wrapper. Non-interactive frames clip nothing; the
+     rounding is carried by the picture itself, per .ui-avatar.
+
+   Contrast
+     The overlay caption reads on the opaque --color-scrim band, never on the
+     photograph — the picture underneath can be any color, so the scrim is
+     solid where the text sits and only fades above it. That band is what the
+     WCAG gate measures --color-text-on-scrim against.
+   ========================================================================== */
+
+.ui-image {
+  /* Public knobs. */
+  --ui-image-ratio: auto;
+
+  --_fit: cover;
+  --_radius: var(--radius-base);
+  --_ground: transparent;
+
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+}
+
+/* The `display` above outranks the UA's `[hidden] { display: none }`. */
+.ui-image[hidden] {
+  display: none;
+}
+
+/* --- The picture ---
+   Rounds itself rather than being clipped by the frame, so a non-interactive
+   frame needs no overflow and nothing can eat the focus ring. */
+.ui-image > img,
+.ui-image > picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--ui-image-ratio);
+  object-fit: var(--_fit);
+  background-color: var(--_ground);
+  border-radius: var(--_radius);
+  transition: transform var(--transition-base);
+}
+
+/* --- Fit --- */
+.ui-image[data-fit="cover"]   { --_fit: cover; }
+.ui-image[data-fit="contain"] { --_fit: contain; --_ground: var(--color-bg-muted); }
+.ui-image[data-fit="fill"]    { --_fit: fill; --_ground: var(--color-bg-muted); }
+
+/* --- Shape ---
+   A circle is only a circle if the box is square, so it squares the ratio;
+   an explicit data-ratio below still wins, being later in the cascade. */
+.ui-image[data-shape="circle"] {
+  --_radius: var(--radius-full);
+  --ui-image-ratio: 1;
+}
+
+.ui-image[data-shape="none"] {
+  --_radius: 0;
+}
+
+/* --- Ratio --- */
+.ui-image[data-ratio="1:1"]  { --ui-image-ratio: 1; }
+.ui-image[data-ratio="4:3"]  { --ui-image-ratio: 4 / 3; }
+.ui-image[data-ratio="3:2"]  { --ui-image-ratio: 3 / 2; }
+.ui-image[data-ratio="16:9"] { --ui-image-ratio: 16 / 9; }
+
+/* --- Thumbnail ---
+   Contact-sheet scale: tighter corners and a hairline edge, so a thumbnail
+   still has a boundary against a photograph that runs pale to its edges. */
+.ui-image[data-variant="thumbnail"] {
+  --_radius: var(--radius-nav);
+}
+
+.ui-image[data-variant="thumbnail"] > img,
+.ui-image[data-variant="thumbnail"] > picture > img {
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* --- Caption --- */
+.ui-image-caption {
+  display: block;
+  margin-block-start: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+/* Over the picture's foot: solid scrim under the words, fading out above them,
+   so the text sits on a known color whatever the photograph is doing. */
+.ui-image[data-caption="overlay"] .ui-image-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  margin-block-start: 0;
+  padding: var(--space-8) var(--space-3) var(--space-3);
+  color: var(--color-text-on-scrim);
+  background-image: linear-gradient(
+    to top,
+    var(--color-scrim) 0,
+    var(--color-scrim) 60%,
+    transparent 100%
+  );
+  border-end-start-radius: var(--_radius);
+  border-end-end-radius: var(--_radius);
+}
+
+/* --- Badge slot --- */
+.ui-image-badge {
+  position: absolute;
+  top: var(--space-2);
+  inset-inline-start: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  z-index: 1;
+}
+
+.ui-image-badge[data-position="end"] {
+  inset-inline-start: auto;
+  inset-inline-end: var(--space-2);
+}
+
+/* --- Loading ---
+   The shimmer runs on the picture's own box — behind the bytes, so it shows
+   through until they land, and inside the ratio and the rounding the picture
+   already has. It stops at the picture: a caption underneath is real text and
+   keeps reading normally. */
+.ui-image[aria-busy="true"] > img,
+.ui-image[aria-busy="true"] > picture > img {
+  background-color: var(--color-bg-active);
+  background-image: linear-gradient(90deg, transparent, var(--color-bg-hover), transparent);
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: ui-image-shimmer 1.6s infinite linear;
+}
+
+/* --- Error ---
+   Either an <img> with no src yet, or a src that failed and left the app to
+   set data-state="error". */
+.ui-image[data-state="error"] > img,
+.ui-image[data-state="error"] > picture > img,
+.ui-image:has(> img:not([src])) > img,
+.ui-image:has(> picture > img:not([src])) > picture > img {
+  --_ground: var(--color-bg-muted);
+
+  border: 1px solid var(--color-border-subtle);
+  min-height: 4rem;
+}
+
+.ui-image-fallback {
+  display: none;
+}
+
+.ui-image[data-state="error"] .ui-image-fallback,
+.ui-image:has(img:not([src])) .ui-image-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  /* Main ink, not muted: the muted pair lands at 4.39:1 on the --color-bg-muted
+     ground in the light theme, just under AA. */
+  color: var(--color-text-main);
+  text-align: center;
+  pointer-events: none;
+}
+
+.ui-image-fallback > svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* --- Interactive frame (link or button) ---
+   The zoom has to be contained, so the frame clips here; its own focus ring is
+   its own box-shadow and is painted outside that clip. */
+a.ui-image,
+button.ui-image {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--_radius);
+  text-decoration: none;
+}
+
+a.ui-image:hover > img,
+a.ui-image:hover > picture > img,
+button.ui-image:hover:not(:disabled) > img,
+button.ui-image:hover:not(:disabled) > picture > img {
+  transform: scale(1.03);
+}
+
+a.ui-image:focus-visible,
+button.ui-image:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ui-image[data-variant="thumbnail"]:hover > img,
+.ui-image[data-variant="thumbnail"]:hover > picture > img {
+  border-color: var(--color-primary);
+}
+
+.ui-image:disabled,
+.ui-image[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Grid --- */
+.ui-image-grid {
+  --ui-image-grid-min: 160px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--ui-image-grid-min), 1fr));
+  gap: var(--space-4);
+}
+
+@keyframes ui-image-shimmer {
+  from { background-position: -60% 0; }
+  to   { background-position: 160% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-image > img,
+  .ui-image > picture > img {
+    transition: none;
+  }
+
+  /* A flat track, no sweep — and no zoom. */
+  .ui-image[aria-busy="true"] > img,
+  .ui-image[aria-busy="true"] > picture > img {
+    animation: none;
+    background-image: none;
+  }
+
+  a.ui-image:hover > img,
+  a.ui-image:hover > picture > img,
+  button.ui-image:hover:not(:disabled) > img,
+  button.ui-image:hover:not(:disabled) > picture > img {
+    transform: none;
+  }
+}
