@@ -32,6 +32,7 @@
   --color-accent: #db2777;
   --color-accent-hover: #be185d;
   --color-accent-contrast: #ffffff;
+  --color-accent-subtle: rgba(219, 39, 119, 0.15);
 
   /* Intents lifted wholesale from Image Hoard's own status tokens
      (src/index.css): --accent-success, --accent-warning, --accent-danger, and

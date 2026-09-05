@@ -32,6 +32,7 @@
   --color-accent: #ffd166;
   --color-accent-hover: #f5b73d;
   --color-accent-contrast: #10151c;
+  --color-accent-subtle: rgba(255, 209, 102, 0.16);
 
   /* Intents tuned to Image Annotate's cool blue-slate register: a bright teal
      success, an orange-amber warning kept distinct from the yellow accent, a
