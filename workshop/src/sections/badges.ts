@@ -8,6 +8,7 @@ export const badgesSection: Section = {
       <div class="ws-preview-canvas">
         <span class="ui-badge">Default</span>
         <span class="ui-badge" data-intent="primary">Primary</span>
+        <span class="ui-badge" data-intent="accent">Accent</span>
         <span class="ui-badge" data-intent="success">Success / Healthy</span>
         <span class="ui-badge" data-intent="warning">Warning / Pending</span>
         <span class="ui-badge" data-intent="danger">Danger / Critical</span>

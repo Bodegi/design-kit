@@ -28,6 +28,12 @@
   border-color: var(--color-primary);
 }
 
+.ui-badge[data-intent="accent"] {
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 .ui-badge[data-intent="success"] {
   background-color: var(--color-success-subtle);
   color: var(--color-success);
