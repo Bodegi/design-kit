@@ -1,47 +1,46 @@
 /* ==========================================================================
    Theme: Tectonic
-   Obsidian desktop-utility theme with a magma amber primary and terracotta
-   accent. Palette lifted from the Tectonic app (src/styles.css).
+   Warm basalt ground — blacks and greys with the brown cast of cooled lava,
+   bone-white text — under a molten orange-red primary. Danger is a crimson
+   that sits clear of the primary; success and info are the app's green and
+   blue signals; the accent is a cool orchid counterpoint.
    ========================================================================== */
 :root[data-theme="tectonic"],
 [data-theme="tectonic"] {
-  --color-bg-canvas: #0b0e14;
-  --color-bg-surface: #121620;
-  --color-bg-elevated: #181e2b;
+  --color-bg-canvas: #0e0c0b;
+  --color-bg-surface: #171412;
+  --color-bg-elevated: #1f1b18;
   --color-bg-overlay: rgba(0, 0, 0, 0.75);
-  --color-bg-muted: rgba(224, 159, 62, 0.05);
-  --color-bg-hover: rgba(224, 159, 62, 0.09);
-  --color-bg-active: rgba(224, 159, 62, 0.14);
-  --color-bg-glass: rgba(18, 22, 32, 0.75);
+  --color-bg-muted: rgba(246, 84, 40, 0.05);
+  --color-bg-hover: rgba(246, 84, 40, 0.09);
+  --color-bg-active: rgba(246, 84, 40, 0.14);
+  --color-bg-glass: rgba(23, 20, 18, 0.75);
 
-  --color-text-main: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-text-dim: #718299;
-  --color-text-inverse: #0b0e14;
+  --color-text-main: #ece6df;
+  --color-text-muted: #a99f95;
+  --color-text-dim: #877e75;
+  --color-text-inverse: #0e0c0b;
 
-  --color-border-subtle: #2a3245;
-  --color-border-strong: #5d6576;
-  --color-border-focus: #e09f3e;
+  --color-scrim: #0e0c0b;
+  --color-text-on-scrim: #ece6df;
 
-  --color-primary: #e09f3e;
-  --color-primary-hover: #f4a261;
-  --color-primary-active: #c8842a;
-  --color-primary-contrast: #0b0e14;
-  --color-primary-subtle: rgba(224, 159, 62, 0.15);
+  --color-border-subtle: #302925;
+  --color-border-strong: #6b6159;
+  --color-border-focus: #f65428;
 
-  /* Tectonic's palette is magma throughout — every hue in it is either the
-     amber primary or a status signal — so the accent is derived rather than
-     lifted: an orchid that sits clear of the primary and of all six status
-     hues, and reads as a cool counterpoint to them. */
+  --color-primary: #f65428;
+  --color-primary-hover: #f8683f;
+  --color-primary-active: #ce3309;
+  --color-primary-contrast: #0e0c0b;
+  --color-primary-subtle: rgba(246, 84, 40, 0.15);
+
+  /* The accent is a cool counterpoint to a palette that is otherwise fire and
+     rock: an orchid clear of the primary and of every status hue. */
   --color-accent: #b574b8;
   --color-accent-hover: #a35ca6;
   --color-accent-contrast: #240a25;
   --color-accent-subtle: rgba(181, 116, 184, 0.12);
 
-  /* Success and info are Tectonic's own --accent-green and --accent-cyan
-     (src/styles.css). Danger is a distinct brick red and warning a yellow-gold,
-     each far enough around the wheel from the amber primary to read as its own
-     signal beside it. */
   --color-success: #34d399;
   --color-success-hover: #22c07d;
   --color-success-contrast: #06281d;
@@ -52,10 +51,12 @@
   --color-warning-contrast: #3a2c06;
   --color-warning-subtle: rgba(236, 201, 75, 0.15);
 
-  --color-danger: #db695d;
-  --color-danger-hover: #d65144;
-  --color-danger-contrast: #350d08;
-  --color-danger-subtle: rgba(219, 105, 93, 0.13);
+  /* Danger leans toward pink so hostile marks never read as the primary's
+     orange-red one step over. */
+  --color-danger: #ec5562;
+  --color-danger-hover: #e63d4c;
+  --color-danger-contrast: #3a0a10;
+  --color-danger-subtle: rgba(236, 85, 98, 0.13);
 
   --color-info: #60a5fa;
   --color-info-hover: #3b82f6;
