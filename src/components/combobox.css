@@ -48,16 +48,19 @@
   width: 100%;
   max-width: 320px;
 
-  /* Room reserved on the input's trailing edge for the buttons stacked over it. */
-  --ui-combobox-actions: var(--space-8);
+  /* Room reserved on the input's trailing edge for the buttons stacked over
+     it. Private: the rule below recomputes it from whether the clear button is
+     showing, so a consumer value would be overwritten on exactly the fields
+     where it would matter. */
+  --_combobox-actions: var(--space-8);
 }
 
 .ui-combobox:has(.ui-combobox-clear:not([hidden])) {
-  --ui-combobox-actions: var(--space-12);
+  --_combobox-actions: var(--space-12);
 }
 
 .ui-combobox > .ui-input {
-  padding-right: var(--ui-combobox-actions);
+  padding-right: var(--_combobox-actions);
 }
 
 /* --- Field buttons ------------------------------------------------------ */
