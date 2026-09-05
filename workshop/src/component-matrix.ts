@@ -1,3 +1,5 @@
+import { showToast } from './toast';
+
 export function renderComponentMatrix(container: HTMLElement) {
   container.innerHTML = `
     <!-- Buttons Section -->
@@ -1025,14 +1027,12 @@ function wireToasts(root: HTMLElement) {
     });
   });
 
-  // Region is shared across re-renders — reuse it if one already exists.
-  let region = document.querySelector<HTMLElement>('.ui-toast-region[data-position="bottom-end"]');
-  if (!region) {
-    region = document.createElement('div');
-    region.className = 'ui-toast-region';
-    region.setAttribute('data-position', 'bottom-end');
-    document.body.appendChild(region);
-  }
+  // Scoped to the matrix root so switching tabs (which replaces the root's
+  // markup) takes the region and any live toasts with it.
+  const region = document.createElement('div');
+  region.className = 'ui-toast-region';
+  region.setAttribute('data-position', 'bottom-end');
+  root.appendChild(region);
 
   const copy: Record<string, { title: string; message: string }> = {
     success: { title: 'Saved', message: 'Your changes have been published.' },
@@ -1053,7 +1053,7 @@ function wireToasts(root: HTMLElement) {
         `<div class="ui-toast-content"><p class="ui-toast-title">${title}</p>` +
         `<p class="ui-toast-message">${message}</p></div>` +
         `<button class="ui-toast-close" aria-label="Dismiss">${toastCloseIcon}</button>`;
-      region!.appendChild(toast);
+      region.appendChild(toast);
       toast.querySelector('.ui-toast-close')?.addEventListener('click', () => dismiss(toast));
       setTimeout(() => { if (toast.isConnected) dismiss(toast); }, 4000);
     });
@@ -1066,14 +1066,4 @@ function wireAlerts(root: HTMLElement) {
   root.querySelectorAll<HTMLButtonElement>('.ui-alert-close').forEach((btn) => {
     btn.addEventListener('click', () => btn.closest('.ui-alert')?.remove());
   });
-}
-
-function showToast(message: string) {
-  const toast = document.getElementById('ws-toast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.setAttribute('data-visible', 'true');
-  setTimeout(() => {
-    toast.setAttribute('data-visible', 'false');
-  }, 2000);
 }

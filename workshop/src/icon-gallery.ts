@@ -1,4 +1,5 @@
 import { icons } from '../../src/icons/icon-data.js';
+import { showToast } from './toast';
 
 const iconDefs: Record<string, string> = icons;
 const iconNames = Object.keys(iconDefs);
@@ -83,14 +84,4 @@ function attachIconClickListeners(grid: HTMLElement) {
       showToast(`Copied ${kind} markup for "${name}"!`);
     });
   });
-}
-
-function showToast(message: string) {
-  const toast = document.getElementById('ws-toast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.setAttribute('data-visible', 'true');
-  setTimeout(() => {
-    toast.setAttribute('data-visible', 'false');
-  }, 2000);
 }

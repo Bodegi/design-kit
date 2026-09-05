@@ -1,3 +1,5 @@
+import { showToast } from './toast';
+
 export function renderTokenViewer(container: HTMLElement) {
   container.innerHTML = `
     <!-- 1. Semantic Surfaces -->
@@ -255,14 +257,4 @@ function contrastRatio(fg: Rgb, bg: Rgb): number {
   const l1 = relativeLuminance(fg);
   const l2 = relativeLuminance(bg);
   return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
-
-function showToast(message: string) {
-  const toast = document.getElementById('ws-toast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.setAttribute('data-visible', 'true');
-  setTimeout(() => {
-    toast.setAttribute('data-visible', 'false');
-  }, 2000);
 }
