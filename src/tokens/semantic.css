@@ -71,6 +71,13 @@
      track (--color-primary), so it is its own token rather than either one's
      contrast color. */
   --color-switch-thumb: #ffffff;
+  /* The caption scrim over a picture (see .ui-image). It is opaque and dark in
+     every theme — the photograph beneath it can be any color, so the band the
+     words sit on is the only measurable ground — which is why it is its own
+     token rather than the translucent --color-bg-overlay, and why its ink is
+     its own token rather than --color-text-main (dark in the light themes). */
+  --color-scrim: #0b1120;
+  --color-text-on-scrim: #f8fafc;
   --blur-glass: blur(16px);            /* backdrop blur of the shell's glass surfaces — a material constant, not a theme knob */
 
   /* Ambient logo watermark — one shared recipe (see .ui-watermark). The mark is
