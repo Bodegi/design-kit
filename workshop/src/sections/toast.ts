@@ -23,6 +23,8 @@ const toastSnippet = `<div class="ui-toast" data-intent="success" role="status">
   <button class="ui-toast-close" aria-label="Dismiss">✕</button>
 </div>`;
 
+// Drives the toast previews: dismissing the static cards, and spawning live
+// toasts (auto-dismissing after 4s) into a shared bottom-end region.
 function wireToasts(root: HTMLElement) {
   const dismiss = (toast: HTMLElement) => {
     if (toast.getAttribute('data-state') === 'closing') return;

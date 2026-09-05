@@ -96,10 +96,6 @@ function wireFileInputs(root: HTMLElement) {
   });
 }
 
-// Drives the toast previews: dismissing the static cards, and spawning live
-// toasts (auto-dismissing after 4s) into a shared bottom-end region.
-/* --- Richer Text Field --------------------------------------------------- */
-
 export const fileInputSection: Section = {
   html: `    <!-- File Input Section -->
     <section class="ws-section">
