@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Open UI: File Input (.ui-file)
+   Choosing files, in two forms that share one class family.
+
+   Button form — a <label class="ui-file"> wrapping a visually hidden
+   <input type="file">, a .ui-file-trigger styled by composition (put
+   `class="ui-btn ui-file-trigger" data-variant="outline"` on it — this file
+   adds only what is file-specific), and a .ui-file-name the app fills with the
+   chosen filename. Clicking anywhere on the label opens the picker, because
+   the label owns the input. The trigger is a <span>, never a <button>: a
+   button inside a label swallows the label's activation.
+
+   Native form — input[type="file"].ui-file-native needs no wrapper. Its
+   built-in button is restyled through ::file-selector-button, so a bare input
+   still reads as the kit. That is the standard pseudo-element (Chromium,
+   Firefox, Safari 16+); older WebKit's ::-webkit-file-upload-button is
+   covered beside it, and because a pseudo one engine does not know
+   invalidates the whole selector list, each is written as its own rule.
+
+   Dropzone form — .ui-file[data-variant="dropzone"] turns the same label into
+   a dashed drop target holding .ui-file-icon, .ui-file-hint text, and the
+   trigger. Chosen files list under it in a .ui-file-list of .ui-tag tokens —
+   that list only stacks and wraps; the tokens bring their own styling.
+
+   State hooks (no runtime — the app toggles these):
+     data-state="dragover"   a drag is over the zone. CSS cannot observe a
+                             drag, so the app sets it from its own
+                             dragenter / dragleave / drop handlers.
+     data-state="error"      the selection was rejected
+     aria-invalid="true"     the field is invalid — same danger treatment,
+                             read from either the label or the input
+     input:disabled          dims and blocks the whole label, via :has()
+
+   Focus: the input in the button form is visually hidden but still focusable,
+   so the ring is drawn on the sibling it stands behind
+   (input:focus-visible + .ui-file-trigger), and the dropzone lights its border
+   on :focus-within as well.
+
+   The three --_zone-* locals carry the zone's edge, fill and content color, so
+   each state rule is written once against them instead of once per part.
+
+   Contrast: a tinted state keeps its text and icon on --color-text-main and
+   carries the intent in the border (a UI part, held to 3.0:1) — the intent
+   color over its own -subtle tint drops below 3.0:1 in some themes, and
+   --color-text-muted over the tint drops below 4.5:1 in others.
+
+   Sizes: data-size="sm|md" (md is the default).
+   ========================================================================== */
+
+.ui-file {
+  --_zone-border: var(--color-border-strong);
+  --_zone-fill: transparent;
+  --_zone-ink: var(--color-text-muted);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 100%;
+  cursor: pointer;
+}
+
+/* The real control: reachable by keyboard and to assistive tech, invisible to
+   the eye. Not display:none or visibility:hidden — either drops it out of the
+   focus order and takes the ring with it. */
+.ui-file input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The trigger carries .ui-btn in the markup for its shape, colors and states;
+   only the file-specific bits live here. */
+.ui-file-trigger {
+  flex-shrink: 0;
+}
+
+/* Filename readout. Small body text, so --_zone-ink resolves to
+   --color-text-muted (4.5:1) and never --color-text-dim. */
+.ui-file-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+  color: var(--_zone-ink);
+}
+
+/* Supporting line inside a dropzone — "PNG or JPG, up to 10 MB". */
+.ui-file-hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--_zone-ink);
+}
+
+/* App-supplied SVG, in the zone's content color. */
+.ui-file-icon {
+  display: inline-flex;
+  line-height: 0;
+  color: var(--_zone-ink);
+}
+
+.ui-file-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* --- Focus ---
+   The ring rides the trigger, where the hidden input visually sits. */
+.ui-file input[type="file"]:focus-visible + .ui-file-trigger {
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Variant: dropzone --- */
+.ui-file[data-variant="dropzone"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  /* The dashed inset edge image-annotate draws over its canvas while a file is
+     dragged in, promoted from an ::after overlay to the box itself so it also
+     reads as the target at rest. */
+  border: 2px dashed var(--_zone-border);
+  border-radius: var(--radius-base);
+  background-color: var(--_zone-fill);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-file[data-variant="dropzone"]:hover {
+  --_zone-border: var(--color-border-focus);
+}
+
+/* Keyboard parity with the pointer's dragover: tabbing in lights the same
+   edge. The ring itself still lands on the trigger. */
+.ui-file[data-variant="dropzone"]:focus-within {
+  --_zone-border: var(--color-primary);
+}
+
+.ui-file[data-state="dragover"] {
+  --_zone-border: var(--color-primary);
+  --_zone-fill: var(--color-primary-subtle);
+  --_zone-ink: var(--color-text-main);
+}
+
+/* --- Error / invalid --- */
+.ui-file[data-state="error"],
+.ui-file[aria-invalid="true"] {
+  --_zone-border: var(--color-danger);
+  --_zone-fill: var(--color-danger-subtle);
+  --_zone-ink: var(--color-text-main);
+}
+
+/* --- Sizes --- */
+.ui-file[data-size="sm"] .ui-file-name,
+.ui-file[data-size="sm"] .ui-file-hint {
+  font-size: var(--text-xs);
+}
+
+.ui-file[data-size="sm"][data-variant="dropzone"] {
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+}
+
+.ui-file[data-size="sm"] .ui-file-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.ui-file[data-size="md"] .ui-file-name,
+.ui-file[data-size="md"] .ui-file-hint {
+  font-size: var(--text-sm);
+}
+
+.ui-file[data-size="md"][data-variant="dropzone"] {
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+}
+
+/* --- Disabled and input-borne invalid ---
+   Both states live on the input, so the label can only read them with :has().
+   Where :has() is missing, the input's own disabled state still blocks the
+   picker and the label simply does not dim with it. */
+@supports selector(:has(*)) {
+  .ui-file:has(input[type="file"]:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .ui-file:has(input[type="file"]:disabled):hover {
+    --_zone-border: var(--color-border-strong);
+  }
+
+  /* Lets the app put aria-invalid where the validity is — on the control —
+     rather than on the wrapper. */
+  .ui-file:has(input[type="file"][aria-invalid="true"]) {
+    --_zone-border: var(--color-danger);
+    --_zone-fill: var(--color-danger-subtle);
+    --_zone-ink: var(--color-text-main);
+  }
+}
+
+/* --- Chosen-file list --- */
+.ui-file-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   Native form — a bare input, no wrapper. The built-in button is dressed to
+   match .ui-btn[data-variant="outline"]; the filename beside it is drawn by
+   the browser and inherits only font and color.
+   -------------------------------------------------------------------------- */
+input[type="file"].ui-file-native {
+  max-width: 100%;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+input[type="file"].ui-file-native::file-selector-button {
+  height: 36px;
+  margin-right: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: 1;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+input[type="file"].ui-file-native::-webkit-file-upload-button {
+  height: 36px;
+  margin-right: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: 1;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+input[type="file"].ui-file-native:hover:not(:disabled)::file-selector-button {
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-border-focus);
+}
+
+input[type="file"].ui-file-native:hover:not(:disabled)::-webkit-file-upload-button {
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-border-focus);
+}
+
+input[type="file"].ui-file-native[data-size="sm"]::file-selector-button {
+  height: 28px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+}
+
+input[type="file"].ui-file-native[data-size="sm"]::-webkit-file-upload-button {
+  height: 28px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+}
+
+input[type="file"].ui-file-native:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="file"].ui-file-native[aria-invalid="true"]::file-selector-button {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+input[type="file"].ui-file-native[aria-invalid="true"]::-webkit-file-upload-button {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-file[data-variant="dropzone"],
+  input[type="file"].ui-file-native::file-selector-button {
+    transition: none;
+  }
+  input[type="file"].ui-file-native::-webkit-file-upload-button {
+    transition: none;
+  }
+}
