@@ -1,0 +1,319 @@
+/* ==========================================================================
+   Open UI: Number Input with spinner (.ui-number)
+   A native <input type="number"> in a bordered shell that also holds the
+   stepper buttons and any prefix/suffix adornment, so the whole assembly reads
+   as one field. The input keeps its native role, keyboard handling (arrows,
+   Page Up/Down), and constraint validation — nothing is re-implemented.
+
+   Anatomy:
+     .ui-number                 the shell; owns the border, ground, and ring
+       .ui-number-prefix        optional leading adornment ("$")
+       input[type=number].ui-input   the value (reuses form.css's .ui-input)
+       .ui-number-suffix        optional trailing adornment ("px")
+       .ui-number-stepper       wraps the two buttons
+         button.ui-number-decrement
+         button.ui-number-increment
+
+   Markup order is always prefix → input → suffix → stepper. In the split
+   layout the stepper becomes display: contents and the two buttons are
+   re-ordered onto opposite edges, so one DOM order serves both layouts.
+
+   Variants: data-layout="stacked" (default) | "split", data-size="sm|md".
+   Width comes from --ui-number-width (9rem) — set it per field.
+
+   State hooks, all read off the input via :has() so the shell reacts to the
+   control it wraps: :focus-visible (the ring moves to the shell, and the
+   input's own ring is cleared so there is exactly one), :disabled,
+   :read-only, and :invalid / [aria-invalid="true"] for the danger ring that
+   matches form.css's error styling. The stepper buttons keep their own
+   :focus-visible ring.
+
+   Cross-engine: the native spin buttons are removed per engine — WebKit and
+   Blink through ::-webkit-inner-spin-button / ::-webkit-outer-spin-button,
+   Firefox through -moz-appearance: textfield — and the +/− and chevron glyphs
+   are drawn from bordered pseudo-elements in currentColor, so they recolor
+   with the theme and need no image asset.
+
+   No runtime: the app wires the buttons to the input's native stepping,
+   input.stepUp() / input.stepDown() (followed by dispatching an 'input' event
+   if anything is listening). The kit ships no JS.
+   ========================================================================== */
+
+.ui-number {
+  --ui-number-width: 9rem;
+  --_height: 36px;
+  --_step-size: 28px;
+
+  display: inline-flex;
+  align-items: stretch;
+  width: var(--ui-number-width);
+  height: var(--_height);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ui-number[data-size="sm"] {
+  --_height: 28px;
+  --_step-size: 22px;
+}
+
+.ui-number:hover:not(:has(.ui-input:disabled)) {
+  border-color: var(--color-border-focus);
+}
+
+/* --------------------------------------------------------------------------
+   The value
+   -------------------------------------------------------------------------- */
+
+.ui-number .ui-input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0 var(--space-3);
+  background-color: transparent;
+  border: none;
+  border-radius: inherit;
+  box-shadow: none;
+  /* Lifted from server-panel's properties fields: numerals that hold their
+     column as the value changes, without switching to a mono face. */
+  font-variant-numeric: tabular-nums;
+  /* The native spin buttons are replaced by .ui-number-stepper. */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.ui-number .ui-input::-webkit-inner-spin-button,
+.ui-number .ui-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* form.css rings the input itself; the shell carries the ring here instead. */
+.ui-number .ui-input:focus-visible {
+  border-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.ui-number[data-size="sm"] .ui-input {
+  font-size: var(--text-xs);
+  padding-inline: var(--space-2);
+}
+
+.ui-number[data-layout="split"] .ui-input {
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Adornments
+   -------------------------------------------------------------------------- */
+
+.ui-number-prefix,
+.ui-number-suffix {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.ui-number-prefix {
+  padding-inline: var(--space-3) 0;
+}
+
+.ui-number-suffix {
+  padding-inline: 0 var(--space-3);
+}
+
+/* An adornment already sets the inner gutter on its side. */
+.ui-number-prefix + .ui-input {
+  padding-inline-start: var(--space-1);
+}
+
+.ui-number .ui-input:has(+ .ui-number-suffix) {
+  padding-inline-end: var(--space-1);
+}
+
+.ui-number[data-size="sm"] .ui-number-prefix,
+.ui-number[data-size="sm"] .ui-number-suffix {
+  font-size: var(--text-xs);
+  padding-inline: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Stepper
+   -------------------------------------------------------------------------- */
+
+.ui-number-stepper {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: var(--_step-size);
+  border-inline-start: 1px solid var(--color-border-subtle);
+}
+
+.ui-number-increment,
+.ui-number-decrement {
+  display: grid;
+  place-items: center;
+  flex: 1 1 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--color-text-muted);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-number-increment:hover,
+.ui-number-decrement:hover {
+  color: var(--color-text-main);
+  background-color: var(--color-bg-hover);
+}
+
+.ui-number-increment:active,
+.ui-number-decrement:active {
+  background-color: var(--color-bg-active);
+}
+
+.ui-number-increment:disabled,
+.ui-number-decrement:disabled {
+  color: var(--color-text-dim);
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+/* The buttons keep their own ring; :focus-visible in index.css supplies it,
+   so nothing here may set box-shadow on a focused button. */
+
+/* --- Stacked (default): two chevrons at the trailing edge ---------------- */
+
+.ui-number:not([data-layout="split"]) .ui-number-decrement {
+  border-block-start: 1px solid var(--color-border-subtle);
+  border-end-end-radius: calc(var(--radius-control) - 1px);
+}
+
+.ui-number:not([data-layout="split"]) .ui-number-increment {
+  border-start-end-radius: calc(var(--radius-control) - 1px);
+}
+
+.ui-number-increment::before,
+.ui-number-decrement::before {
+  content: "";
+  grid-area: 1 / 1;
+}
+
+/* A square with two adjacent borders, rotated into a chevron. */
+.ui-number:not([data-layout="split"]) .ui-number-increment::before,
+.ui-number:not([data-layout="split"]) .ui-number-decrement::before {
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+.ui-number:not([data-layout="split"]) .ui-number-increment::before {
+  transform: rotate(-45deg) translate(-1px, 1px);
+}
+
+.ui-number:not([data-layout="split"]) .ui-number-decrement::before {
+  transform: rotate(135deg) translate(-1px, 1px);
+}
+
+/* --- Split: − on the leading edge, + on the trailing edge ---------------- */
+
+.ui-number[data-layout="split"] .ui-number-stepper {
+  display: contents;
+}
+
+.ui-number[data-layout="split"] .ui-number-decrement,
+.ui-number[data-layout="split"] .ui-number-increment {
+  flex: 0 0 var(--_step-size);
+  width: var(--_step-size);
+}
+
+.ui-number[data-layout="split"] .ui-number-decrement {
+  order: -1;
+  border-block-start: none;
+  border-inline-end: 1px solid var(--color-border-subtle);
+  border-start-start-radius: calc(var(--radius-control) - 1px);
+  border-end-start-radius: calc(var(--radius-control) - 1px);
+}
+
+.ui-number[data-layout="split"] .ui-number-increment {
+  border-inline-start: 1px solid var(--color-border-subtle);
+  border-start-end-radius: calc(var(--radius-control) - 1px);
+  border-end-end-radius: calc(var(--radius-control) - 1px);
+}
+
+/* − is one bar; + adds the crossbar in the same grid cell. */
+.ui-number[data-layout="split"] .ui-number-decrement::before,
+.ui-number[data-layout="split"] .ui-number-increment::before {
+  width: 10px;
+  height: 1.5px;
+  border: none;
+  background-color: currentColor;
+  transform: none;
+}
+
+.ui-number[data-layout="split"] .ui-number-increment::after {
+  content: "";
+  grid-area: 1 / 1;
+  width: 1.5px;
+  height: 10px;
+  background-color: currentColor;
+}
+
+/* --------------------------------------------------------------------------
+   States — read off the wrapped input
+   -------------------------------------------------------------------------- */
+
+.ui-number:has(.ui-input:focus-visible) {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+/* Out of range / min / max / step, or an app-asserted error. Matches the error
+   ring in form.css. The invalid ring wins over the plain focus ring. */
+.ui-number:has(.ui-input:invalid),
+.ui-number:has(.ui-input[aria-invalid="true"]) {
+  border-color: var(--color-danger);
+}
+
+.ui-number:has(.ui-input:invalid):has(.ui-input:focus-visible),
+.ui-number:has(.ui-input[aria-invalid="true"]):has(.ui-input:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-danger);
+}
+
+/* Read-only: the value is still selectable and focusable, so it keeps full
+   text contrast; only the ground and the (app-disabled) stepper recede. */
+.ui-number:has(.ui-input:read-only:not(:disabled)) {
+  background-color: var(--color-bg-muted);
+  border-color: var(--color-border-subtle);
+}
+
+.ui-number:has(.ui-input:disabled) {
+  opacity: 0.5;
+  background-color: var(--color-bg-muted);
+  cursor: not-allowed;
+}
+
+.ui-number:has(.ui-input:disabled) .ui-input {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-number,
+  .ui-number-increment,
+  .ui-number-decrement {
+    transition: none;
+  }
+}
