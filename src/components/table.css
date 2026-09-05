@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Open UI: Table (.ui-table)
+   Styles the native <table>. Open UI publishes only a research page for the
+   table, so the anatomy follows its part vocabulary — title, header, column,
+   row, cell, footer — mapped onto the native elements:
+
+     .ui-table-wrap  scroll container (horizontal-scroll part) — wide tables
+                     scroll inside their own box instead of the page
+     table.ui-table  the table
+     caption         title
+     thead th        header / column
+     tbody tr        row            td / th   cell
+     tfoot           footer
+     .ui-table-sort  the interactive control inside a sortable header
+     .ui-table-empty a full-width cell carrying the empty state
+
+   State hooks are native or ARIA state — the kit ships no runtime:
+     th[aria-sort="ascending|descending|none"]  sorted column + indicator
+     tr[aria-selected="true"]                   selected row
+     td[data-type="number"] / .ui-table-numeric numeric column
+   Variants: data-density="compact|comfortable" (default comfortable),
+   data-variant="striped", data-variant="bordered" (space-separate to combine,
+   e.g. data-variant="striped bordered"), and data-sticky-header.
+
+   The table uses border-collapse: separate so that a sticky header keeps its
+   borders — collapsed borders belong to the table, not the cell, and drop out
+   from under a sticky thead. Row rules are therefore drawn as each cell's
+   bottom border.
+   ========================================================================== */
+
+.ui-table-wrap {
+  overflow: auto;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+}
+
+.ui-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--color-text-main);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  text-align: left;
+}
+
+/* Title (native <caption>) — reads as a panel header above the columns. */
+.ui-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  color: var(--color-text-main);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+.ui-table th,
+.ui-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: middle;
+}
+
+.ui-table tbody tr:last-child > * {
+  border-bottom: none;
+}
+
+/* Header: a muted tint composited over the opaque surface rather than the
+   translucent --color-bg-muted alone, so a sticky header stays opaque with
+   rows scrolling underneath it. */
+.ui-table thead th {
+  background-color: var(--color-bg-surface);
+  background-image: linear-gradient(var(--color-bg-muted), var(--color-bg-muted));
+  color: var(--color-text-main);
+  font-weight: var(--font-semibold);
+  white-space: nowrap;
+  border-bottom-color: var(--color-border-strong);
+}
+
+/* Row body cells: the leading cell carries the row's identity and is weighted
+   for it (server-panel's card rows — strong name, lighter detail). Weight, not
+   color: dimming every other cell drops below 4.5:1 on a tinted or hovered row
+   in the lighter themes. */
+.ui-table tbody th,
+.ui-table tbody td:first-child {
+  font-weight: var(--font-medium);
+}
+
+.ui-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.ui-table tbody tr:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* Footer: totals row, tinted and ruled off from the body. */
+.ui-table tfoot td,
+.ui-table tfoot th {
+  background-color: var(--color-bg-muted);
+  border-top: 1px solid var(--color-border-strong);
+  border-bottom: none;
+  color: var(--color-text-main);
+  font-weight: var(--font-semibold);
+}
+
+/* Numeric column: right-aligned with tabular figures so digits line up. */
+.ui-table td[data-type="number"],
+.ui-table th[data-type="number"],
+.ui-table .ui-table-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Density --------------------------------------------------------- */
+
+.ui-table[data-density="compact"] th,
+.ui-table[data-density="compact"] td {
+  padding: var(--space-2) var(--space-3);
+}
+
+.ui-table[data-density="compact"] caption {
+  padding: var(--space-3) var(--space-3) var(--space-2);
+}
+
+/* --- Variants -------------------------------------------------------- */
+
+.ui-table[data-variant~="striped"] tbody tr:nth-child(even) {
+  background-color: var(--color-bg-muted);
+}
+
+.ui-table[data-variant~="striped"] tbody tr:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.ui-table[data-variant~="bordered"] th,
+.ui-table[data-variant~="bordered"] td {
+  border-inline-end: 1px solid var(--color-border-subtle);
+}
+
+/* The trailing edge is the wrap's own border — no doubled rule. */
+.ui-table[data-variant~="bordered"] tr > *:last-child {
+  border-inline-end: none;
+}
+
+/* --- Selected row ----------------------------------------------------- */
+
+/* Listed against the striped variant too, so a selected stripe still reads as
+   selected rather than losing to the higher-specificity stripe rule. */
+.ui-table tbody tr[aria-selected="true"],
+.ui-table[data-variant~="striped"] tbody tr[aria-selected="true"] {
+  background-color: var(--color-primary-subtle);
+}
+
+.ui-table tbody tr[aria-selected="true"] > *:first-child {
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+/* --- Sortable header --------------------------------------------------- */
+
+/* The cell owns the indicator (aria-sort lives on the cell); .ui-table-sort is
+   the focusable control that the app wires its sort handler to. */
+.ui-table th[aria-sort] {
+  position: relative;
+  padding-inline-end: var(--space-8);
+}
+
+.ui-table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  border-radius: var(--radius-nav);
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Underline rather than a color shift — the primary tone does not clear 4.5:1
+   against the header tint in every theme. */
+.ui-table-sort:hover {
+  text-decoration: underline;
+}
+
+/* Indicator: two border-drawn carets, so the arrows take their color from
+   Tier-2 tokens instead of a baked-in image. */
+.ui-table th[aria-sort]::before,
+.ui-table th[aria-sort]::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-4);
+  width: 0;
+  height: 0;
+  border-inline-start: 4px solid transparent;
+  border-inline-end: 4px solid transparent;
+  transition: border-color var(--transition-fast);
+}
+
+.ui-table th[aria-sort]::before {
+  bottom: calc(50% + 1px);
+  border-bottom: 5px solid var(--color-text-muted);
+}
+
+.ui-table th[aria-sort]::after {
+  top: calc(50% + 1px);
+  border-top: 5px solid var(--color-text-muted);
+}
+
+/* The active direction goes primary; the other caret drops back to the
+   border tone so the pair stays visible and the column never shifts. */
+.ui-table th[aria-sort="ascending"]::before {
+  border-bottom-color: var(--color-primary);
+}
+
+.ui-table th[aria-sort="ascending"]::after {
+  border-top-color: var(--color-border-strong);
+}
+
+.ui-table th[aria-sort="descending"]::after {
+  border-top-color: var(--color-primary);
+}
+
+.ui-table th[aria-sort="descending"]::before {
+  border-bottom-color: var(--color-border-strong);
+}
+
+/* --- Sticky header ----------------------------------------------------- */
+
+/* Needs a bounded scroll box — the app caps .ui-table-wrap's height. */
+.ui-table[data-sticky-header] thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* --- Empty state ------------------------------------------------------- */
+
+/* Convention: one row whose single cell spans every column. */
+.ui-table tbody td.ui-table-empty {
+  padding: var(--space-10) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: var(--font-regular);
+}
+
+/* An empty-state row is not a real row — it does not take the hover ground. */
+.ui-table tbody tr:has(.ui-table-empty):hover {
+  background-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-table tbody tr,
+  .ui-table th[aria-sort]::before,
+  .ui-table th[aria-sort]::after {
+    transition: none;
+  }
+}

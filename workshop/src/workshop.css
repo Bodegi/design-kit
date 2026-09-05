@@ -420,6 +420,13 @@
   max-width: 480px;
 }
 
+/* Full-bleed canvas for a preview that owns its own width (tables). Block, not
+   flex: a wrapping flex line sizes to its content, so a scroll container inside
+   one grows to the width it was meant to scroll. */
+.ws-canvas-wide {
+  display: block;
+}
+
 /* Icon Grid */
 .ws-icon-toolbar {
   display: flex;

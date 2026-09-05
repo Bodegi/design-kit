@@ -10,7 +10,7 @@ Three tiers of design tokens, each layer consuming the one above:
 2. **Semantic contracts** (`src/tokens/semantic.css`) — intent tokens (`--color-primary`, `--color-bg-surface`, …) with a dark baseline on `:root` that acts as the fallback when a theme leaves a token unset.
 3. **Theme presets** (`src/themes/*.css`) — concrete palettes scoped to `[data-theme="…"]` (and `:root[data-theme="…"]` for specificity over the baseline). A theme overrides only the tokens it changes; everything else cascades from the semantic baseline.
 
-Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.ui-field`, `.ui-panel`) and native elements (`<dialog>`, `[popover]`, `<details>`, `<progress>`, `<meter>`) and read only Tier 2 tokens — never raw primitives or hex. Variants are driven by `data-*` attributes (`data-variant`, `data-size`, `data-intent`, `data-state`). Native form/status elements are restyled through their vendor pseudo-elements (`::-webkit-progress-value`, `::-moz-meter-bar`, …), so those rules are duplicated per engine.
+Components (`src/components/*.css`) style Open UI anatomy classes (`.ui-btn`, `.ui-field`, `.ui-panel`) and native elements (`<dialog>`, `[popover]`, `<details>`, `<progress>`, `<meter>`, `<table>`) and read only Tier 2 tokens — never raw primitives or hex. Variants are driven by `data-*` attributes (`data-variant`, `data-size`, `data-intent`, `data-state`). Native form/status elements are restyled through their vendor pseudo-elements (`::-webkit-progress-value`, `::-moz-meter-bar`, …), so those rules are duplicated per engine.
 
 `src/index.css` is the entry point: it `@import`s tokens then components, and adds the reset, base `body`, and focus-ring rule.
 
