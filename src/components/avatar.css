@@ -154,7 +154,7 @@ button.ui-avatar:hover:not(:disabled) {
 
 .ui-avatar:disabled,
 .ui-avatar[aria-disabled="true"] {
-  opacity: 0.45;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
