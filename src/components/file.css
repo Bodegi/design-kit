@@ -139,7 +139,7 @@
   width: 100%;
   padding: var(--space-8) var(--space-6);
   text-align: center;
-  /* The dashed inset edge image-annotate draws over its canvas while a file is
+  /* The dashed inset edge Chalkout draws over its canvas while a file is
      dragged in, promoted from an ::after overlay to the box itself so it also
      reads as the target at rest. */
   border: 2px dashed var(--_file-zone-border);

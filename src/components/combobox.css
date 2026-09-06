@@ -276,8 +276,7 @@
 
 /* Trailing meta (a count, a category). Ranked below the label by size alone:
    --color-text-muted misses 4.5:1 against --color-bg-elevated in the dark
-   baseline and in image-annotate, so the listbox keeps every run of text at
-   full strength. */
+   baseline, so the listbox keeps every run of text at full strength. */
 .ui-combobox-option-meta {
   margin-left: auto;
   flex-shrink: 0;

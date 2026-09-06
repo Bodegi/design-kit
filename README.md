@@ -46,7 +46,7 @@ In your application root stylesheet (or JavaScript entrypoint):
 * `design-kit/dist/themes/codex.css` (Navy / amber gold)
 * `design-kit/dist/themes/tectonic.css` (Obsidian / magma amber)
 * `design-kit/dist/themes/image-hoard.css` (Navy / indigo)
-* `design-kit/dist/themes/image-annotate.css` (Blue slate / light blue)
+* `design-kit/dist/themes/chalkout.css` (Charcoal-indigo / electric iris)
 
 ### 3. Optional Local Overrides (Escape Hatch)
 To customize colors locally within your application, add a `:root` block after your theme import:

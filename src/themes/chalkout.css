@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Theme: Chalkout — "4A Electric Iris"
+   A deep charcoal-indigo ground with luminous violet-iris linework and a
+   cyan accent. Named for the app's "chalk out" drafting metaphor.
+   ========================================================================== */
+:root[data-theme="chalkout"],
+[data-theme="chalkout"] {
+  --color-bg-canvas: #110f1a;
+  --color-bg-surface: #1b1829;
+  --color-bg-elevated: #292339;
+  --color-bg-overlay: rgba(9, 7, 15, 0.8);
+  --color-bg-muted: rgba(255, 255, 255, 0.04);
+  --color-bg-hover: rgba(255, 255, 255, 0.08);
+  --color-bg-active: rgba(255, 255, 255, 0.12);
+  --color-bg-glass: rgba(27, 24, 41, 0.75);
+
+  --color-text-main: #e8f0ff;
+  --color-text-muted: #9aa0c4;
+  --color-text-dim: #9096b8;
+  --color-text-inverse: #110f1a;
+
+  --color-border-subtle: #322c48;
+  --color-border-strong: #736e90;
+  --color-border-focus: #b577ff;
+
+  --color-primary: #b577ff;
+  --color-primary-hover: #c48fff;
+  --color-primary-active: #a061f5;
+  --color-primary-contrast: #18092a;
+  /* 12%, not the usual 16%: badge-text-on-tint is the theme's tightest pairing
+     (the luminous iris against its own faint fill), and a fainter tint darkens
+     the composited ground under the text, buying it headroom over the 4.5 gate. */
+  --color-primary-subtle: rgba(181, 119, 255, 0.12);
+
+  --color-accent: #38e1ff;
+  --color-accent-hover: #14d0f5;
+  --color-accent-contrast: #052330;
+  --color-accent-subtle: rgba(56, 225, 255, 0.16);
+
+  /* Intents re-hued for a violet primary + cyan accent (not the placeholder's
+     blue-primary/amber-accent register): success pushed to a clear green clear
+     of the cyan accent, info moved off cyan to a blue so it reads apart from the
+     accent, warning amber and danger red already sit clear of both brand hues. */
+  --color-success: #34d17f;
+  --color-success-hover: #1eb968;
+  --color-success-contrast: #052a1b;
+  --color-success-subtle: rgba(52, 209, 127, 0.16);
+
+  --color-warning: #f5a742;
+  --color-warning-hover: #e08f28;
+  --color-warning-contrast: #3a2205;
+  --color-warning-subtle: rgba(245, 167, 66, 0.16);
+
+  --color-danger: #f5818b;
+  --color-danger-hover: #e66570;
+  --color-danger-contrast: #40090f;
+  --color-danger-subtle: rgba(245, 129, 139, 0.11);
+
+  --color-info: #6aa2ff;
+  --color-info-hover: #4d86f0;
+  --color-info-contrast: #04122e;
+  --color-info-subtle: rgba(106, 162, 255, 0.16);
+}

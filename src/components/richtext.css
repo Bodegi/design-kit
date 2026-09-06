@@ -36,8 +36,8 @@
        editor on a field not marked read-only
 
    Contrast: highlight marks are always --color-text-main over the intent's
-   -subtle tint, never the intent color on its own tint — measured at 7.99:1 or
-   better in every theme, worst case image-annotate's accent. Blockquote text is
+   -subtle tint, never the intent color on its own tint — measured at 9.82:1 or
+   better in every theme, worst case server-panel's warning. Blockquote text is
    main text too, because muted text over the primary tint drops to 3.7:1 in the
    light themes.
    ========================================================================== */

@@ -150,8 +150,8 @@ button.ui-datepicker-title:hover {
 
 /* Weekday row. Ranked below the day numbers by size, weight and tracking
    rather than by color: --color-text-muted misses 4.5:1 against
-   --color-bg-elevated in the dark baseline and in image-annotate, so every run
-   of text in the panel stays at full strength. */
+   --color-bg-elevated in the dark baseline, so every run of text in the panel
+   stays at full strength. */
 .ui-datepicker-grid th {
   width: var(--ui-datepicker-cell);
   padding: var(--space-1) 0;
@@ -251,7 +251,7 @@ button.ui-datepicker-title:hover {
 }
 
 /* An adjacent month's day. 0.6 is the floor that keeps the number at 4.5:1 over
-   the panel in every theme (image-annotate is the tightest, at 4.58:1). */
+   the panel in every theme (default-light is the tightest, at 4.70:1). */
 .ui-datepicker-day[data-outside] {
   opacity: 0.6;
 }

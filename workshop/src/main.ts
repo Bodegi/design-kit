@@ -7,7 +7,7 @@ import '../../src/themes/server-panel.css';
 import '../../src/themes/codex.css';
 import '../../src/themes/tectonic.css';
 import '../../src/themes/image-hoard.css';
-import '../../src/themes/image-annotate.css';
+import '../../src/themes/chalkout.css';
 import './workshop.css';
 
 import { renderTokenViewer } from './token-viewer';
