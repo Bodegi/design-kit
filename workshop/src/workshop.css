@@ -625,6 +625,12 @@
   margin: 0;
 }
 
+.ws-pal-status-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
 .ws-pal-status-links {
   display: flex;
   flex-wrap: wrap;

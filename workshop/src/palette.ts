@@ -131,11 +131,14 @@ export function renderPalette(container: HTMLElement) {
          view while you scroll the editors. The full report is below the grid. -->
     <div class="ws-pal-status">
       <div class="ws-pal-summary" id="ws-pal-summary">${contrastSummaryHtml()}</div>
-      <nav class="ws-pal-status-links" aria-label="Jump to section">
-        <a class="ws-pal-status-link" href="#ws-pal-report">WCAG report ↓</a>
-        <a class="ws-pal-status-link" href="#ws-pal-export-section">Export ↓</a>
-        <a class="ws-pal-status-link" href="#ws-pal-import-section">Import ↓</a>
-      </nav>
+      <div class="ws-pal-status-actions">
+        <button id="ws-pal-reset" class="ui-btn" data-variant="ghost" data-size="sm" type="button">Reset</button>
+        <nav class="ws-pal-status-links" aria-label="Jump to section">
+          <a class="ws-pal-status-link" href="#ws-pal-report">WCAG report ↓</a>
+          <a class="ws-pal-status-link" href="#ws-pal-export-section">Export ↓</a>
+          <a class="ws-pal-status-link" href="#ws-pal-import-section">Import ↓</a>
+        </nav>
+      </div>
     </div>
 
     <div class="ws-pal-grid">
@@ -293,6 +296,13 @@ function wirePalette(container: HTMLElement, baseline: Map<string, string>) {
   };
 
   seedSelect?.addEventListener('change', () => seed(seedSelect.value));
+
+  // Reset discards edits by re-applying whatever "Seed from" currently points at.
+  container.querySelector<HTMLButtonElement>('#ws-pal-reset')?.addEventListener('click', () => {
+    seed(seedSelect?.value ?? '');
+    const label = seedSelect?.selectedOptions[0]?.textContent?.trim() ?? 'the baseline';
+    showToast(`Reset to ${label}.`);
+  });
   nameInput?.addEventListener('input', () => { if (exportArea) exportArea.value = buildExport(); });
 
   container.querySelector<HTMLButtonElement>('#ws-pal-copy')?.addEventListener('click', () => {
