@@ -135,27 +135,46 @@ function renderSwatchCard(name: string, token: string, label: string) {
 }
 
 function renderContrastSection() {
-  const results = evaluatePairings(computedValue);
-  const failed = results.filter((result) => !result.pass).length;
-  const summaryLevel = failed === 0 ? 'pass' : 'fail';
-  const summaryText =
-    failed === 0
-      ? `All ${results.length} pairings pass`
-      : `${failed} of ${results.length} pairings fail`;
-
   return `
     <section class="ws-section">
       <h2 class="ws-section-title">Contrast Ratios (WCAG AA)</h2>
-      <p class="ws-contrast-summary" data-level="${summaryLevel}">${summaryText}</p>
+      ${contrastSummaryHtml()}
       <p class="ws-section-desc">
         Measured for the active theme, with translucent tokens composited over the
         ground beneath them. Body text needs 4.5:1; large text and UI shapes need 3.0:1.
       </p>
-      <div class="ws-contrast-list">
-        ${results.map(renderContrastRow).join('')}
-      </div>
+      ${contrastListHtml()}
     </section>
   `;
+}
+
+/** The pass/fail summary line for the active theme, measured off computed style.
+    Shared with the Palette tab so the two read the same gate. */
+export function contrastSummaryHtml(): string {
+  const results = evaluatePairings(computedValue);
+  const failed = results.filter((result) => !result.pass).length;
+  const level = failed === 0 ? 'pass' : 'fail';
+  const text =
+    failed === 0 ? `All ${results.length} pairings pass` : `${failed} of ${results.length} pairings fail`;
+  return `<p class="ws-contrast-summary" data-level="${level}">${text}</p>`;
+}
+
+/** The full pairing table for the active theme. Shared with the Palette tab. */
+export function contrastListHtml(): string {
+  const results = evaluatePairings(computedValue);
+  return `<div class="ws-contrast-list">${results.map(renderContrastRow).join('')}</div>`;
+}
+
+/** Tokens that appear in at least one failing pairing, so an editor touching one
+    can be flagged. */
+export function failingTokens(): Set<string> {
+  const tokens = new Set<string>();
+  for (const { pairing, pass } of evaluatePairings(computedValue)) {
+    if (pass) continue;
+    tokens.add(pairing.fg);
+    for (const bg of pairing.bg) tokens.add(bg);
+  }
+  return tokens;
 }
 
 function renderContrastRow({ pairing, ratio, pass }: PairingResult) {

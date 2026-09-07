@@ -579,3 +579,164 @@
 .ws-carousel-photo[data-tone="b"] {
   background-image: linear-gradient(135deg, var(--color-accent), var(--color-primary));
 }
+
+/* ==========================================================================
+   Palette tab
+   ========================================================================== */
+.ws-pal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.ws-pal-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.ws-pal-field .ui-select,
+.ws-pal-field .ui-input {
+  width: 200px;
+}
+
+.ws-pal-summary {
+  margin-left: auto;
+}
+
+.ws-pal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .ws-pal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ws-pal-editors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: 0;
+}
+
+.ws-pal-group {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  margin: 0;
+}
+
+.ws-pal-group-title {
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-main);
+}
+
+.ws-pal-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+}
+
+.ws-pal-trigger {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: var(--radius-nav);
+}
+
+.ws-pal-swatch {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+.ws-pal-token {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ws-pal-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-main);
+}
+
+.ws-pal-warn {
+  flex: none;
+  color: var(--color-warning);
+  font-size: var(--text-xs);
+}
+
+.ws-pal-popover {
+  width: auto;
+}
+
+/* The rail tracks the scroll so the samples and the gate stay in view while the
+   editor column scrolls past. */
+.ws-pal-rail {
+  position: sticky;
+  top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: calc(100vh - var(--space-12));
+  overflow-y: auto;
+}
+
+.ws-pal-rail .ws-section {
+  margin-bottom: var(--space-4);
+}
+
+.ws-pal-rail .ws-contrast-list {
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.ws-pal-samples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+}
+
+.ws-pal-sample-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ws-pal-io {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.ws-pal-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}

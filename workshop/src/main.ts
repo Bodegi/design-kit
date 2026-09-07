@@ -13,8 +13,9 @@ import './workshop.css';
 import { renderTokenViewer } from './token-viewer';
 import { renderComponentMatrix } from './component-matrix';
 import { renderIconGallery } from './icon-gallery';
+import { renderPalette } from './palette';
 
-type Tab = 'tokens' | 'components' | 'icons';
+type Tab = 'tokens' | 'components' | 'icons' | 'palette';
 let currentTab: Tab = 'tokens';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,8 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     themeSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
       document.documentElement.setAttribute('data-theme', target.value);
-      if (currentTab === 'tokens' && contentRoot) {
+      if (!contentRoot) return;
+      if (currentTab === 'tokens') {
         renderTokenViewer(contentRoot);
+      } else if (currentTab === 'palette') {
+        renderPalette(contentRoot);
       }
     });
   }
@@ -48,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderComponentMatrix(contentRoot);
     } else if (tab === 'icons') {
       renderIconGallery(contentRoot);
+    } else if (tab === 'palette') {
+      renderPalette(contentRoot);
     }
   }
 
