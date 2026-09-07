@@ -603,8 +603,37 @@
   width: 200px;
 }
 
+/* Pass/fail signal, pinned just under the sticky app header (its measured
+   height is published as --ws-header-h in main.ts). */
+.ws-pal-status {
+  position: sticky;
+  top: var(--ws-header-h, 56px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-bg-glass);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-base);
+}
+
 .ws-pal-summary {
-  margin-left: auto;
+  margin: 0;
+}
+
+.ws-pal-status-link {
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ws-pal-status-link:hover {
+  text-decoration: underline;
 }
 
 .ws-pal-grid {
@@ -691,25 +720,17 @@
   width: auto;
 }
 
-/* The rail tracks the scroll so the samples and the gate stay in view while the
-   editor column scrolls past. */
+/* Live samples stay in view while the editors scroll past. It holds only the
+   short samples now (the report and export moved full-width below the grid), so
+   it needs no inner scroll — it pins cleanly below the status bar. */
 .ws-pal-rail {
   position: sticky;
-  top: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  max-height: calc(100vh - var(--space-12));
-  overflow-y: auto;
+  top: calc(var(--ws-header-h, 56px) + var(--space-16));
+  margin-bottom: 0;
 }
 
 .ws-pal-rail .ws-section {
-  margin-bottom: var(--space-4);
-}
-
-.ws-pal-rail .ws-contrast-list {
-  grid-template-columns: 1fr;
-  gap: var(--space-2);
+  margin-bottom: 0;
 }
 
 .ws-pal-samples {

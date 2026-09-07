@@ -124,9 +124,15 @@ export function renderPalette(container: HTMLElement) {
           <span>Theme name</span>
           <input id="ws-pal-name" class="ui-input" type="text" value="My Theme" spellcheck="false" autocomplete="off">
         </label>
-        <div class="ws-pal-summary" id="ws-pal-summary">${contrastSummaryHtml()}</div>
       </div>
     </section>
+
+    <!-- Sticky pass/fail signal — pinned under the app header so it stays in
+         view while you scroll the editors. The full report is below the grid. -->
+    <div class="ws-pal-status">
+      <div class="ws-pal-summary" id="ws-pal-summary">${contrastSummaryHtml()}</div>
+      <a class="ws-pal-status-link" href="#ws-pal-report">Full WCAG report ↓</a>
+    </div>
 
     <div class="ws-pal-grid">
       <section class="ws-section ws-pal-editors">
@@ -138,28 +144,35 @@ export function renderPalette(container: HTMLElement) {
           <h3 class="ws-section-title">Live samples</h3>
           <div class="ws-pal-samples">${sampleMarkup()}</div>
         </section>
-
-        <section class="ws-section">
-          <h3 class="ws-section-title">Contrast (WCAG AA)</h3>
-          <div id="ws-pal-contrast">${contrastListHtml()}</div>
-        </section>
-
-        <section class="ws-section">
-          <h3 class="ws-section-title">Export</h3>
-          <p class="ws-section-desc">Only tokens that differ from the baseline. Copy into <code>src/themes/&lt;name&gt;.css</code>.</p>
-          <textarea id="ws-pal-export" class="ui-textarea ws-pal-io" readonly spellcheck="false" rows="10"></textarea>
-          <div class="ws-pal-actions">
-            <button id="ws-pal-copy" class="ui-btn" data-variant="primary" data-size="sm">Copy CSS</button>
-          </div>
-          <h3 class="ws-section-title" style="margin-top: var(--space-4);">Import</h3>
-          <p class="ws-section-desc">Paste a theme file's body to keep editing it.</p>
-          <textarea id="ws-pal-import" class="ui-textarea ws-pal-io" spellcheck="false" rows="6" placeholder="--color-primary: #…;"></textarea>
-          <div class="ws-pal-actions">
-            <button id="ws-pal-load" class="ui-btn" data-size="sm">Load</button>
-          </div>
-        </section>
       </aside>
     </div>
+
+    <section class="ws-section" id="ws-pal-report">
+      <h3 class="ws-section-title">Contrast (WCAG AA)</h3>
+      <p class="ws-section-desc">
+        Every pairing measured live against the edited palette — the same gate as
+        <code>npm run check:contrast</code>. A failing token is also flagged (▲) on its editor row.
+      </p>
+      <div id="ws-pal-contrast">${contrastListHtml()}</div>
+    </section>
+
+    <section class="ws-section">
+      <h3 class="ws-section-title">Export</h3>
+      <p class="ws-section-desc">Only tokens that differ from the baseline. Copy into <code>src/themes/&lt;name&gt;.css</code>.</p>
+      <textarea id="ws-pal-export" class="ui-textarea ws-pal-io" readonly spellcheck="false" rows="12"></textarea>
+      <div class="ws-pal-actions">
+        <button id="ws-pal-copy" class="ui-btn" data-variant="primary" data-size="sm">Copy CSS</button>
+      </div>
+    </section>
+
+    <section class="ws-section">
+      <h3 class="ws-section-title">Import</h3>
+      <p class="ws-section-desc">Paste a theme file's body to keep editing it.</p>
+      <textarea id="ws-pal-import" class="ui-textarea ws-pal-io" spellcheck="false" rows="6" placeholder="--color-primary: #…;"></textarea>
+      <div class="ws-pal-actions">
+        <button id="ws-pal-load" class="ui-btn" data-size="sm">Load</button>
+      </div>
+    </section>
   `;
 
   wirePalette(container, baseline);

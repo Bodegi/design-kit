@@ -19,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const contentRoot = document.getElementById('ws-content-root');
   const tabButtons = document.querySelectorAll<HTMLButtonElement>('.ws-tab-btn');
 
+  // Publish the sticky header's height so content can pin just below it (the
+  // Palette tab's status bar and rail). Re-measured on resize since the header
+  // wraps at narrow widths.
+  const header = document.querySelector<HTMLElement>('.ws-header');
+  const syncHeaderHeight = () => {
+    if (header) document.documentElement.style.setProperty('--ws-header-h', `${header.offsetHeight}px`);
+  };
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+
   // Theme switcher — options come from the registry so a new theme file shows up
   // here without editing this file.
   if (themeSelect) {
