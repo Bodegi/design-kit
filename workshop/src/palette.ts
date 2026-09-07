@@ -131,7 +131,11 @@ export function renderPalette(container: HTMLElement) {
          view while you scroll the editors. The full report is below the grid. -->
     <div class="ws-pal-status">
       <div class="ws-pal-summary" id="ws-pal-summary">${contrastSummaryHtml()}</div>
-      <a class="ws-pal-status-link" href="#ws-pal-report">Full WCAG report ↓</a>
+      <nav class="ws-pal-status-links" aria-label="Jump to section">
+        <a class="ws-pal-status-link" href="#ws-pal-report">WCAG report ↓</a>
+        <a class="ws-pal-status-link" href="#ws-pal-export-section">Export ↓</a>
+        <a class="ws-pal-status-link" href="#ws-pal-import-section">Import ↓</a>
+      </nav>
     </div>
 
     <div class="ws-pal-grid">
@@ -156,7 +160,7 @@ export function renderPalette(container: HTMLElement) {
       <div id="ws-pal-contrast">${contrastListHtml()}</div>
     </section>
 
-    <section class="ws-section">
+    <section class="ws-section" id="ws-pal-export-section">
       <h3 class="ws-section-title">Export</h3>
       <p class="ws-section-desc">Only tokens that differ from the baseline. Copy into <code>src/themes/&lt;name&gt;.css</code>.</p>
       <textarea id="ws-pal-export" class="ui-textarea ws-pal-io" readonly spellcheck="false" rows="12"></textarea>
@@ -165,7 +169,7 @@ export function renderPalette(container: HTMLElement) {
       </div>
     </section>
 
-    <section class="ws-section">
+    <section class="ws-section" id="ws-pal-import-section">
       <h3 class="ws-section-title">Import</h3>
       <p class="ws-section-desc">Paste a theme file's body to keep editing it.</p>
       <textarea id="ws-pal-import" class="ui-textarea ws-pal-io" spellcheck="false" rows="6" placeholder="--color-primary: #…;"></textarea>
