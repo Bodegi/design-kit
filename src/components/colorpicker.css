@@ -1,0 +1,252 @@
+/* ==========================================================================
+   Open UI: Color Picker (.ui-colorpicker)
+   A themeable HSV color picker — a 2D saturation/value area, a hue slider, an
+   optional alpha slider, and a hex/rgba text field with a live swatch. The
+   native <input type="color"> opens browser/OS chrome that can't be themed and
+   has no alpha channel, so the kit ships a bespoke anatomy instead. Open UI does
+   not cover a color picker; this follows the same .ui-* / data-* conventions.
+
+   Anatomy:
+     .ui-colorpicker                 the control cluster (no surface of its own)
+       .ui-colorpicker-area          the saturation (x) / value (y) plane
+         .ui-colorpicker-area-thumb  the crosshair, positioned by the app
+       input[type=range].ui-colorpicker-hue     0–360 hue track
+       input[type=range].ui-colorpicker-alpha   0–100 alpha track (optional)
+       .ui-colorpicker-fields        preview swatch + text field row
+         .ui-colorpicker-swatch      the current color over a transparency check
+         input.ui-input               the hex / rgba string (kit's own input)
+
+   Surface: like .ui-datepicker, this composes a host surface rather than
+   duplicating one — wrap it in a .ui-popover (anchored to a trigger) or a
+   .ui-panel in the markup. The cluster itself is transparent.
+
+   No runtime: the kit ships the styled anatomy; the pointer/keyboard wiring that
+   moves the thumb and writes the values lives in the consuming app (and the
+   workshop demo), same as every other interactive component. The app feeds three
+   optional custom properties — each has a token default so an unset picker still
+   reads correctly:
+     --ui-colorpicker-hue    unitless 0–360; the base hue of the area plane.
+     --ui-colorpicker-solid  the current color at full opacity; the opaque end of
+                             the alpha gradient and the area thumb's fill.
+     --ui-colorpicker-color  the current color WITH its alpha; the swatch fill.
+   The area thumb's x/y are set inline by the app (a raw percentage, like the
+   swatch has no fixed value), the hue/alpha positions ride the native inputs.
+
+   Cross-engine: the hue and alpha tracks and thumbs are only reachable through
+   vendor pseudo-elements (::-webkit-slider-runnable-track / -slider-thumb,
+   ::-moz-range-track / -range-thumb), and a pseudo one engine does not know
+   invalidates the whole selector list — so every track/thumb rule is written
+   once per engine. The two sliders share one thumb treatment within an engine.
+   ========================================================================== */
+
+.ui-colorpicker {
+  --_colorpicker-hue: var(--ui-colorpicker-hue, 210);
+  --_colorpicker-solid: var(--ui-colorpicker-solid, var(--color-primary));
+  --_colorpicker-color: var(--ui-colorpicker-color, var(--color-primary));
+  /* Shared slider geometry — identical at every pseudo site (no selector list
+     can join a WebKit pseudo to a Firefox one). */
+  --_colorpicker-track-size: 14px;
+  --_colorpicker-thumb-w: 8px;
+  --_colorpicker-thumb-h: 18px;
+  /* The transparency checkerboard behind translucent colors, built from theme
+     tokens so it reads in light and dark. */
+  --_colorpicker-check: var(--color-border-strong);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 200px;
+}
+
+/* Raw color literals below (the hue rainbow, the white/black area gradients, the
+   #fff handle ring and its dark halo) are the exception the "semantic tokens
+   only" rule allows for a reason: they are color-space data and affordance, not
+   themeable ink. A hue spectrum is red→…→red in every theme; a handle must stay
+   a white ring with a dark halo so it reads over any color under it. A theme
+   must NOT recolor these — same logic that makes --color-switch-thumb its own
+   fixed token — so they are deliberately not routed through theme tokens. Every
+   surface, border and the transparency check IS token-driven, just above/below. */
+
+/* --- Saturation / value plane ------------------------------------------------
+   White→hue left-to-right, transparent→black top-to-bottom, over the base hue. */
+.ui-colorpicker-area {
+  position: relative;
+  width: 100%;
+  height: 128px;
+  border-radius: var(--radius-nav);
+  border: 1px solid var(--color-border-strong);
+  cursor: crosshair;
+  touch-action: none;
+  background-image:
+    linear-gradient(to bottom, transparent, #000),
+    linear-gradient(to right, #fff, transparent);
+  background-color: hsl(var(--_colorpicker-hue) 100% 50%);
+}
+
+.ui-colorpicker-area-thumb {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+  background-color: var(--_colorpicker-solid);
+  pointer-events: none;
+}
+
+/* --- Hue and alpha sliders ---------------------------------------------------
+   Native ranges with custom tracks. Layout and the focus-on-thumb handling
+   mirror .ui-slider; the track paint is what differs. */
+.ui-colorpicker-hue,
+.ui-colorpicker-alpha {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--_colorpicker-track-size);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  /* The focus ring is drawn on the thumb, so it must not be clipped. */
+  overflow: visible;
+}
+
+/* Track paint — hue rainbow */
+.ui-colorpicker-hue::-webkit-slider-runnable-track {
+  height: var(--_colorpicker-track-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.ui-colorpicker-hue::-moz-range-track {
+  height: var(--_colorpicker-track-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+
+/* Track paint — alpha: transparent→solid over the transparency check */
+.ui-colorpicker-alpha::-webkit-slider-runnable-track {
+  height: var(--_colorpicker-track-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-bg-elevated);
+  background-image:
+    linear-gradient(to right, transparent, var(--_colorpicker-solid)),
+    repeating-conic-gradient(var(--_colorpicker-check) 0 25%, transparent 0 50%);
+  background-size: auto, 10px 10px;
+}
+.ui-colorpicker-alpha::-moz-range-track {
+  height: var(--_colorpicker-track-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-bg-elevated);
+  background-image:
+    linear-gradient(to right, transparent, var(--_colorpicker-solid)),
+    repeating-conic-gradient(var(--_colorpicker-check) 0 25%, transparent 0 50%);
+  background-size: auto, 10px 10px;
+}
+
+/* Thumb — a slim upright handle, shared by both sliders within each engine. */
+.ui-colorpicker-hue::-webkit-slider-thumb,
+.ui-colorpicker-alpha::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: var(--_colorpicker-thumb-w);
+  height: var(--_colorpicker-thumb-h);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-surface);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), var(--shadow-sm);
+  /* Center the taller thumb on the track. */
+  margin-top: calc((var(--_colorpicker-track-size) - var(--_colorpicker-thumb-h)) / 2);
+  transition: transform var(--transition-fast);
+}
+.ui-colorpicker-hue::-moz-range-thumb,
+.ui-colorpicker-alpha::-moz-range-thumb {
+  width: var(--_colorpicker-thumb-w);
+  height: var(--_colorpicker-thumb-h);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-surface);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.ui-colorpicker-hue:hover:not(:disabled)::-webkit-slider-thumb,
+.ui-colorpicker-alpha:hover:not(:disabled)::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+.ui-colorpicker-hue:hover:not(:disabled)::-moz-range-thumb,
+.ui-colorpicker-alpha:hover:not(:disabled)::-moz-range-thumb {
+  transform: scale(1.12);
+}
+
+/* Focus — the global :focus-visible rule would ring the whole track; clear it
+   and ring the thumb where the interaction is, as .ui-slider does. */
+.ui-colorpicker-hue:focus-visible,
+.ui-colorpicker-alpha:focus-visible {
+  box-shadow: none;
+}
+.ui-colorpicker-hue:focus-visible::-webkit-slider-thumb,
+.ui-colorpicker-alpha:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--focus-ring);
+}
+.ui-colorpicker-hue:focus-visible::-moz-range-thumb,
+.ui-colorpicker-alpha:focus-visible::-moz-range-thumb {
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Preview swatch + text field --------------------------------------------- */
+.ui-colorpicker-fields {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ui-colorpicker-swatch {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-nav);
+  border: 1px solid var(--color-border-strong);
+  /* The transparency check shows through wherever the color is translucent. */
+  background-color: var(--color-bg-elevated);
+  background-image: repeating-conic-gradient(var(--_colorpicker-check) 0 25%, transparent 0 50%);
+  background-size: 10px 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ui-colorpicker-swatch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--_colorpicker-color);
+}
+
+/* The hex/rgba field composes the kit's own .ui-input; only its lowercase
+   presentation is picker-specific. */
+.ui-colorpicker-fields .ui-input {
+  text-transform: lowercase;
+  font-family: var(--font-mono);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-colorpicker-hue::-webkit-slider-thumb,
+  .ui-colorpicker-alpha::-webkit-slider-thumb,
+  .ui-colorpicker-hue::-moz-range-thumb,
+  .ui-colorpicker-alpha::-moz-range-thumb {
+    transition: none;
+  }
+  .ui-colorpicker-hue:hover:not(:disabled)::-webkit-slider-thumb,
+  .ui-colorpicker-alpha:hover:not(:disabled)::-webkit-slider-thumb,
+  .ui-colorpicker-hue:hover:not(:disabled)::-moz-range-thumb,
+  .ui-colorpicker-alpha:hover:not(:disabled)::-moz-range-thumb {
+    transform: none;
+  }
+}

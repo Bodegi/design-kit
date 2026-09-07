@@ -29,6 +29,7 @@ import { tooltipSection } from './tooltip';
 import { carouselSection } from './carousel';
 import { popoverSection } from './popover';
 import { comboboxSection } from './combobox';
+import { colorPickerSection } from './color-picker';
 import { datepickerSection } from './datepicker';
 import { tableSection } from './table';
 import { nativePrimitivesSection } from './native-primitives';
@@ -65,6 +66,7 @@ export const sections: Section[] = [
   carouselSection,
   popoverSection,
   comboboxSection,
+  colorPickerSection,
   datepickerSection,
   tableSection,
   nativePrimitivesSection,
