@@ -20,11 +20,11 @@ type TokenGroup = { title: string; tokens: string[] };
 const SEED_THEMES = [
   'default-dark',
   'default-light',
-  'server-panel',
-  'codex',
-  'tectonic',
-  'image-hoard',
   'chalkout',
+  'codex',
+  'image-hoard',
+  'server-panel',
+  'tectonic',
 ];
 
 /** The editable semantic color set, grouped as the Token panel groups it.
