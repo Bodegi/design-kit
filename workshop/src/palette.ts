@@ -12,20 +12,11 @@
    ========================================================================== */
 import { createColorPicker, colorPickerMarkup, type ColorPicker } from './color-picker';
 import { parseColor } from './contrast';
+import { THEMES } from './themes';
 import { contrastListHtml, contrastSummaryHtml, failingTokens } from './token-viewer';
 import { showToast } from './toast';
 
 type TokenGroup = { title: string; tokens: string[] };
-
-const SEED_THEMES = [
-  'default-dark',
-  'default-light',
-  'chalkout',
-  'codex',
-  'image-hoard',
-  'server-panel',
-  'tectonic',
-];
 
 /** The editable semantic color set, grouped as the Token panel groups it.
     Derived tokens (--color-bg-current, --shadow-current-bar, --focus-ring), the
@@ -126,7 +117,7 @@ export function renderPalette(container: HTMLElement) {
           <span>Seed from</span>
           <select id="ws-pal-seed" class="ui-select">
             <option value="">Semantic baseline</option>
-            ${SEED_THEMES.map((t) => `<option value="${t}">${t}</option>`).join('')}
+            ${THEMES.map((t) => `<option value="${t.slug}">${t.label}</option>`).join('')}
           </select>
         </label>
         <label class="ws-pal-field">

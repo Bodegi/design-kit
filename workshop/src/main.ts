@@ -1,15 +1,11 @@
 // Kit styles first (tokens + components), then theme presets, then workshop UI.
 // Imported through Vite so they load in dev as well as in the production bundle.
+// The theme presets are injected by ./themes (its eager glob is the single
+// source of truth for every theme menu), so they need no @import here.
 import '../../src/index.css';
-import '../../src/themes/default-dark.css';
-import '../../src/themes/default-light.css';
-import '../../src/themes/server-panel.css';
-import '../../src/themes/codex.css';
-import '../../src/themes/tectonic.css';
-import '../../src/themes/image-hoard.css';
-import '../../src/themes/chalkout.css';
 import './workshop.css';
 
+import { THEMES } from './themes';
 import { renderTokenViewer } from './token-viewer';
 import { renderComponentMatrix } from './component-matrix';
 import { renderIconGallery } from './icon-gallery';
@@ -23,7 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const contentRoot = document.getElementById('ws-content-root');
   const tabButtons = document.querySelectorAll<HTMLButtonElement>('.ws-tab-btn');
 
-  // Theme switcher
+  // Theme switcher — options come from the registry so a new theme file shows up
+  // here without editing this file.
+  if (themeSelect) {
+    themeSelect.innerHTML = THEMES.map(
+      (theme) => `<option value="${theme.slug}">${theme.label}</option>`,
+    ).join('');
+  }
   if (themeSelect) {
     themeSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
