@@ -1,8 +1,11 @@
 import type { Section } from './section';
 import { copyControls } from './shared';
 
-const popoverSnippet = `<button class="ui-btn" data-variant="outline" popovertarget="account-menu">Account &#9662;</button>
-<div id="account-menu" popover class="ui-popover">
+const popoverSnippet = `<!-- anchor-name on the trigger + matching position-anchor on the popover:
+     a popovertarget button is not honored as an implicit anchor in shipped
+     Chromium, so this pair is what drops .ui-popover under its trigger. -->
+<button class="ui-btn" data-variant="outline" popovertarget="account-menu" style="anchor-name: --account-menu">Account &#9662;</button>
+<div id="account-menu" popover class="ui-popover" style="position-anchor: --account-menu">
   <ul class="ui-menu">
     <li><a class="ui-menu-item">View Profile</a></li>
     <li><a class="ui-menu-item">Workspace Settings</a></li>
@@ -23,8 +26,8 @@ export const popoverSection: Section = {
           ${copyControls(popoverSnippet)}
         </div>
         <div class="ws-preview-canvas">
-          <button class="ui-btn" data-variant="outline" popovertarget="ws-demo-popover">Account ▾</button>
-          <div id="ws-demo-popover" popover class="ui-popover">
+          <button class="ui-btn" data-variant="outline" popovertarget="ws-demo-popover" style="anchor-name: --ws-demo-popover">Account ▾</button>
+          <div id="ws-demo-popover" popover class="ui-popover" style="position-anchor: --ws-demo-popover">
             <ul class="ui-menu">
               <li><a class="ui-menu-item">View Profile</a></li>
               <li><a class="ui-menu-item">Workspace Settings</a></li>

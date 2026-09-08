@@ -189,11 +189,13 @@
    2. Hint popover — .ui-tooltip[popover="hint"] + interestfor
 
    Placement is the same data-placement set, this time resolved against the
-   invoker by CSS anchor positioning: interestfor makes the trigger the hint's
-   implicit anchor, so anchor() resolves with no anchor-name or position-anchor
-   for the app to wire. anchor() rather than position-area because the four
-   offsets and the arrow share one geometry with the CSS tooltip. Without anchor
-   support the hint keeps the UA's viewport-centred placement.
+   invoker by CSS anchor positioning. The anchor is NOT implicit: interestfor
+   does not make the trigger the hint's anchor in shipped Chromium, so the app
+   wires it — `anchor-name: --x` on the trigger, `position-anchor: --x` on the
+   hint — otherwise anchor() lands the hint in the top-left corner. anchor()
+   rather than position-area because the four offsets and the arrow share one
+   geometry with the CSS tooltip. Without anchor support the hint keeps the UA's
+   viewport-centred placement.
    -------------------------------------------------------------------------- */
 
 .ui-tooltip[popover="hint"] {

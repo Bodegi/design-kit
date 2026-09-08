@@ -15,10 +15,14 @@
      fallback this component wants. The anchored branch below resets it. */
 }
 
-/* Anchor the popover to its invoker where CSS anchor positioning is supported
-   (Chromium today). A button with popovertarget is the popover's implicit
-   anchor, so no anchor-name wiring is needed — it drops just below the
-   trigger's leading edge. Other engines keep the centered fallback above. */
+/* Drop the popover just below the leading edge of its anchor where CSS anchor
+   positioning is supported (Chromium today); other engines keep the centered
+   fallback above. The anchor is NOT implicit: a popovertarget button is not
+   honored as an implicit anchor in shipped Chromium, so anchor() lands the
+   popover in the top-left corner unless the app names the anchor — set
+   `anchor-name: --x` on the invoker and `position-anchor: --x` on the popover
+   (a shared name works for repeated invokers when an ancestor of each pair
+   carries `anchor-scope: --x`, as .ui-combobox does for its listbox). */
 @supports (anchor-name: --a) {
   [popover].ui-popover {
     margin: 0;

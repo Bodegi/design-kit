@@ -125,7 +125,7 @@ export const datepickerSection: Section = {
   html: `    <!-- Datepicker Section -->
     <section class="ws-section">
       <h2 class="ws-section-title">Datepicker (.ui-datepicker)</h2>
-      <p class="ws-section-desc">No browser ships a stylable native date picker — the calendar behind <code>input[type="date"]</code> is a UA popup closed to CSS in every engine — so the kit styles the calendar anatomy <em>the app renders</em> and the app owns all the behavior: month math, keyboard navigation, selection, range logic. Open UI has only a research page for the datepicker, so the parts follow its vocabulary (header, title, previous/next, grid, day, footer) over a native <code>&lt;table role="grid"&gt;</code>. Every day state rides ARIA state on the <code>button.ui-datepicker-day</code>: <code>aria-selected="true"</code> fills, <code>aria-current="date"</code> rings today without filling it, <code>:disabled</code> is out of range, <code>[data-outside]</code> is an adjacent month, and <code>[data-range="start|middle|end"]</code> spans a range. The kit styles calendar anatomy only and the host markup supplies the surface by composition: <code>class="ui-panel ui-datepicker"</code> inline, <code>class="ui-popover ui-datepicker" popover</code> floating (which also brings the anchor positioning under the invoker). Ships no runtime — the workshop moves <code>aria-selected</code> for these demos.</p>
+      <p class="ws-section-desc">No browser ships a stylable native date picker — the calendar behind <code>input[type="date"]</code> is a UA popup closed to CSS in every engine — so the kit styles the calendar anatomy <em>the app renders</em> and the app owns all the behavior: month math, keyboard navigation, selection, range logic. Open UI has only a research page for the datepicker, so the parts follow its vocabulary (header, title, previous/next, grid, day, footer) over a native <code>&lt;table role="grid"&gt;</code>. Every day state rides ARIA state on the <code>button.ui-datepicker-day</code>: <code>aria-selected="true"</code> fills, <code>aria-current="date"</code> rings today without filling it, <code>:disabled</code> is out of range, <code>[data-outside]</code> is an adjacent month, and <code>[data-range="start|middle|end"]</code> spans a range. The kit styles calendar anatomy only and the host markup supplies the surface by composition: <code>class="ui-panel ui-datepicker"</code> inline, <code>class="ui-popover ui-datepicker" popover</code> floating — with an <code>anchor-name</code> on the trigger and a matching <code>position-anchor</code> on the panel to drop it under the invoker (a <code>popovertarget</code> button is not honored as an implicit anchor in shipped Chromium). Ships no runtime — the workshop moves <code>aria-selected</code> for these demos.</p>
 
       <div class="ws-preview-block">
         <div class="ws-preview-header">
@@ -203,8 +203,8 @@ export const datepickerSection: Section = {
             <input class="ui-input" type="date" value="2026-09-17" disabled>
           </label>
           <div>
-            <button class="ui-btn" data-variant="outline" popovertarget="ws-datepicker-popover" type="button">Pick a date</button>
-            <div id="ws-datepicker-popover" popover class="ui-popover ui-datepicker">
+            <button class="ui-btn" data-variant="outline" popovertarget="ws-datepicker-popover" type="button" style="anchor-name: --ws-datepicker-popover">Pick a date</button>
+            <div id="ws-datepicker-popover" popover class="ui-popover ui-datepicker" style="position-anchor: --ws-datepicker-popover">
               ${datepickerHeader('September 2026', true)}
               ${datepickerGrid({
                 label: 'September 2026 popover',

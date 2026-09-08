@@ -733,6 +733,24 @@
   width: auto;
 }
 
+/* Anchor each row's picker under its own swatch. The kit's .ui-popover carries
+   the placement (top/left: anchor(...)), but only against an anchor the app
+   names: a popovertarget button is NOT honored as an implicit anchor in shipped
+   Chromium (152), so anchor() falls back to the top-left corner without this.
+   One name works for every row because anchor-scope confines it to the row —
+   the same wiring .ui-combobox uses for its listbox. */
+@supports (anchor-name: --a) and (anchor-scope: --a) {
+  .ws-pal-row {
+    anchor-scope: --ws-pal-anchor;
+  }
+  .ws-pal-trigger {
+    anchor-name: --ws-pal-anchor;
+  }
+  .ws-pal-popover {
+    position-anchor: --ws-pal-anchor;
+  }
+}
+
 /* Live samples stay in view while the editors scroll past. It holds only the
    short samples now (the report and export moved full-width below the grid), so
    it needs no inner scroll — it pins cleanly below the status bar. */

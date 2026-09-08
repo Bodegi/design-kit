@@ -14,10 +14,12 @@ const panelSnippet = `<div class="ui-panel" style="width: 232px;">
   </div>
 </div>`;
 
-const popoverSnippet = `<button class="ui-btn" popovertarget="cp-pop" aria-label="Pick a color">
+const popoverSnippet = `<!-- anchor-name/position-anchor place the popover under the trigger; a
+     popovertarget button is not an implicit anchor in shipped Chromium. -->
+<button class="ui-btn" popovertarget="cp-pop" aria-label="Pick a color" style="anchor-name: --cp-pop">
   <span class="ui-colorpicker-swatch" style="width:16px;height:16px;"></span>
 </button>
-<div id="cp-pop" class="ui-popover" popover>
+<div id="cp-pop" class="ui-popover" popover style="position-anchor: --cp-pop">
   <div class="ui-colorpicker"><!-- area, hue, (alpha,) fields --></div>
 </div>`;
 
@@ -84,11 +86,11 @@ export const colorPickerSection: Section = {
           ${copyControls(popoverSnippet)}
         </div>
         <div class="ws-preview-canvas" style="min-height: 320px; align-items: flex-start;">
-          <button class="ui-btn" popovertarget="ws-cp-pop" aria-label="Pick a color">
+          <button class="ui-btn" popovertarget="ws-cp-pop" aria-label="Pick a color" style="anchor-name: --ws-cp-pop">
             <span class="ui-colorpicker-swatch" id="ws-cp-trigger-swatch" style="width: 16px; height: 16px; border-radius: var(--radius-inline);"></span>
             <span>Custom color</span>
           </button>
-          <div id="ws-cp-pop" class="ui-popover" popover style="padding: var(--space-3);">
+          <div id="ws-cp-pop" class="ui-popover" popover style="padding: var(--space-3); position-anchor: --ws-cp-pop;">
             <div id="ws-cp-popover">${colorPickerMarkup({ label: 'Custom' })}</div>
           </div>
         </div>

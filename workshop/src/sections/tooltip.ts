@@ -8,8 +8,11 @@ const tooltipSnippet = `<span class="ui-tooltip" data-placement="top">
   <span class="ui-tooltip-content" role="tooltip" id="tt-1">Supplementary help text</span>
 </span>`;
 
-const hintTooltipSnippet = `<button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="tt-2">Hover or focus me</button>
-<div class="ui-tooltip" popover="hint" id="tt-2" data-placement="top">Supplementary help text</div>`;
+const hintTooltipSnippet = `<!-- anchor-name on the trigger + matching position-anchor on the hint:
+     interestfor does not establish an implicit anchor in shipped Chromium, so
+     this pair is what places the hint against its invoker. -->
+<button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="tt-2" style="anchor-name: --tt-2">Hover or focus me</button>
+<div class="ui-tooltip" popover="hint" id="tt-2" data-placement="top" style="position-anchor: --tt-2">Supplementary help text</div>`;
 
 export const tooltipSection: Section = {
   html: `    <!-- Tooltip Section -->
@@ -62,17 +65,17 @@ export const tooltipSection: Section = {
           ${copyControls(hintTooltipSnippet)}
         </div>
         <div class="ws-preview-canvas" style="gap: var(--space-8); padding-block: var(--space-12); justify-content: center;">
-          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-top">Top</button>
-          <div class="ui-tooltip" popover="hint" id="ws-hint-top" data-placement="top">Opened by interest, dismissed by Escape</div>
+          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-top" style="anchor-name: --ws-hint-top">Top</button>
+          <div class="ui-tooltip" popover="hint" id="ws-hint-top" data-placement="top" style="position-anchor: --ws-hint-top">Opened by interest, dismissed by Escape</div>
 
-          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-bottom">Bottom</button>
-          <div class="ui-tooltip" popover="hint" id="ws-hint-bottom" data-placement="bottom">Anchored below the invoker</div>
+          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-bottom" style="anchor-name: --ws-hint-bottom">Bottom</button>
+          <div class="ui-tooltip" popover="hint" id="ws-hint-bottom" data-placement="bottom" style="position-anchor: --ws-hint-bottom">Anchored below the invoker</div>
 
-          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-left">Left</button>
-          <div class="ui-tooltip" popover="hint" id="ws-hint-left" data-placement="left">Anchored to the left</div>
+          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-left" style="anchor-name: --ws-hint-left">Left</button>
+          <div class="ui-tooltip" popover="hint" id="ws-hint-left" data-placement="left" style="position-anchor: --ws-hint-left">Anchored to the left</div>
 
-          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-right">Right</button>
-          <div class="ui-tooltip" popover="hint" id="ws-hint-right" data-placement="right">Anchored to the right</div>
+          <button class="ui-btn ui-tooltip-trigger" data-variant="outline" interestfor="ws-hint-right" style="anchor-name: --ws-hint-right">Right</button>
+          <div class="ui-tooltip" popover="hint" id="ws-hint-right" data-placement="right" style="position-anchor: --ws-hint-right">Anchored to the right</div>
         </div>
         <p class="ws-section-desc" style="margin-top: var(--space-3);">Hover, or tab to a button, and the hint appears after <code>interest-delay-start</code> (0.35s from <code>.ui-tooltip-trigger</code>); Escape or a click outside dismisses it. Chromium and Edge only — <code>popover="hint"</code> since 133, <code>interestfor</code> since 142. Firefox and Safari render nothing here, which is why the four buttons above still carry the CSS tooltip.</p>
       </div>
