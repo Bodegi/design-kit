@@ -407,11 +407,18 @@
     padding-right: var(--space-3);
   }
 
+  /* A select without the <button><selectedcontent> anatomy lays the chosen
+     option's text out as an anonymous flex item, which wraps at the control's
+     width and spills below the 36px box. nowrap and hidden overflow clip it to
+     one line instead; the selectedcontent rule below adds the ellipsis when the
+     anatomy is present. */
   select.ui-select {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   select.ui-select selectedcontent {
