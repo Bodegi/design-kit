@@ -12,7 +12,7 @@
   justify-content: space-between;
   gap: var(--space-4);
   flex-shrink: 0;
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-3) var(--space-8);
   background-color: var(--color-bg-glass);
   backdrop-filter: var(--blur-glass);
   -webkit-backdrop-filter: var(--blur-glass);
